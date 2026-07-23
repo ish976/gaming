@@ -5,15 +5,21 @@
 </style></head><body>
 <section id="login" class="screen"><form id="loginForm" class="panel small"><h1>ELEMENT STRIKE</h1><p>Choose a name, power, and optional access code.</p><div class="fields"><label class="field wide">Player name<input id="name" maxlength="18" required placeholder="Your name"></label><label class="field">Element<select id="element"><option value="fire">Fire</option><option value="ice">Ice</option><option value="lightning">Lightning</option><option value="earth">Earth</option></select></label><label class="field">Secret code<input id="code" placeholder="Optional"></label></div><button class="btn primary back">CONTINUE</button></form></section>
 <section id="lobby" class="screen hidden"><div class="panel"><h1>MATCH LOBBY</h1><p id="welcome"></p><h2>Friends</h2><div class="party"><div>Your friend ID: <strong id="myFriendCode"></strong></div><div id="friendsList" style="margin-top:7px;color:#a8bad0">No friends added yet</div><div class="row" style="margin-top:10px"><input id="friendCodeInput" maxlength="8" placeholder="Friend ID" style="width:150px"><button id="sendFriendRequest" class="btn">SEND REQUEST</button></div></div><h2>Party</h2><div class="party"><div id="partyStatus">Not in a party</div><div class="row" style="margin-top:10px"><button id="createParty" class="btn">CREATE PARTY</button><input id="partyCode" maxlength="6" placeholder="Party code" style="width:150px"><button id="joinParty" class="btn">JOIN</button><button id="leaveParty" class="btn hidden">LEAVE</button></div></div><h2>Choose mode</h2><div id="modes" class="modes"><button class="mode active" data-mode="Battle Royale" data-cap="21"><b>BATTLE ROYALE</b><span>Drop in, loot, build, survive</span></button><button class="mode" data-mode="Zombies" data-cap="4"><b>ZOMBIES</b><span>Party co-op vs waves</span></button><button class="mode" data-mode="PvP 1v1" data-cap="2"><b>PVP 1V1</b><span>Two-player duel</span></button><button class="mode" data-mode="PvP 2v2" data-cap="4"><b>PVP 2V2</b><span>Team battle</span></button></div><h2>Servers</h2><div id="serverList" class="servers"></div><button id="lobbyBack" class="btn back">BACK TO LOGIN</button></div></section>
-<canvas id="game"></canvas><div id="hud" class="hud hidden"><div class="top"><div class="card"><b id="playerLabel"></b><div class="bar"><div id="hp" class="fill"></div></div><small id="weaponLabel">Common Blaster</small></div><div class="card"><span id="matchLabel"></span> | Elims <b id="elims">0</b> | Players <b id="playersLeft">1</b> | Materials <b id="materials">100</b> | Storm <b id="stormLabel">--</b><div id="cheatLabel" class="cheat"></div></div></div><div id="message" class="msg"></div><div id="powers" class="powers"></div><div class="help">WASD move | Click shoot | E build wall | Collect glowing loot | Shift fly</div></div>
+<canvas id="game"></canvas><div id="hud" class="hud hidden"><div class="top"><div class="card"><b id="playerLabel"></b><div class="bar"><div id="hp" class="fill"></div></div><div class="bar shield-bar"><div id="shield" class="shield-fill"></div></div><small id="weaponLabel">Common Blaster</small></div><div class="card"><span id="matchLabel"></span> | Elims <b id="elims">0</b> | Players <b id="playersLeft">1</b> | Materials <b id="materials">100</b> | Build <b id="buildLabel">WALL</b> | Storm <b id="stormLabel">--</b><div id="cheatLabel" class="cheat"></div></div></div><div id="message" class="msg"></div><div id="powers" class="powers"></div><div class="help">WASD move | Click shoot | Q change build | E place | Open chests | Shift fly</div></div>
 <section id="over" class="over hidden"><div class="panel small"><h1>MATCH OVER</h1><p id="result"></p><button id="again" class="btn primary back">RETURN TO LOBBY</button></div></section>
 <div id="mobileControls" class="mobile-controls hidden"><div id="stick" class="stick"><div id="knob" class="knob"></div></div><div class="actions"><button id="fireTouch" class="action fire-btn">FIRE</button><button id="buildTouch" class="action">BUILD</button><button id="powerTouch" class="action">POWER</button></div></div>
+<style>.shield-bar{margin-top:5px}.shield-fill{height:100%;width:0;background:linear-gradient(90deg,#2497ff,#73d8ff);box-shadow:0 0 12px #42baff}.card small{display:block;margin-top:6px}.chest-hint{color:#ffd866}</style>
 <script src="https://unpkg.com/peerjs@1.5.5/dist/peerjs.min.js"></script><script>
 const $=s=>document.querySelector(s),canvas=$('#game'),ctx=canvas.getContext('2d'),login=$('#login'),lobby=$('#lobby'),hud=$('#hud'),over=$('#over');
 const savedLogin=JSON.parse(localStorage.getItem('elementStrikeLogin')||'{}');$('#name').value=savedLogin.name||'';$('#code').value=savedLogin.code||'';if(savedLogin.element&&$('#element').querySelector(`option[value="${savedLogin.element}"]`))$('#element').value=savedLogin.element;
 const modes=[...document.querySelectorAll('.mode')],elements={fire:{name:'Fire',color:'#ff623d',rate:170,speed:780,damage:24},ice:{name:'Ice',color:'#62ddff',rate:250,speed:660,damage:18},lightning:{name:'Lightning',color:'#ffe26a',rate:110,speed:900,damage:13},earth:{name:'Earth',color:'#8ddd69',rate:380,speed:520,damage:40}};
-let profile,party=null,selectedMode='Battle Royale',selectedCap=21,currentServer='',cheat=false,player,bullets=[],enemies=[],particles=[],walls=[],loot=[],keys={},mouse={x:0,y:0,down:false},running=false,last=0,spawnClock=0,score=0,wave=1,W,H,dpr,storm=null,matchTime=0,eliminations=0,won=false;
+let profile,party=null,selectedMode='Battle Royale',selectedCap=21,currentServer='',cheat=false,player,bullets=[],enemies=[],particles=[],walls=[],loot=[],chests=[],keys={},mouse={x:0,y:0,down:false},running=false,last=0,spawnClock=0,score=0,wave=1,W,H,dpr,storm=null,matchTime=0,eliminations=0,won=false,buildType='wall';
 let weapon={name:'Common Blaster',color:'#c9d5df',bonus:1};
+const islandLocations=[
+  {name:'SOLAR SPRINGS',x:.2,y:.2},{name:'MISTY MARSH',x:.76,y:.22},
+  {name:'CRYSTAL CROSSING',x:.5,y:.46},{name:'EMBER ESTATE',x:.24,y:.72},
+  {name:'THUNDER RIDGE',x:.76,y:.72}
+];
 let peer=null,isHost=false,hostConn=null,connections=[],members=[],remotePlayers={},netClock=0,touchMove={x:0,y:0},touchFiring=false,socialPeer=null;
 let friendCode=localStorage.getItem('elementFriendCode')||Math.random().toString(36).slice(2,8).toUpperCase(),friends=JSON.parse(localStorage.getItem('elementFriends')||'[]');localStorage.setItem('elementFriendCode',friendCode);
 const serverNames=['Seoul Storm','Fire Realm','Ice Citadel','Thunder Zone','Mobile Arena'];
@@ -46,11 +52,11 @@ function startGame(fromNetwork=false){
   if(party&&isHost&&!fromNetwork)broadcast({type:'start',mode:selectedMode,cap:selectedCap,server:currentServer});
   cheat=profile.code.trim()==='999';
   const battle=selectedMode==='Battle Royale';
-  player={x:W/2+Math.random()*80-40,y:H/2+Math.random()*80-40,r:17,hp:100,materials:100,element:profile.element,lastShot:0,lastBuild:0,angle:0,drop:battle?3:0};
-  bullets=[];enemies=[];particles=[];walls=[];loot=[];score=0;wave=1;spawnClock=0;matchTime=0;eliminations=0;won=false;
+  player={x:W/2+Math.random()*80-40,y:H/2+Math.random()*80-40,r:17,hp:100,shield:0,materials:100,element:profile.element,lastShot:0,lastBuild:0,angle:0,drop:battle?4:0};
+  bullets=[];enemies=[];particles=[];walls=[];loot=[];chests=[];score=0;wave=1;spawnClock=0;matchTime=0;eliminations=0;won=false;buildType='wall';
   weapon={...lootTable[0]};
   storm={x:W/2,y:H/2,r:Math.max(W,H)*.62,start:Math.max(W,H)*.62,min:135};
-  if(battle)for(let i=0;i<20;i++)spawnBot(i+1);
+  if(battle){for(let i=0;i<20;i++)spawnBot(i+1);spawnChests()}
   running=true;last=performance.now();
   lobby.classList.add('hidden');hud.classList.remove('hidden');$('#mobileControls').classList.remove('hidden');
   $('#playerLabel').textContent=profile.name+' | '+currentServer;
@@ -61,11 +67,12 @@ function startGame(fromNetwork=false){
   requestAnimationFrame(loop)
 }
 function renderPowers(){const a=cheat?Object.keys(elements):[profile.element];$('#powers').innerHTML=a.map((k,i)=>`<div class="power ${player.element===k?'active':''}">${cheat?i+1+' ':''}${elements[k].name}</div>`).join('')}
-addEventListener('keydown',e=>{keys[e.key.toLowerCase()]=true;if(running&&e.key.toLowerCase()==='e'&&!e.repeat)buildWall();if(cheat&&running&&'1234'.includes(e.key)){player.element=Object.keys(elements)[+e.key-1];renderPowers()}});addEventListener('keyup',e=>keys[e.key.toLowerCase()]=false);canvas.onpointermove=e=>{mouse.x=e.clientX;mouse.y=e.clientY};canvas.onpointerdown=()=>mouse.down=true;addEventListener('pointerup',()=>mouse.down=false);
-const stick=$('#stick'),knob=$('#knob');function moveStick(e){const r=stick.getBoundingClientRect(),x=e.clientX-(r.left+r.width/2),y=e.clientY-(r.top+r.height/2),m=Math.hypot(x,y),lim=42,s=Math.min(1,lim/(m||1));touchMove={x:x/lim*s,y:y/lim*s};knob.style.transform=`translate(${touchMove.x*lim}px,${touchMove.y*lim}px)`}stick.onpointerdown=e=>{stick.setPointerCapture(e.pointerId);moveStick(e)};stick.onpointermove=e=>{if(stick.hasPointerCapture(e.pointerId))moveStick(e)};function resetStick(){touchMove={x:0,y:0};knob.style.transform='translate(0,0)'}stick.onpointerup=resetStick;stick.onpointercancel=resetStick;$('#fireTouch').onpointerdown=e=>{e.preventDefault();touchFiring=true};$('#fireTouch').onpointerup=$('#fireTouch').onpointercancel=()=>touchFiring=false;$('#buildTouch').onclick=e=>{e.preventDefault();buildWall()};$('#powerTouch').onclick=e=>{e.preventDefault();if(!cheat)return flash('CODE 999 UNLOCKS ALL POWERS');const a=Object.keys(elements),i=(a.indexOf(player.element)+1)%a.length;player.element=a[i];renderPowers();flash(elements[player.element].name.toUpperCase())};
+addEventListener('keydown',e=>{keys[e.key.toLowerCase()]=true;if(running&&e.key.toLowerCase()==='e'&&!e.repeat)buildWall();if(running&&e.key.toLowerCase()==='q'&&!e.repeat)cycleBuild();if(cheat&&running&&'1234'.includes(e.key)){player.element=Object.keys(elements)[+e.key-1];renderPowers()}});addEventListener('keyup',e=>keys[e.key.toLowerCase()]=false);canvas.onpointermove=e=>{mouse.x=e.clientX;mouse.y=e.clientY};canvas.onpointerdown=()=>mouse.down=true;addEventListener('pointerup',()=>mouse.down=false);
+const stick=$('#stick'),knob=$('#knob');function moveStick(e){const r=stick.getBoundingClientRect(),x=e.clientX-(r.left+r.width/2),y=e.clientY-(r.top+r.height/2),m=Math.hypot(x,y),lim=42,s=Math.min(1,lim/(m||1));touchMove={x:x/lim*s,y:y/lim*s};knob.style.transform=`translate(${touchMove.x*lim}px,${touchMove.y*lim}px)`}stick.onpointerdown=e=>{stick.setPointerCapture(e.pointerId);moveStick(e)};stick.onpointermove=e=>{if(stick.hasPointerCapture(e.pointerId))moveStick(e)};function resetStick(){touchMove={x:0,y:0};knob.style.transform='translate(0,0)'}stick.onpointerup=resetStick;stick.onpointercancel=resetStick;$('#fireTouch').onpointerdown=e=>{e.preventDefault();touchFiring=true};$('#fireTouch').onpointerup=$('#fireTouch').onpointercancel=()=>touchFiring=false;$('#buildTouch').onclick=e=>{e.preventDefault();buildWall();cycleBuild()};$('#powerTouch').onclick=e=>{e.preventDefault();if(!cheat)return flash('CODE 999 UNLOCKS ALL POWERS');const a=Object.keys(elements),i=(a.indexOf(player.element)+1)%a.length;player.element=a[i];renderPowers();flash(elements[player.element].name.toUpperCase())};
 function flash(t){$('#message').textContent=t;clearTimeout(flash.t);flash.t=setTimeout(()=>$('#message').textContent='',1200)}
-function addWall(d){if(walls.some(w=>w.id===d.id))return;walls.push({id:d.id,x:d.x,y:d.y,angle:d.angle,hp:150,max:150,owner:d.owner})}
-function buildWall(){const now=performance.now();if(now-player.lastBuild<500)return;if(player.materials<20)return flash('NEED 20 MATERIALS');player.lastBuild=now;player.materials-=20;const a=player.angle,d={type:'build',id:(peer&&peer.id||'solo')+'-'+Math.round(now),owner:profile.name,x:player.x+Math.cos(a)*62,y:player.y+Math.sin(a)*62,angle:a};addWall(d);if(isHost)broadcast(d);else send(hostConn,d);flash('WALL BUILT')}
+function addWall(d){if(walls.some(w=>w.id===d.id))return;walls.push({id:d.id,x:d.x,y:d.y,angle:d.angle,hp:d.piece==='floor'?100:d.piece==='ramp'?125:150,max:d.piece==='floor'?100:d.piece==='ramp'?125:150,owner:d.owner,piece:d.piece||'wall'})}
+function cycleBuild(){const pieces=['wall','floor','ramp'];buildType=pieces[(pieces.indexOf(buildType)+1)%pieces.length];$('#buildLabel').textContent=buildType.toUpperCase();$('#buildTouch').textContent=buildType.toUpperCase();flash(buildType.toUpperCase()+' SELECTED')}
+function buildWall(){const now=performance.now(),cost=buildType==='wall'?20:buildType==='ramp'?15:10;if(now-player.lastBuild<500)return;if(player.materials<cost)return flash('NEED '+cost+' MATERIALS');player.lastBuild=now;player.materials-=cost;const a=player.angle,d={type:'build',piece:buildType,id:(peer&&peer.id||'solo')+'-'+Math.round(now),owner:profile.name,x:player.x+Math.cos(a)*62,y:player.y+Math.sin(a)*62,angle:a};addWall(d);if(isHost)broadcast(d);else send(hostConn,d);flash(buildType.toUpperCase()+' BUILT')}
 function addRemoteShot(d){const el=elements[d.element]||elements.fire;bullets.push({x:d.x,y:d.y,vx:Math.cos(d.angle)*el.speed,vy:Math.sin(d.angle)*el.speed,r:5,damage:el.damage,element:d.element,life:1.4,remote:true})}
 function shoot(now){const el=elements[player.element],nova=cheat&&player.element==='lightning';if(now-player.lastShot<(nova?70:el.rate))return;player.lastShot=now;const a=Math.atan2(mouse.y-player.y,mouse.x-player.x),count=nova?3:1;for(let i=0;i<count;i++){const aa=a+(i-(count-1)/2)*.12;bullets.push({x:player.x,y:player.y,vx:Math.cos(aa)*el.speed,vy:Math.sin(aa)*el.speed,r:nova?6:5,damage:(nova?28:el.damage)*weapon.bonus,element:player.element,life:1.4});const shot={type:'shot',id:peer?peer.id:'solo',x:player.x,y:player.y,angle:aa,element:player.element};if(isHost)broadcast(shot);else send(hostConn,shot)}}
 function spawn(){const side=Math.floor(Math.random()*4),p=30;let x=side===1?W+p:side===3?-p:Math.random()*W,y=side===0?-p:side===2?H+p:Math.random()*H,tough=Math.random()<.16+wave*.02;enemies.push({x,y,r:tough?24:16,hp:tough?90+wave*7:34+wave*4,max:tough?90+wave*7:34+wave*4,speed:(tough?55:85)+wave*4,slow:0,color:tough?'#ef4777':'#ad50ef',bot:false})}
@@ -78,7 +85,22 @@ function spawnBot(number){
 function dropLoot(x,y){
   if(Math.random()>.72)return;
   const roll=Math.random(),tier=roll>.94?3:roll>.75?2:roll>.38?1:0;
-  loot.push({x,y,item:{...lootTable[tier]},spin:Math.random()*7})
+  loot.push({x,y,item:{...lootTable[tier]},type:'weapon',spin:Math.random()*7})
+}
+function spawnChests(){for(let i=0;i<12;i++)chests.push({x:55+(i*211+77)%(Math.max(110,W-110)),y:55+(i*137+43)%(Math.max(110,H-110)),opened:false,glow:Math.random()*7})}
+function openChest(chest){
+  chest.opened=true;
+  const roll=Math.random();
+  if(roll<.28)loot.push({x:chest.x,y:chest.y-15,type:'shield',item:{name:'Shield Potion',color:'#36b8ff'},spin:0});
+  else if(roll<.48)loot.push({x:chest.x,y:chest.y-15,type:'medkit',item:{name:'Med Kit',color:'#ff5757'},spin:0});
+  else if(roll<.62)loot.push({x:chest.x,y:chest.y-15,type:'materials',item:{name:'Build Materials',color:'#d6a66e'},spin:0});
+  else{const tier=roll>.94?3:roll>.78?2:1;loot.push({x:chest.x,y:chest.y-15,type:'weapon',item:{...lootTable[tier]},spin:0})}
+  flash('SUPPLY CHEST OPENED')
+}
+function hurt(amount){
+  const blocked=Math.min(player.shield,amount);
+  player.shield-=blocked;
+  player.hp-=amount-blocked
 }
 function burst(x,y,c,n=8){for(let i=0;i<n;i++){let a=Math.random()*7,s=Math.random()*140;particles.push({x,y,vx:Math.cos(a)*s,vy:Math.sin(a)*s,life:.5,color:c})}}
 function update(dt,now){
@@ -92,7 +114,7 @@ function update(dt,now){
   player.fly=fly;
   if(touchFiring&&enemies.length){const target=enemies.reduce((a,b)=>Math.hypot(b.x-player.x,b.y-player.y)<Math.hypot(a.x-player.x,a.y-player.y)?b:a);mouse.x=target.x;mouse.y=target.y}
   player.angle=Math.atan2(mouse.y-player.y,mouse.x-player.x);
-  if(mouse.down||keys[' ']||touchFiring)shoot(now);
+  if((mouse.down||keys[' ']||touchFiring)&&player.drop<=0)shoot(now);
 
   netClock-=dt;
   if(party&&netClock<=0){netClock=.05;const state={type:'state',id:peer&&peer.id||'host',name:profile.name,x:player.x,y:player.y,angle:player.angle,element:player.element,hp:player.hp,fly};if(isHost)broadcast(state);else send(hostConn,state)}
@@ -115,13 +137,13 @@ function update(dt,now){
       }
     }else{
       e.x+=Math.cos(a)*e.speed*slow*dt;e.y+=Math.sin(a)*e.speed*slow*dt;
-      if(distance<e.r+player.r&&!fly)player.hp-=27*dt
+      if(distance<e.r+player.r&&!fly)hurt(27*dt)
     }
     e.slow-=dt
   }
 
   for(const b of bullets){
-    if(b.enemy&&b.life>0&&player.drop<=0&&Math.hypot(b.x-player.x,b.y-player.y)<b.r+player.r){player.hp-=b.damage;b.life=0;burst(b.x,b.y,'#ffb24f',5)}
+    if(b.enemy&&b.life>0&&player.drop<=0&&Math.hypot(b.x-player.x,b.y-player.y)<b.r+player.r){hurt(b.damage);b.life=0;burst(b.x,b.y,'#ffb24f',5)}
     if(b.enemy)continue;
     for(const e of enemies)if(b.life>0&&e.hp>0&&Math.hypot(b.x-e.x,b.y-e.y)<b.r+e.r){
       e.hp-=b.damage;b.life=0;
@@ -140,10 +162,15 @@ function update(dt,now){
   }
   enemies=enemies.filter(e=>!e.dead);
 
+  for(const chest of chests)if(!chest.opened&&Math.hypot(chest.x-player.x,chest.y-player.y)<32)openChest(chest);
+
   for(const item of loot){
     item.spin+=dt*3;
     if(Math.hypot(item.x-player.x,item.y-player.y)<30){
-      if(item.item.bonus>=weapon.bonus){weapon={...item.item};flash(item.item.name.toUpperCase())}
+      if(item.type==='shield'){player.shield=Math.min(100,player.shield+50);flash('SHIELD +50')}
+      else if(item.type==='medkit'){player.hp=Math.min(100,player.hp+50);flash('HEALTH +50')}
+      else if(item.type==='materials'){player.materials=Math.min(100,player.materials+50);flash('MATERIALS +50')}
+      else if(item.item.bonus>=weapon.bonus){weapon={...item.item};flash(item.item.name.toUpperCase())}
       else player.materials=Math.min(100,player.materials+20);
       item.taken=true
     }
@@ -152,7 +179,7 @@ function update(dt,now){
 
   if(battle&&matchTime>20){
     storm.r=Math.max(storm.min,storm.start-(matchTime-20)*2.8);
-    if(Math.hypot(player.x-storm.x,player.y-storm.y)>storm.r&&player.drop<=0)player.hp-=12*dt
+    if(Math.hypot(player.x-storm.x,player.y-storm.y)>storm.r&&player.drop<=0)hurt(12*dt)
   }
 
   bullets=bullets.filter(b=>b.life>0&&b.x>-60&&b.x<W+60&&b.y>-60&&b.y<H+60);
@@ -164,14 +191,37 @@ function update(dt,now){
 }
 function updateHud(){
   $('#hp').style.width=Math.max(0,player.hp)+'%';
+  $('#shield').style.width=Math.max(0,player.shield)+'%';
   $('#elims').textContent=eliminations;
   $('#playersLeft').textContent=selectedMode==='Battle Royale'?enemies.length+1:Math.max(1,members.length);
   $('#materials').textContent=Math.floor(player.materials);
   $('#weaponLabel').textContent=weapon.name;
   $('#weaponLabel').style.color=weapon.color;
+  $('#buildLabel').textContent=buildType.toUpperCase();
   $('#stormLabel').textContent=selectedMode==='Battle Royale'?(matchTime<20?Math.ceil(20-matchTime)+'s':Math.round(storm.r)):'OFF'
 }
-function drawFighter(p,local=false){const el=elements[p.element]||elements.fire;ctx.save();ctx.translate(p.x,p.y);ctx.shadowBlur=22;ctx.shadowColor=el.color;ctx.fillStyle=el.color+'44';ctx.beginPath();ctx.arc(0,0,22,0,7);ctx.fill();ctx.shadowBlur=0;if(p.fly){ctx.strokeStyle='#5de8ff';ctx.lineWidth=3;ctx.beginPath();ctx.arc(0,0,27+Math.sin(performance.now()/90)*2,0,7);ctx.stroke()}ctx.rotate(p.angle||0);let body=ctx.createRadialGradient(-5,-7,2,0,0,19);body.addColorStop(0,'#ffffff');body.addColorStop(1,local?'#7d9bb8':'#d27dba');ctx.fillStyle=body;ctx.beginPath();ctx.arc(0,0,17,0,7);ctx.fill();ctx.strokeStyle='#dff7ff';ctx.lineWidth=2;ctx.stroke();ctx.fillStyle='#1a2635';ctx.fillRect(5,-6,25,12);ctx.fillStyle=el.color;ctx.fillRect(7,-4,27,8);ctx.shadowBlur=13;ctx.shadowColor=el.color;ctx.fillRect(29,-3,8,6);ctx.restore();ctx.shadowBlur=0;if(!local){ctx.fillStyle='#fff';ctx.font='12px system-ui';ctx.textAlign='center';ctx.fillText(p.name||'Friend',p.x,p.y-27)}}
+function drawFighter(p,local=false){
+  const el=elements[p.element]||elements.fire;
+  ctx.save();ctx.translate(p.x,p.y);
+  if(local&&p.drop>0){
+    const sway=Math.sin(performance.now()/180)*4;
+    ctx.strokeStyle='#d9f7ff';ctx.lineWidth=2;
+    ctx.beginPath();ctx.moveTo(-8,-14);ctx.lineTo(-30+sway,-47);ctx.moveTo(8,-14);ctx.lineTo(30+sway,-47);ctx.stroke();
+    const canopy=ctx.createLinearGradient(0,-67,0,-39);
+    canopy.addColorStop(0,'#78f0ff');canopy.addColorStop(.55,'#586dff');canopy.addColorStop(1,'#913cff');
+    ctx.fillStyle=canopy;ctx.shadowBlur=20;ctx.shadowColor='#58dfff';
+    ctx.beginPath();ctx.moveTo(-42+sway,-47);ctx.quadraticCurveTo(sway,-78,42+sway,-47);ctx.quadraticCurveTo(sway,-34,-42+sway,-47);ctx.fill();
+    ctx.fillStyle='#fff';ctx.font='900 12px system-ui';ctx.textAlign='center';ctx.fillText('GLIDING',0,-82)
+  }
+  ctx.shadowBlur=22;ctx.shadowColor=el.color;ctx.fillStyle=el.color+'44';ctx.beginPath();ctx.arc(0,0,22,0,7);ctx.fill();ctx.shadowBlur=0;
+  if(p.fly){ctx.strokeStyle='#5de8ff';ctx.lineWidth=3;ctx.beginPath();ctx.arc(0,0,27+Math.sin(performance.now()/90)*2,0,7);ctx.stroke()}
+  ctx.rotate(p.angle||0);
+  const body=ctx.createRadialGradient(-5,-7,2,0,0,19);body.addColorStop(0,'#ffffff');body.addColorStop(1,local?'#7d9bb8':'#d27dba');
+  ctx.fillStyle=body;ctx.beginPath();ctx.arc(0,0,17,0,7);ctx.fill();ctx.strokeStyle='#dff7ff';ctx.lineWidth=2;ctx.stroke();
+  ctx.fillStyle='#1a2635';ctx.fillRect(5,-6,25,12);ctx.fillStyle=el.color;ctx.fillRect(7,-4,27,8);ctx.shadowBlur=13;ctx.shadowColor=el.color;ctx.fillRect(29,-3,8,6);
+  ctx.restore();ctx.shadowBlur=0;
+  if(!local){ctx.fillStyle='#fff';ctx.font='12px system-ui';ctx.textAlign='center';ctx.fillText(p.name||'Friend',p.x,p.y-27)}
+}
 function updateBuilding(dt){player.materials=Math.min(100,player.materials+4*dt);for(const w of walls)for(const e of enemies){const dist=Math.hypot(e.x-w.x,e.y-w.y);if(dist<e.r+30){const a=Math.atan2(e.y-w.y,e.x-w.x);e.x=w.x+Math.cos(a)*(e.r+31);e.y=w.y+Math.sin(a)*(e.r+31);w.hp-=22*dt}}walls=walls.filter(w=>w.hp>0);$('#materials').textContent=Math.floor(player.materials)}
 function drawArena(){
   const battle=selectedMode==='Battle Royale';
@@ -192,18 +242,68 @@ function drawArena(){
       ctx.fillStyle='#ba7b49';ctx.fillRect(x-18,y-12,36,24);
       ctx.fillStyle='#71442d';ctx.beginPath();ctx.moveTo(x-23,y-12);ctx.lineTo(x,y-30);ctx.lineTo(x+23,y-12);ctx.fill()
     }
+    ctx.textAlign='center';ctx.font='900 11px system-ui';ctx.lineWidth=3;
+    for(const spot of islandLocations){
+      const x=spot.x*W,y=spot.y*H;
+      ctx.strokeStyle='#17391dbb';ctx.strokeText(spot.name,x,y);
+      ctx.fillStyle='#f2ffe6dd';ctx.fillText(spot.name,x,y)
+    }
   }else{
     let bg=ctx.createRadialGradient(W*.5,H*.45,20,W*.5,H*.5,Math.max(W,H)*.75);
     bg.addColorStop(0,'#142846');bg.addColorStop(.55,'#091426');bg.addColorStop(1,'#03060d');ctx.fillStyle=bg;ctx.fillRect(0,0,W,H);
     ctx.strokeStyle='#4b78a51f';ctx.lineWidth=1;for(let x=0;x<W;x+=64){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke()}for(let y=0;y<H;y+=64){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke()}
   }
 }
-function drawWalls(){for(const w of walls){ctx.save();ctx.translate(w.x,w.y);ctx.rotate(w.angle+Math.PI/2);ctx.shadowBlur=14;ctx.shadowColor='#6fdcff';let g=ctx.createLinearGradient(-34,0,34,0);g.addColorStop(0,'#354b63');g.addColorStop(.5,'#a9d1e8');g.addColorStop(1,'#354b63');ctx.fillStyle=g;ctx.fillRect(-34,-9,68,18);ctx.shadowBlur=0;ctx.strokeStyle='#d5f4ff';ctx.strokeRect(-34,-9,68,18);ctx.strokeStyle='#496981';for(let x=-22;x<30;x+=17){ctx.beginPath();ctx.moveTo(x,-8);ctx.lineTo(x,8);ctx.stroke()}ctx.fillStyle='#111';ctx.fillRect(-30,-16,60,4);ctx.fillStyle='#55e28a';ctx.fillRect(-30,-16,60*Math.max(0,w.hp/w.max),4);ctx.restore()}}
-function draw(){
-  drawArena();drawWalls();
-  for(const item of loot){
-    ctx.save();ctx.translate(item.x,item.y);ctx.rotate(item.spin);ctx.shadowBlur=22;ctx.shadowColor=item.item.color;ctx.fillStyle=item.item.color;ctx.beginPath();ctx.moveTo(0,-11);ctx.lineTo(11,0);ctx.lineTo(0,11);ctx.lineTo(-11,0);ctx.closePath();ctx.fill();ctx.restore()
+function drawWalls(){
+  for(const w of walls){
+    ctx.save();ctx.translate(w.x,w.y);ctx.rotate(w.angle+Math.PI/2);ctx.shadowBlur=14;ctx.shadowColor=w.piece==='ramp'?'#ffcc68':'#6fdcff';
+    if(w.piece==='floor'){
+      ctx.fillStyle='#77634e';ctx.fillRect(-39,-20,78,40);ctx.strokeStyle='#e0b989';ctx.lineWidth=2;ctx.strokeRect(-39,-20,78,40);
+      ctx.strokeStyle='#463627';for(let x=-25;x<30;x+=18){ctx.beginPath();ctx.moveTo(x,-19);ctx.lineTo(x,19);ctx.stroke()}
+    }else if(w.piece==='ramp'){
+      const ramp=ctx.createLinearGradient(-38,0,38,0);ramp.addColorStop(0,'#73533b');ramp.addColorStop(1,'#e5bd7e');ctx.fillStyle=ramp;
+      ctx.beginPath();ctx.moveTo(-40,16);ctx.lineTo(40,-20);ctx.lineTo(40,16);ctx.closePath();ctx.fill();ctx.strokeStyle='#ffe0a8';ctx.lineWidth=2;ctx.stroke();
+      ctx.strokeStyle='#6e5139';for(let x=-20;x<38;x+=15){ctx.beginPath();ctx.moveTo(x,15);ctx.lineTo(x,-10-x*.45);ctx.stroke()}
+    }else{
+      const wall=ctx.createLinearGradient(-34,0,34,0);wall.addColorStop(0,'#354b63');wall.addColorStop(.5,'#a9d1e8');wall.addColorStop(1,'#354b63');ctx.fillStyle=wall;ctx.fillRect(-34,-9,68,18);
+      ctx.shadowBlur=0;ctx.strokeStyle='#d5f4ff';ctx.strokeRect(-34,-9,68,18);ctx.strokeStyle='#496981';
+      for(let x=-22;x<30;x+=17){ctx.beginPath();ctx.moveTo(x,-8);ctx.lineTo(x,8);ctx.stroke()}
+    }
+    ctx.shadowBlur=0;ctx.fillStyle='#111';ctx.fillRect(-30,-27,60,4);ctx.fillStyle='#55e28a';ctx.fillRect(-30,-27,60*Math.max(0,w.hp/w.max),4);ctx.restore()
   }
+}
+function drawChests(){
+  for(const chest of chests){
+    ctx.save();ctx.translate(chest.x,chest.y);ctx.shadowBlur=chest.opened?0:18+Math.sin(chest.glow+performance.now()/250)*5;ctx.shadowColor='#ffd85d';
+    ctx.fillStyle=chest.opened?'#654522':'#e6a83d';ctx.fillRect(-13,-7,26,17);ctx.fillStyle=chest.opened?'#83603a':'#ffd96c';ctx.fillRect(-15,-12,30,7);
+    ctx.strokeStyle='#4b321b';ctx.lineWidth=2;ctx.strokeRect(-13,-7,26,17);ctx.fillStyle='#f8f1c7';ctx.fillRect(-3,-8,6,9);
+    if(chest.opened){ctx.save();ctx.translate(0,-13);ctx.rotate(-.45);ctx.fillStyle='#83603a';ctx.fillRect(-15,-4,30,7);ctx.restore()}
+    ctx.restore()
+  }
+}
+function drawLoot(){
+  for(const item of loot){
+    ctx.save();ctx.translate(item.x,item.y);ctx.rotate(item.spin);ctx.shadowBlur=22;ctx.shadowColor=item.item.color;ctx.fillStyle=item.item.color;
+    if(item.type==='shield'){ctx.beginPath();ctx.moveTo(0,-13);ctx.quadraticCurveTo(11,-3,8,8);ctx.quadraticCurveTo(0,15,-8,8);ctx.quadraticCurveTo(-11,-3,0,-13);ctx.fill()}
+    else if(item.type==='medkit'){ctx.fillRect(-11,-11,22,22);ctx.fillStyle='#fff';ctx.fillRect(-3,-8,6,16);ctx.fillRect(-8,-3,16,6)}
+    else if(item.type==='materials'){ctx.fillRect(-13,-8,26,16);ctx.strokeStyle='#5c3b20';ctx.lineWidth=2;ctx.strokeRect(-13,-8,26,16)}
+    else{ctx.beginPath();ctx.moveTo(0,-11);ctx.lineTo(11,0);ctx.lineTo(0,11);ctx.lineTo(-11,0);ctx.closePath();ctx.fill()}
+    ctx.restore()
+  }
+}
+function drawMinimap(){
+  if(selectedMode!=='Battle Royale')return;
+  const mw=Math.min(150,W*.27),mh=mw*.68,x=W-mw-16,y=Math.min(94,H-mh-12),sx=mw/W,sy=mh/H;
+  ctx.save();ctx.globalAlpha=.93;ctx.fillStyle='#143a45';ctx.fillRect(x,y,mw,mh);ctx.strokeStyle='#dff8ff';ctx.lineWidth=2;ctx.strokeRect(x,y,mw,mh);
+  ctx.fillStyle='#5dad57';ctx.beginPath();ctx.ellipse(x+mw*.5,y+mh*.5,mw*.46,mh*.43,0,0,7);ctx.fill();
+  ctx.strokeStyle='#d25aff';ctx.lineWidth=2;ctx.beginPath();ctx.arc(x+storm.x*sx,y+storm.y*sy,Math.min(storm.r*sx,storm.r*sy),0,7);ctx.stroke();
+  ctx.fillStyle='#ffdc56';for(const chest of chests)if(!chest.opened)ctx.fillRect(x+chest.x*sx-1,y+chest.y*sy-1,3,3);
+  ctx.fillStyle='#ff6868';for(const e of enemies)ctx.fillRect(x+e.x*sx-1,y+e.y*sy-1,3,3);
+  ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(x+player.x*sx,y+player.y*sy,4,0,7);ctx.fill();ctx.strokeStyle='#111';ctx.stroke();
+  ctx.fillStyle='#fff';ctx.font='900 9px system-ui';ctx.textAlign='left';ctx.fillText('ISLAND MAP',x+6,y+12);ctx.restore()
+}
+function draw(){
+  drawArena();drawChests();drawWalls();drawLoot();
   for(const b of bullets){
     const color=b.enemy?'#ff8e47':elements[b.element].color;
     ctx.strokeStyle=color+'66';ctx.lineWidth=b.r;ctx.beginPath();ctx.moveTo(b.x-b.vx*.018,b.y-b.vy*.018);ctx.lineTo(b.x,b.y);ctx.stroke();
@@ -228,6 +328,7 @@ function draw(){
     if(matchTime>20){ctx.fillStyle='#7a2fb333';ctx.beginPath();ctx.rect(0,0,W,H);ctx.arc(storm.x,storm.y,storm.r,0,7,true);ctx.fill('evenodd')}
     ctx.restore()
   }
+  drawMinimap()
 }
 function loop(now){if(!running)return;let dt=Math.min((now-last)/1000,.033);last=now;update(dt,now);updateBuilding(dt);draw();if(running)requestAnimationFrame(loop)}
 function endGame(victory=false){running=false;hud.classList.add('hidden');$('#mobileControls').classList.add('hidden');over.classList.remove('hidden');over.querySelector('h1').textContent=victory?'VICTORY ROYALE!':'MATCH OVER';$('#result').textContent=victory?profile.name+' survived the storm with '+eliminations+' eliminations!':profile.name+', you earned '+eliminations+' eliminations in '+selectedMode+'.'}
