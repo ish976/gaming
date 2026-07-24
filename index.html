@@ -1,48 +1,71 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
+  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>SchoolHub</title>
-  <base href="/gaming/">
-  <style>
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      min-height: 100vh;
-      display: grid;
-      place-items: center;
-      padding: 24px;
-      background: #0b1020;
-      color: #ffffff;
-      font-family: system-ui, sans-serif;
-      text-align: center;
-    }
-    main {
-      width: min(520px, 100%);
-      padding: 40px 24px;
-      border: 1px solid #33405f;
-      border-radius: 20px;
-      background: #121a30;
-    }
-    h1 { margin: 0 0 10px; font-size: clamp(2rem, 8vw, 4rem); }
-    p { margin: 0; color: #aebbd7; font-size: 1.1rem; }
-    .info {
-      margin-top: 20px;
-      padding-top: 20px;
-      border-top: 1px solid #33405f;
-      font-size: 0.9rem;
-      color: #7a8ba8;
-    }
-  </style>
+  <meta name="theme-color" content="#0b0b0f">
+  <title>TubeAI — Upload</title>
+  <link rel="stylesheet" href="./styles.css">
 </head>
 <body>
+  <header class="topbar">
+    <a class="brand" href="./" aria-label="TubeAI home">
+      <span class="brand-mark" aria-hidden="true"><span></span></span>
+      <span>Tube<span>AI</span></span>
+    </a>
+    <div class="step"><span>1</span> Upload your video</div>
+    <button class="help" type="button" id="tipsButton">Tips</button>
+  </header>
+
   <main>
-    <h1>SchoolHub</h1>
-    <p>Your collaborative learning platform</p>
-    <div class="info">
-      <p>🚀 Deployed on GitHub Pages</p>
-    </div>
+    <section class="hero">
+      <div class="eyebrow"><i></i> AI video editor</div>
+      <h1>Turn long videos into<br><em>great content.</em></h1>
+      <p>Upload once. TubeAI finds highlights, cuts pauses, creates captions, and prepares your video for YouTube.</p>
+    </section>
+
+    <section class="workspace">
+      <div class="upload-card">
+        <input id="fileInput" type="file" accept="video/mp4,video/quicktime,video/webm" hidden>
+        <div class="drop-zone" id="dropZone" tabindex="0" role="button" aria-label="Choose or drop a video file">
+          <div class="upload-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M12 16V4m0 0L7.5 8.5M12 4l4.5 4.5M5 14v4a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-4"/></svg>
+          </div>
+          <h2>Drop your video here</h2>
+          <p>or choose a file from your device</p>
+          <button class="primary" type="button" id="chooseButton">Choose video</button>
+          <small>MP4, MOV, or WebM · up to 2 GB</small>
+        </div>
+
+        <div class="preview" id="preview" hidden>
+          <video id="videoPreview" controls></video>
+          <div class="file-details">
+            <div class="file-icon">▶</div>
+            <div class="file-copy"><strong id="fileName"></strong><span id="fileSize"></span></div>
+            <button class="remove" type="button" id="removeButton" aria-label="Remove selected video">×</button>
+          </div>
+          <div class="progress-row" id="progressRow">
+            <div><strong id="progressLabel">Preparing upload…</strong><span id="progressPercent">0%</span></div>
+            <div class="progress-track"><i id="progressBar"></i></div>
+          </div>
+          <button class="primary start" type="button" id="startButton" disabled>Start AI editing <span>→</span></button>
+        </div>
+      </div>
+
+      <aside class="tips" id="tipsPanel">
+        <div class="tips-heading"><span>✦</span><div><h2>Quick tips</h2><p>Get better AI results</p></div></div>
+        <ul>
+          <li><span>01</span><div><strong>Use clear audio</strong><p>Less background noise creates more accurate captions and cleaner cuts.</p></div></li>
+          <li><span>02</span><div><strong>Upload the original</strong><p>Choose your highest-quality file. TubeAI handles the resizing.</p></div></li>
+          <li><span>03</span><div><strong>Keep it focused</strong><p>Videos between 2 and 60 minutes work best for highlight detection.</p></div></li>
+          <li><span>04</span><div><strong>Your video stays private</strong><p>Your file is only used for editing and is never published automatically.</p></div></li>
+        </ul>
+        <div class="next-up"><span>Next up</span><strong>AI will suggest highlights, captions, and cuts.</strong></div>
+      </aside>
+    </section>
   </main>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="./app.js"></script>
 </body>
 </html>
