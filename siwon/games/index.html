@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#126c4c">
+  <title>SchoolHub</title>
+  <style>
+    :root{--ink:#18221d;--muted:#68736d;--line:#dfe6e1;--paper:#fffdf9;--cream:#f4f1e9;--green:#126c4c;--dark:#0b5139;--lime:#ddeb86;--coral:#f37d62}
+    *{box-sizing:border-box}html{background:var(--cream);scroll-behavior:smooth}body{margin:0;color:var(--ink);font-family:Inter,Segoe UI,Arial,sans-serif;background:var(--paper)}button,input,textarea{font:inherit}button{color:inherit;cursor:pointer}.hidden{display:none!important}
+    .brand{display:flex;align-items:center;gap:10px;color:var(--green);font-weight:900;font-size:22px;letter-spacing:-1px}.mark{width:35px;height:35px;display:grid;place-items:center;border-radius:11px 11px 11px 4px;background:var(--green);color:white;box-shadow:0 4px 0 var(--lime);transform:rotate(-3deg)}
+    .primary{border:0;border-radius:999px;background:var(--green);color:white;padding:11px 20px;font-weight:800}.primary:hover{background:var(--dark)}.primary:disabled{opacity:.45;cursor:default}
+    .avatar{width:43px;height:43px;flex:0 0 43px;display:grid;place-items:center;border-radius:13px 13px 13px 5px;background:#ded3f5;color:#5c3d83;font-weight:900;font-size:13px;border:1px solid rgba(20,70,50,.1)}
+    .avatar.coral{background:#ffd2c4;color:#8a3927}.avatar.mint{background:#cbe9d7;color:#1d6547}.avatar.blue{background:#cddff3;color:#315f8c}
+
+    /* Login */
+    .auth{min-height:100vh;display:grid;grid-template-columns:1.08fr .92fr}.auth-story{position:relative;overflow:hidden;padding:38px 6vw;display:flex;flex-direction:column;background:var(--green);color:white}.auth-story .brand{color:white}.auth-story .mark{background:white;color:var(--green)}
+    .story-copy{position:relative;z-index:2;margin:auto 0;max-width:620px}.eyebrow{font-size:10px;letter-spacing:2px;font-weight:900;color:var(--lime)}.story-copy h1{margin:18px 0;font-size:clamp(48px,6vw,86px);line-height:.92;letter-spacing:-5px}.story-copy p{max-width:500px;color:#d7e9e1;font-size:17px;line-height:1.6}.faces{display:flex;align-items:center;margin-top:28px}.faces .avatar{margin-right:-7px;border:3px solid var(--green)}.faces small{margin-left:20px;color:#d7e9e1;font-weight:700}
+    .shape{position:absolute;border-radius:50%}.shape.one{width:340px;height:340px;background:var(--lime);right:-130px;top:-110px}.shape.two{width:170px;height:170px;background:var(--coral);right:5%;bottom:-60px}.shape.three{width:75px;height:75px;border:16px solid #d5c9ee;right:17%;top:25%}
+    .auth-side{display:grid;place-items:center;padding:40px}.auth-card{width:min(410px,100%)}.auth-card h2{margin:10px 0 8px;font-size:32px;letter-spacing:-1.2px}.auth-card>p{margin:0 0 30px;color:var(--muted)}.auth-card label{display:grid;gap:8px;margin:18px 0;font-size:13px;font-weight:800}.auth-card label small{color:var(--muted);font-weight:500}.auth-card input{height:51px;border:1px solid #ced8d1;border-radius:12px;padding:0 15px;outline:0;background:#fffefb}.auth-card input:focus{border-color:var(--green);box-shadow:0 0 0 3px rgba(18,108,76,.1)}.auth-submit{width:100%;height:51px}.switch{margin-top:24px;padding-top:20px;border-top:1px solid var(--line);text-align:center;color:var(--muted);font-size:13px}.switch button{border:0;background:transparent;color:var(--green);font-weight:900}.terms{display:block;margin-top:20px;color:#89928d;text-align:center;line-height:1.5}.error{display:none;padding:10px 12px;margin-bottom:12px;border-radius:10px;background:#fff0ec;color:#a83f2c;font-size:12px}.mobile-brand{display:none;margin-bottom:45px}
+
+    /* App */
+    .app{display:grid;grid-template-columns:238px minmax(500px,650px) 340px;width:min(1228px,100%);min-height:100vh;margin:auto;background:var(--paper)}.sidebar{position:sticky;top:0;height:100vh;padding:27px 22px 20px 12px;border-right:1px solid var(--line);display:flex;flex-direction:column}.sidebar .brand{margin:0 10px 28px}.nav{display:grid;gap:5px}.nav button{position:relative;display:flex;align-items:center;gap:15px;min-height:49px;padding:0 15px;border:0;border-radius:14px;background:transparent;text-align:left;font-weight:700}.nav button:hover,.nav .active{background:#eaf2ed;color:var(--green)}.nav .ico{width:25px;font-size:23px;text-align:center}.nav .badge{position:absolute;left:31px;top:5px;width:17px;height:17px;display:grid;place-items:center;border-radius:50%;background:var(--coral);color:white;font-size:9px;border:2px solid var(--paper)}.create{margin:24px 8px 0;height:47px}.account{margin-top:auto;display:flex;align-items:center;gap:10px;padding:10px;border:0;border-radius:15px;background:transparent;text-align:left}.account:hover{background:#f0f3ef}.account-copy{display:grid;flex:1}.account-copy strong{font-size:13px}.account-copy small{color:var(--muted)}
+    .feed{border-right:1px solid var(--line);min-height:100vh}.topbar{position:sticky;top:0;z-index:5;height:67px;padding:0 22px;display:flex;align-items:center;border-bottom:1px solid var(--line);background:rgba(255,253,249,.93);backdrop-filter:blur(14px)}.topbar h1{margin:0;font-size:20px}.topbar .admin{margin-left:auto;margin-right:12px;padding:5px 9px;border-radius:999px;background:#fff0c2;color:#745a06;font-size:10px;font-weight:900}.topbar .refresh{margin-left:auto;border:0;background:transparent;color:var(--green);font-size:20px}
+    .tabs{height:51px;display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid var(--line)}.tabs button{position:relative;border:0;background:transparent;color:var(--muted);font-weight:700}.tabs .active{color:var(--ink);font-weight:900}.tabs .active:after{content:"";position:absolute;bottom:0;left:50%;width:55px;height:3px;border-radius:4px;background:var(--green);transform:translateX(-50%)}
+    .years{display:flex;gap:8px;padding:12px 16px;overflow:auto;scrollbar-width:none;border-bottom:1px solid var(--line);background:#faf8f2}.years::-webkit-scrollbar{display:none}.years button{flex:0 0 auto;padding:7px 13px;border:1px solid #d8e1da;border-radius:999px;background:var(--paper);color:var(--muted);font-size:12px;font-weight:800}.years .active{background:var(--green);border-color:var(--green);color:white}
+    .composer{display:flex;gap:13px;padding:20px 22px 14px;border-bottom:1px solid var(--line)}.composer-main{flex:1;min-width:0}.composer textarea{width:100%;min-height:68px;resize:none;border:0;outline:0;background:transparent;padding:8px 0;font-size:18px}.composer-row{display:flex;align-items:center;justify-content:space-between;padding-top:10px;border-top:1px solid #edf0ed}.tools{display:flex}.tools button{border:0;background:transparent;color:var(--green);font-size:19px;padding:5px 8px;border-radius:8px}.tools button:hover{background:#eaf2ed}.post-controls{display:flex;align-items:center;gap:10px}.post-controls small{color:var(--muted)}.announce-toggle{margin-top:10px;padding:6px 11px;border:1px solid #d6dfd8;border-radius:999px;background:transparent;color:var(--muted);font-size:11px;font-weight:800}.announce-toggle.active{border-color:#e0bd45;background:#fff5c9;color:#705806}
+    .post{display:flex;gap:13px;padding:20px 22px 13px;border-bottom:1px solid var(--line)}.post-body{flex:1;min-width:0}.meta{display:flex;justify-content:space-between;align-items:center;font-size:14px}.meta span{color:var(--muted)}.meta>button{border:0;background:transparent;color:var(--muted)}.moderate{display:flex;gap:5px}.moderate button{border:0;border-radius:7px;padding:5px 8px;background:#eaf2ed;color:var(--green);font-size:10px;font-weight:900}.moderate .ban{background:#fff0ed;color:#b94738}.announcement{display:inline-flex;gap:5px;margin-top:8px;padding:5px 9px;border-radius:8px;background:#fff4c7;color:#725708;font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:.5px}.post p{margin:6px 0 8px;font-size:15px;line-height:1.48}.topic{border:0;border-radius:999px;padding:5px 10px;background:#edf5f0;color:var(--green);font-size:11px;font-weight:800}.actions{display:grid;grid-template-columns:repeat(5,1fr);max-width:460px;margin-top:12px}.actions button{display:flex;align-items:center;gap:6px;border:0;background:transparent;color:var(--muted);font-size:12px}.actions button b{font-size:17px}.actions .liked{color:#dc5c65}.actions .saved{color:var(--green)}.empty{min-height:280px;display:grid;place-content:center;text-align:center;color:var(--muted)}.empty strong{font-size:21px;color:var(--ink)}.empty p{margin:5px}
+    .right{padding:17px 16px 30px;background:var(--cream)}.search{position:sticky;top:12px;z-index:3;height:43px;display:flex;align-items:center;gap:9px;padding:0 14px;border:1px solid var(--line);border-radius:999px;background:var(--paper)}.search:focus-within{border-color:var(--green);box-shadow:0 0 0 3px rgba(18,108,76,.1)}.search input{min-width:0;flex:1;border:0;outline:0;background:transparent}.panel{margin-top:15px;overflow:hidden;border:1px solid #d9e0db;border-radius:18px;background:var(--paper)}.welcome{position:relative;padding:20px;background:var(--green);color:white;border:0}.welcome:after{content:"✦";position:absolute;right:18px;top:12px;color:var(--lime);font-size:31px}.welcome h2{margin:9px 0 7px;font-size:22px;line-height:1.1}.welcome p{margin:0;color:#d8e8e1;font-size:12px;line-height:1.5}.panel-title{display:flex;align-items:center;justify-content:space-between;padding:16px 16px 8px}.panel-title h2{margin:0;font-size:17px}.panel-title button{border:0;background:transparent;color:var(--green);font-size:11px;font-weight:800}.trend{width:100%;display:flex;justify-content:space-between;padding:10px 16px;border:0;background:transparent;text-align:left}.trend:hover{background:#f5f6f1}.trend span{display:grid;gap:2px}.trend small{color:var(--muted);font-size:10px}.event{display:flex;align-items:center;gap:11px;padding:10px 16px}.event time{width:40px;height:46px;display:grid;place-items:center;border-radius:10px;background:#edf2e0;color:var(--green);font-size:9px;font-weight:900}.event time b{font-size:17px;line-height:1}.event div{display:grid;gap:3px}.event small{color:var(--muted);font-size:10px}.right footer{padding:18px 7px;color:#848e88;font-size:10px}.right footer button{border:0;background:transparent;color:var(--green);padding:0;font-size:inherit}.toast{position:fixed;z-index:50;left:50%;bottom:25px;transform:translateX(-50%);padding:10px 18px;border-radius:999px;background:var(--ink);color:white;font-size:13px;box-shadow:0 8px 25px rgba(0,0,0,.2)}.mobile-nav{display:none}
+    @media(max-width:1030px){.app{grid-template-columns:78px minmax(500px,650px) 320px}.sidebar{padding:22px 12px;align-items:center}.sidebar .brand span:last-child,.nav button span:not(.ico),.nav .badge,.create,.account-copy,.account>span:last-child{display:none}.nav button{width:52px;justify-content:center;padding:0}}
+    @media(max-width:850px){.auth{grid-template-columns:1fr}.auth-story{display:none}.auth-side{min-height:100vh;padding:30px 22px}.mobile-brand{display:flex}.app{display:block;max-width:650px;padding-bottom:62px}.sidebar,.right{display:none}.feed{border-left:1px solid var(--line)}.mobile-nav{position:fixed;z-index:20;left:0;right:0;bottom:0;height:61px;display:flex;align-items:center;justify-content:space-around;border-top:1px solid var(--line);background:rgba(255,253,249,.96)}.mobile-nav button{border:0;background:transparent;font-size:23px}.mobile-nav .plus{width:43px;height:43px;border-radius:50%;background:var(--green);color:white}.toast{bottom:75px}}
+    @media(max-width:520px){.feed{border:0}.topbar,.composer,.post{padding-left:15px;padding-right:15px}.meta{font-size:13px}}
+  </style>
+</head>
+<body>
+  <section class="auth" id="auth">
+    <div class="auth-story">
+      <div class="brand"><span class="mark">S</span><span>schoolhub</span></div>
+      <div class="story-copy">
+        <span class="eyebrow">YOUR SCHOOL. YOUR PEOPLE.</span>
+        <h1>Every hallway<br>has a story.</h1>
+        <p>Join your year, discover clubs, share ideas, and keep up with everything happening around school.</p>
+        <div class="faces"><span class="avatar coral">MC</span><span class="avatar mint">SC</span><span class="avatar blue">NW</span><small>Join your school community</small></div>
+      </div>
+      <i class="shape one"></i><i class="shape two"></i><i class="shape three"></i>
+    </div>
+    <div class="auth-side">
+      <form class="auth-card" id="authForm">
+        <div class="brand mobile-brand"><span class="mark">S</span><span>schoolhub</span></div>
+        <span class="eyebrow" id="authKicker">WELCOME BACK</span>
+        <h2 id="authTitle">Log in to SchoolHub</h2>
+        <p id="authSub">See what’s happening in your school today.</p>
+        <label>Full name<input id="nameInput" autocomplete="name" placeholder="e.g. Alex Rivera" required></label>
+        <label>Code <small>optional</small><input id="codeInput" type="password" inputmode="numeric" placeholder="Enter a code if you have one"></label>
+        <div class="error" id="authError">Please enter your full name.</div>
+        <button class="primary auth-submit" id="authSubmit">Log in</button>
+        <div class="switch"><span id="switchText">New to SchoolHub?</span> <button type="button" id="switchMode">Sign up</button></div>
+        <small class="terms">By continuing, you agree to our community guidelines and safety rules.</small>
+      </form>
+    </div>
+  </section>
+
+  <div class="app hidden" id="app">
+    <aside class="sidebar">
+      <div class="brand"><span class="mark">S</span><span>schoolhub</span></div>
+      <nav class="nav">
+        <button class="active"><span class="ico">⌂</span><span>Home</span></button>
+        <button data-msg="Explore opened"><span class="ico">⌕</span><span>Explore</span></button>
+        <button data-msg="No new notifications"><span class="ico">♢</span><span>Notifications</span><b class="badge">3</b></button>
+        <button data-msg="Messages opened"><span class="ico">✉</span><span>Messages</span></button>
+        <button data-msg="Bookmarks opened"><span class="ico">▱</span><span>Bookmarks</span></button>
+        <button data-msg="Clubs opened"><span class="ico">♧</span><span>Clubs</span></button>
+        <button data-msg="Profile opened"><span class="ico">○</span><span>Profile</span></button>
+      </nav>
+      <button class="primary create" id="createPost">Create post</button>
+      <button class="account"><span class="avatar user-initials">AR</span><span class="account-copy"><strong class="user-name">Alex Rivera</strong><small id="accountRole">@schoolhub</small></span><span>•••</span></button>
+    </aside>
+
+    <main class="feed">
+      <header class="topbar"><h1>Home</h1><span class="admin hidden" id="adminPill">Full admin</span><button class="refresh" data-msg="Feed refreshed">✦</button></header>
+      <div class="tabs"><button class="active">For you</button><button>Following</button></div>
+      <nav class="years" id="years"></nav>
+      <section class="composer">
+        <span class="avatar user-initials">AR</span>
+        <div class="composer-main">
+          <textarea id="draft" maxlength="240" placeholder="What's happening at school?"></textarea>
+          <div class="composer-row">
+            <div class="tools"><button data-msg="Photo picker ready">▧</button><button id="addPin">⌖</button><button id="addEmoji">☺</button><button data-msg="Poll added">≋</button></div>
+            <div class="post-controls"><small id="counter"></small><button class="primary" id="postButton" disabled>Post</button></div>
+          </div>
+          <button class="announce-toggle" id="announceToggle">📣 Make announcement</button>
+        </div>
+      </section>
+      <section id="feed"></section>
+    </main>
+
+    <aside class="right">
+      <label class="search">⌕ <input id="search" placeholder="Search SchoolHub"></label>
+      <section class="panel welcome"><span class="eyebrow" id="greeting">GOOD AFTERNOON</span><h2>Make school feel smaller.</h2><p>Find your people, share what matters, and never miss what’s happening.</p></section>
+      <section class="panel"><div class="panel-title"><h2>Happening now</h2><button data-msg="All trends opened">See all</button></div>
+        <button class="trend" data-search="Spring Showcase"><span><small>Trending on campus</small><strong>Spring Showcase</strong><small>428 posts</small></span><b>•••</b></button>
+        <button class="trend" data-search="Robotics"><span><small>#2 at school</small><strong>Robotics Regionals</strong><small>216 posts</small></span><b>•••</b></button>
+        <button class="trend" data-search="Library"><span><small>#3 at school</small><strong>Library After Dark</strong><small>184 posts</small></span><b>•••</b></button>
+      </section>
+      <section class="panel"><div class="panel-title"><h2>Upcoming</h2><button data-msg="Calendar opened">Calendar</button></div>
+        <div class="event"><time><b>25</b>APR</time><div><strong>Spring Showcase</strong><small>6:00 PM · Courtyard</small></div></div>
+        <div class="event"><time><b>27</b>APR</time><div><strong>Robotics Regionals</strong><small>9:00 AM · Main Gym</small></div></div>
+        <div class="event"><time><b>02</b>MAY</time><div><strong>College Q&A Night</strong><small>7:00 PM · Library</small></div></div>
+      </section>
+      <footer>About · Safety · Help · Privacy · <button id="signOut">Sign out</button> · © 2026 SchoolHub</footer>
+    </aside>
+
+    <nav class="mobile-nav"><button>⌂</button><button id="mobileSearch">⌕</button><button class="plus" id="mobilePost">＋</button><button data-msg="Notifications opened">♢</button><button data-msg="Profile opened">○</button></nav>
+  </div>
+  <div class="toast hidden" id="toast"></div>
+
+  <script>
+    const sections=["year1","year2","year3","year4","year5","year6","secondary"];
+    const starterPosts=[
+      {id:1,name:"Maya Chen",handle:"mayac",time:"12m",initials:"MC",color:"coral",text:"The spring showcase lineup is officially here 🌱🎸 Come support 18 student acts this Friday at 6 PM in the courtyard!",tag:"CampusLife",section:"year4",announcement:true,likes:142,comments:18,reposts:24,liked:false,saved:false},
+      {id:2,name:"Science Club",handle:"scienceclub",time:"36m",initials:"SC",color:"mint",text:"Tiny plants, big data. Our greenhouse sensors are finally live! We’re looking for two more students to help turn the readings into a climate dashboard.",tag:"Clubs",section:"secondary",announcement:true,likes:89,comments:11,reposts:16,liked:true,saved:false},
+      {id:3,name:"Noah Williams",handle:"noahw",time:"1h",initials:"NW",color:"blue",text:"Study tip that actually helped: reserve a quiet room, bring one question per subject, and trade explanations with a friend. Teaching it = learning it.",tag:"StudyCorner",section:"year2",announcement:false,likes:63,comments:7,reposts:9,liked:false,saved:true}
+    ];
+    let user=null,posts=[],activeSection="year1",announcement=false,authMode="Log in",query="";
+    const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+    const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+    const initials=n=>n.split(/\s+/).map(x=>x[0]).slice(0,2).join("").toUpperCase();
+    const handle=n=>n.toLowerCase().replace(/[^a-z0-9]/g,"").slice(0,16)||"schoolhub";
+    function flash(message){const t=$("#toast");t.textContent=message;t.classList.remove("hidden");clearTimeout(window.toastTimer);window.toastTimer=setTimeout(()=>t.classList.add("hidden"),1800)}
+    function savePosts(){localStorage.setItem("schoolhub-posts",JSON.stringify(posts))}
+    function load(){
+      try{user=JSON.parse(localStorage.getItem("schoolhub-user"));posts=JSON.parse(localStorage.getItem("schoolhub-posts"))||starterPosts}catch{posts=starterPosts}
+      if(user)showApp();else $("#auth").classList.remove("hidden");
+    }
+    function showApp(){
+      $("#auth").classList.add("hidden");$("#app").classList.remove("hidden");
+      $$(".user-name").forEach(x=>x.textContent=user.name);$$(".user-initials").forEach(x=>x.textContent=initials(user.name));
+      $("#accountRole").textContent=user.admin?"Full administrator":"@"+handle(user.name);
+      $("#adminPill").classList.toggle("hidden",!user.admin);
+      $("#greeting").textContent=user.admin?"FULL ADMINISTRATOR ACCESS":"GOOD AFTERNOON, "+user.name.split(" ")[0].toUpperCase();
+      renderYears();renderPosts();
+    }
+    function renderYears(){
+      $("#years").innerHTML=sections.map(s=>`<button class="${s===activeSection?"active":""}" data-section="${s}">${s}</button>`).join("");
+      $$("#years button").forEach(b=>b.onclick=()=>{activeSection=b.dataset.section;query="";$("#search").value="";renderYears();renderPosts()});
+    }
+    function renderPosts(){
+      const shown=posts.filter(p=>p.section===activeSection&&(`${p.name} ${p.handle} ${p.text} ${p.tag}`).toLowerCase().includes(query.toLowerCase()));
+      $("#feed").innerHTML=shown.length?shown.map(p=>`
+        <article class="post" data-id="${p.id}">
+          <span class="avatar ${p.color||""}">${esc(p.initials)}</span>
+          <div class="post-body">
+            <div class="meta"><div><strong>${esc(p.name)}</strong> <span>@${esc(p.handle)} · ${esc(p.time)}</span></div>
+              ${user.admin?`<div class="moderate"><button data-delete>Delete</button><button class="ban" data-ban>Ban user</button></div>`:`<button data-msg="Post options opened">•••</button>`}
+            </div>
+            ${p.announcement?`<div class="announcement">📣 Announcement · ${esc(p.section)}</div>`:""}
+            <p>${esc(p.text)}</p><button class="topic" data-topic="${esc(p.tag)}">#${esc(p.tag)}</button>
+            <div class="actions">
+              <button data-reply><b>◯</b>${p.comments}</button><button data-repost><b>⇄</b>${p.reposts}</button>
+              <button data-like class="${p.liked?"liked":""}"><b>${p.liked?"♥":"♡"}</b>${p.likes}</button>
+              <button data-save class="${p.saved?"saved":""}"><b>${p.saved?"▰":"▱"}</b></button><button data-share><b>↗</b></button>
+            </div>
+          </div>
+        </article>`).join(""):`<div class="empty"><strong>No posts in ${activeSection} yet</strong><p>Be the first to share something with this section.</p></div>`;
+      bindPostActions();
+    }
+    function bindPostActions(){
+      $$(".post").forEach(el=>{
+        const id=Number(el.dataset.id),get=()=>posts.find(p=>p.id===id);
+        el.querySelector("[data-like]")?.addEventListener("click",()=>{const p=get();p.likes+=p.liked?-1:1;p.liked=!p.liked;savePosts();renderPosts()});
+        el.querySelector("[data-repost]")?.addEventListener("click",()=>{get().reposts++;savePosts();renderPosts()});
+        el.querySelector("[data-save]")?.addEventListener("click",()=>{get().saved=!get().saved;savePosts();renderPosts()});
+        el.querySelector("[data-reply]")?.addEventListener("click",()=>flash("Replies opened"));
+        el.querySelector("[data-share]")?.addEventListener("click",()=>{navigator.clipboard?.writeText(location.href);flash("Link copied")});
+        el.querySelector("[data-delete]")?.addEventListener("click",()=>{posts=posts.filter(p=>p.id!==id);savePosts();renderPosts();flash("Post deleted")});
+        el.querySelector("[data-ban]")?.addEventListener("click",()=>{const h=get().handle;posts=posts.filter(p=>p.handle!==h);savePosts();renderPosts();flash("@"+h+" has been banned")});
+        el.querySelector("[data-topic]")?.addEventListener("click",e=>{$("#search").value=e.currentTarget.dataset.topic;query=e.currentTarget.dataset.topic;renderPosts()});
+      });
+      bindMessages();
+    }
+    function bindMessages(){$$("[data-msg]").forEach(b=>b.onclick=()=>flash(b.dataset.msg))}
+    $("#authForm").addEventListener("submit",e=>{
+      e.preventDefault();const name=$("#nameInput").value.trim();
+      if(name.split(/\s+/).length<2){$("#authError").style.display="block";return}
+      user={name,admin:$("#codeInput").value.trim()==="999"};localStorage.setItem("schoolhub-user",JSON.stringify(user));$("#authError").style.display="none";showApp();flash(user.admin?"Full administrator access unlocked":"Welcome to SchoolHub");
+    });
+    $("#switchMode").onclick=()=>{
+      authMode=authMode==="Log in"?"Sign up":"Log in";$("#authTitle").textContent=authMode+" to SchoolHub";$("#authSubmit").textContent=authMode;
+      $("#authKicker").textContent=authMode==="Log in"?"WELCOME BACK":"JOIN THE CONVERSATION";$("#authSub").textContent=authMode==="Log in"?"See what’s happening in your school today.":"Create your profile and find your school community.";
+      $("#switchText").textContent=authMode==="Log in"?"New to SchoolHub?":"Already have an account?";$("#switchMode").textContent=authMode==="Log in"?"Sign up":"Log in";
+    };
+    $("#draft").oninput=e=>{$("#postButton").disabled=!e.target.value.trim();$("#counter").textContent=e.target.value?240-e.target.value.length:""};
+    $("#announceToggle").onclick=e=>{announcement=!announcement;e.currentTarget.classList.toggle("active",announcement);e.currentTarget.textContent=announcement?"📣 Announcement on":"📣 Make announcement"};
+    $("#postButton").onclick=()=>{
+      const text=$("#draft").value.trim();if(!text)return;
+      posts.unshift({id:Date.now(),name:user.name,handle:handle(user.name),time:"now",initials:initials(user.name),text,tag:"CampusLife",section:activeSection,announcement,likes:0,comments:0,reposts:0,liked:false,saved:false});
+      savePosts();$("#draft").value="";$("#counter").textContent="";$("#postButton").disabled=true;announcement=false;$("#announceToggle").classList.remove("active");$("#announceToggle").textContent="📣 Make announcement";renderPosts();flash("Posted to SchoolHub");
+    };
+    $("#addPin").onclick=()=>{$("#draft").value+=" 📍";$("#draft").dispatchEvent(new Event("input"))};$("#addEmoji").onclick=()=>{$("#draft").value+=" 😊";$("#draft").dispatchEvent(new Event("input"))};
+    $("#search").oninput=e=>{query=e.target.value;renderPosts()};$$("[data-search]").forEach(b=>b.onclick=()=>{$("#search").value=b.dataset.search;query=b.dataset.search;renderPosts()});
+    $("#signOut").onclick=()=>{localStorage.removeItem("schoolhub-user");location.reload()};$("#createPost").onclick=$("#mobilePost").onclick=()=>{$("#draft").focus();scrollTo({top:0,behavior:"smooth"})};
+    $$(".tabs button").forEach(b=>b.onclick=()=>{$$(".tabs button").forEach(x=>x.classList.remove("active"));b.classList.add("active");flash(b.textContent+" feed opened")});
+    bindMessages();load();
+  </script>
+</body>
+</html>
