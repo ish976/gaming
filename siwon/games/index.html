@@ -9,7 +9,7 @@
     :root{--ink:#18221d;--muted:#68736d;--line:#dfe6e1;--paper:#fffdf9;--cream:#f4f1e9;--green:#126c4c;--dark:#0b5139;--lime:#ddeb86;--coral:#f37d62}
     *{box-sizing:border-box}html{background:var(--cream);scroll-behavior:smooth}body{margin:0;color:var(--ink);font-family:Inter,Segoe UI,Arial,sans-serif;background:var(--paper)}button,input,textarea{font:inherit}button{color:inherit;cursor:pointer}.hidden{display:none!important}
     .brand{display:flex;align-items:center;gap:10px;color:var(--green);font-weight:900;font-size:22px;letter-spacing:-1px}.mark{width:35px;height:35px;display:grid;place-items:center;border-radius:11px 11px 11px 4px;background:var(--green);color:white;box-shadow:0 4px 0 var(--lime);transform:rotate(-3deg)}
-    .primary{border:0;border-radius:999px;background:var(--green);color:white;padding:11px 20px;font-weight:800}.primary:hover{background:var(--dark)}.primary:disabled{opacity:.45;cursor:default}
+    .primary{border:0;border-radius:999px;background:var(--green);color:white;padding:11px 20px;font-weight:800}.primary:hover{background:var(--dark)}.primary:disabled{opacity:.45;cursor:default}.admin-add{display:grid;place-items:center;text-decoration:none}
     .avatar{width:43px;height:43px;flex:0 0 43px;display:grid;place-items:center;border-radius:13px 13px 13px 5px;background:#ded3f5;color:#5c3d83;font-weight:900;font-size:13px;border:1px solid rgba(20,70,50,.1)}
     .avatar.coral{background:#ffd2c4;color:#8a3927}.avatar.mint{background:#cbe9d7;color:#1d6547}.avatar.blue{background:#cddff3;color:#315f8c}
 
@@ -20,19 +20,28 @@
     .auth-side{display:grid;place-items:center;padding:40px}.auth-card{width:min(410px,100%)}.auth-card h2{margin:10px 0 8px;font-size:32px;letter-spacing:-1.2px}.auth-card>p{margin:0 0 30px;color:var(--muted)}.auth-card label{display:grid;gap:8px;margin:18px 0;font-size:13px;font-weight:800}.auth-card label small{color:var(--muted);font-weight:500}.auth-card input{height:51px;border:1px solid #ced8d1;border-radius:12px;padding:0 15px;outline:0;background:#fffefb}.auth-card input:focus{border-color:var(--green);box-shadow:0 0 0 3px rgba(18,108,76,.1)}.auth-submit{width:100%;height:51px}.switch{margin-top:24px;padding-top:20px;border-top:1px solid var(--line);text-align:center;color:var(--muted);font-size:13px}.switch button{border:0;background:transparent;color:var(--green);font-weight:900}.terms{display:block;margin-top:20px;color:#89928d;text-align:center;line-height:1.5}.error{display:none;padding:10px 12px;margin-bottom:12px;border-radius:10px;background:#fff0ec;color:#a83f2c;font-size:12px}.mobile-brand{display:none;margin-bottom:45px}
 
     /* App */
-    .app{display:grid;grid-template-columns:238px minmax(500px,650px) 340px;width:min(1228px,100%);min-height:100vh;margin:auto;background:var(--paper)}.sidebar{position:sticky;top:0;height:100vh;padding:27px 22px 20px 12px;border-right:1px solid var(--line);display:flex;flex-direction:column}.sidebar .brand{margin:0 10px 28px}.nav{display:grid;gap:5px}.nav button{position:relative;display:flex;align-items:center;gap:15px;min-height:49px;padding:0 15px;border:0;border-radius:14px;background:transparent;text-align:left;font-weight:700}.nav button:hover,.nav .active{background:#eaf2ed;color:var(--green)}.nav .ico{width:25px;font-size:23px;text-align:center}.nav .badge{position:absolute;left:31px;top:5px;width:17px;height:17px;display:grid;place-items:center;border-radius:50%;background:var(--coral);color:white;font-size:9px;border:2px solid var(--paper)}.create{margin:24px 8px 0;height:47px}.account{margin-top:auto;display:flex;align-items:center;gap:10px;padding:10px;border:0;border-radius:15px;background:transparent;text-align:left}.account:hover{background:#f0f3ef}.account-copy{display:grid;flex:1}.account-copy strong{font-size:13px}.account-copy small{color:var(--muted)}
+    .app{display:grid;grid-template-columns:238px minmax(500px,650px) 340px;width:min(1228px,100%);min-height:100vh;margin:auto;background:var(--paper)}.sidebar{position:sticky;top:0;height:100vh;padding:27px 22px 20px 12px;border-right:1px solid var(--line);display:flex;flex-direction:column}.sidebar .brand{margin:0 10px 28px}.nav{display:grid;gap:5px}.nav button,.nav a{position:relative;display:flex;align-items:center;gap:15px;min-height:49px;padding:0 15px;border:0;border-radius:14px;background:transparent;text-align:left;font-weight:700;text-decoration:none;color:inherit}.nav button:hover,.nav a:hover,.nav .active{background:#eaf2ed;color:var(--green)}.nav .ico{width:25px;font-size:23px;text-align:center}.nav .badge{position:absolute;left:31px;top:5px;width:17px;height:17px;display:grid;place-items:center;border-radius:50%;background:var(--coral);color:white;font-size:9px;border:2px solid var(--paper)}.create{margin:24px 8px 0;height:47px}.account{margin-top:auto;display:flex;align-items:center;gap:10px;padding:10px;border:0;border-radius:15px;background:transparent;text-align:left;text-decoration:none;color:inherit}.account:hover{background:#f0f3ef}.account-copy{display:grid;flex:1}.account-copy strong{font-size:13px}.account-copy small{color:var(--muted)}
     .feed{border-right:1px solid var(--line);min-height:100vh}.topbar{position:sticky;top:0;z-index:5;height:67px;padding:0 22px;display:flex;align-items:center;border-bottom:1px solid var(--line);background:rgba(255,253,249,.93);backdrop-filter:blur(14px)}.topbar h1{margin:0;font-size:20px}.topbar .admin{margin-left:auto;margin-right:12px;padding:5px 9px;border-radius:999px;background:#fff0c2;color:#745a06;font-size:10px;font-weight:900}.topbar .refresh{margin-left:auto;border:0;background:transparent;color:var(--green);font-size:20px}
     .tabs{height:51px;display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid var(--line)}.tabs button{position:relative;border:0;background:transparent;color:var(--muted);font-weight:700}.tabs .active{color:var(--ink);font-weight:900}.tabs .active:after{content:"";position:absolute;bottom:0;left:50%;width:55px;height:3px;border-radius:4px;background:var(--green);transform:translateX(-50%)}
     .years{display:flex;gap:8px;padding:12px 16px;overflow:auto;scrollbar-width:none;border-bottom:1px solid var(--line);background:#faf8f2}.years::-webkit-scrollbar{display:none}.years button{flex:0 0 auto;padding:7px 13px;border:1px solid #d8e1da;border-radius:999px;background:var(--paper);color:var(--muted);font-size:12px;font-weight:800}.years .active{background:var(--green);border-color:var(--green);color:white}
     .composer{display:flex;gap:13px;padding:20px 22px 14px;border-bottom:1px solid var(--line)}.composer-main{flex:1;min-width:0}.composer textarea{width:100%;min-height:68px;resize:none;border:0;outline:0;background:transparent;padding:8px 0;font-size:18px}.composer-row{display:flex;align-items:center;justify-content:space-between;padding-top:10px;border-top:1px solid #edf0ed}.tools{display:flex}.tools button{border:0;background:transparent;color:var(--green);font-size:19px;padding:5px 8px;border-radius:8px}.tools button:hover{background:#eaf2ed}.post-controls{display:flex;align-items:center;gap:10px}.post-controls small{color:var(--muted)}.announce-toggle{margin-top:10px;padding:6px 11px;border:1px solid #d6dfd8;border-radius:999px;background:transparent;color:var(--muted);font-size:11px;font-weight:800}.announce-toggle.active{border-color:#e0bd45;background:#fff5c9;color:#705806}
-    .post{display:flex;gap:13px;padding:20px 22px 13px;border-bottom:1px solid var(--line)}.post-body{flex:1;min-width:0}.meta{display:flex;justify-content:space-between;align-items:center;font-size:14px}.meta span{color:var(--muted)}.meta>button{border:0;background:transparent;color:var(--muted)}.moderate{display:flex;gap:5px}.moderate button{border:0;border-radius:7px;padding:5px 8px;background:#eaf2ed;color:var(--green);font-size:10px;font-weight:900}.moderate .ban{background:#fff0ed;color:#b94738}.announcement{display:inline-flex;gap:5px;margin-top:8px;padding:5px 9px;border-radius:8px;background:#fff4c7;color:#725708;font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:.5px}.post p{margin:6px 0 8px;font-size:15px;line-height:1.48}.topic{border:0;border-radius:999px;padding:5px 10px;background:#edf5f0;color:var(--green);font-size:11px;font-weight:800}.actions{display:grid;grid-template-columns:repeat(5,1fr);max-width:460px;margin-top:12px}.actions button{display:flex;align-items:center;gap:6px;border:0;background:transparent;color:var(--muted);font-size:12px}.actions button b{font-size:17px}.actions .liked{color:#dc5c65}.actions .saved{color:var(--green)}.empty{min-height:280px;display:grid;place-content:center;text-align:center;color:var(--muted)}.empty strong{font-size:21px;color:var(--ink)}.empty p{margin:5px}
-    .right{padding:17px 16px 30px;background:var(--cream)}.search{position:sticky;top:12px;z-index:3;height:43px;display:flex;align-items:center;gap:9px;padding:0 14px;border:1px solid var(--line);border-radius:999px;background:var(--paper)}.search:focus-within{border-color:var(--green);box-shadow:0 0 0 3px rgba(18,108,76,.1)}.search input{min-width:0;flex:1;border:0;outline:0;background:transparent}.panel{margin-top:15px;overflow:hidden;border:1px solid #d9e0db;border-radius:18px;background:var(--paper)}.welcome{position:relative;padding:20px;background:var(--green);color:white;border:0}.welcome:after{content:"✦";position:absolute;right:18px;top:12px;color:var(--lime);font-size:31px}.welcome h2{margin:9px 0 7px;font-size:22px;line-height:1.1}.welcome p{margin:0;color:#d8e8e1;font-size:12px;line-height:1.5}.panel-title{display:flex;align-items:center;justify-content:space-between;padding:16px 16px 8px}.panel-title h2{margin:0;font-size:17px}.panel-title button{border:0;background:transparent;color:var(--green);font-size:11px;font-weight:800}.trend{width:100%;display:flex;justify-content:space-between;padding:10px 16px;border:0;background:transparent;text-align:left}.trend:hover{background:#f5f6f1}.trend span{display:grid;gap:2px}.trend small{color:var(--muted);font-size:10px}.event{display:flex;align-items:center;gap:11px;padding:10px 16px}.event time{width:40px;height:46px;display:grid;place-items:center;border-radius:10px;background:#edf2e0;color:var(--green);font-size:9px;font-weight:900}.event time b{font-size:17px;line-height:1}.event div{display:grid;gap:3px}.event small{color:var(--muted);font-size:10px}.right footer{padding:18px 7px;color:#848e88;font-size:10px}.right footer button{border:0;background:transparent;color:var(--green);padding:0;font-size:inherit}.toast{position:fixed;z-index:50;left:50%;bottom:25px;transform:translateX(-50%);padding:10px 18px;border-radius:999px;background:var(--ink);color:white;font-size:13px;box-shadow:0 8px 25px rgba(0,0,0,.2)}.mobile-nav{display:none}
-    @media(max-width:1030px){.app{grid-template-columns:78px minmax(500px,650px) 320px}.sidebar{padding:22px 12px;align-items:center}.sidebar .brand span:last-child,.nav button span:not(.ico),.nav .badge,.create,.account-copy,.account>span:last-child{display:none}.nav button{width:52px;justify-content:center;padding:0}}
-    @media(max-width:850px){.auth{grid-template-columns:1fr}.auth-story{display:none}.auth-side{min-height:100vh;padding:30px 22px}.mobile-brand{display:flex}.app{display:block;max-width:650px;padding-bottom:62px}.sidebar,.right{display:none}.feed{border-left:1px solid var(--line)}.mobile-nav{position:fixed;z-index:20;left:0;right:0;bottom:0;height:61px;display:flex;align-items:center;justify-content:space-around;border-top:1px solid var(--line);background:rgba(255,253,249,.96)}.mobile-nav button{border:0;background:transparent;font-size:23px}.mobile-nav .plus{width:43px;height:43px;border-radius:50%;background:var(--green);color:white}.toast{bottom:75px}}
+    .post{display:flex;gap:13px;padding:20px 22px 13px;border-bottom:1px solid var(--line)}.post-body{flex:1;min-width:0}.meta{display:flex;justify-content:space-between;align-items:center;font-size:14px}.meta span{color:var(--muted)}.meta>button{border:0;background:transparent;color:var(--muted)}.moderate{display:flex;gap:5px}.moderate button{border:0;border-radius:7px;padding:5px 8px;background:#eaf2ed;color:var(--green);font-size:10px;font-weight:900}.moderate .ban{background:#fff0ed;color:#b94738}.announcement{display:inline-flex;gap:5px;margin-top:8px;padding:5px 9px;border-radius:8px;background:#fff4c7;color:#725708;font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:.5px}.post p{margin:6px 0 8px;font-size:15px;line-height:1.48}.topic{border:0;border-radius:999px;padding:5px 10px;background:#edf5f0;color:var(--green);font-size:11px;font-weight:800}.actions{display:grid;grid-template-columns:repeat(auto-fit,minmax(58px,1fr));max-width:540px;margin-top:12px}.actions button{display:flex;align-items:center;gap:6px;border:0;background:transparent;color:var(--muted);font-size:12px}.actions button b{font-size:17px}.actions .liked{color:#dc5c65}.actions .saved{color:var(--green)}.actions .message{color:var(--green);font-weight:800}.empty{min-height:280px;display:grid;place-content:center;text-align:center;color:var(--muted)}.empty strong{font-size:21px;color:var(--ink)}.empty p{margin:5px}
+    .right{padding:17px 16px 30px;background:var(--cream)}.search{position:sticky;top:12px;z-index:3;height:43px;display:flex;align-items:center;gap:9px;padding:0 14px;border:1px solid var(--line);border-radius:999px;background:var(--paper)}.search:focus-within{border-color:var(--green);box-shadow:0 0 0 3px rgba(18,108,76,.1)}.search input{min-width:0;flex:1;border:0;outline:0;background:transparent}.panel{margin-top:15px;overflow:hidden;border:1px solid #d9e0db;border-radius:18px;background:var(--paper)}.welcome{position:relative;padding:20px;background:var(--green);color:white;border:0}.welcome:after{content:"✦";position:absolute;right:18px;top:12px;color:var(--lime);font-size:31px}.welcome h2{margin:9px 0 7px;font-size:22px;line-height:1.1}.welcome p{margin:0;color:#d8e8e1;font-size:12px;line-height:1.5}.panel-title{display:flex;align-items:center;justify-content:space-between;padding:16px 16px 8px}.panel-title h2{margin:0;font-size:17px}.panel-title button,.panel-title a{border:0;background:transparent;color:var(--green);font-size:11px;font-weight:800;text-decoration:none}.trend{width:100%;display:flex;justify-content:space-between;padding:10px 16px;border:0;background:transparent;text-align:left}.trend:hover{background:#f5f6f1}.trend span{display:grid;gap:2px}.trend small{color:var(--muted);font-size:10px}.event{display:flex;align-items:center;gap:11px;padding:10px 16px}.event time{width:40px;height:46px;display:grid;place-items:center;border-radius:10px;background:#edf2e0;color:var(--green);font-size:9px;font-weight:900}.event time b{font-size:17px;line-height:1}.event div{display:grid;gap:3px}.event small{color:var(--muted);font-size:10px}.right footer{padding:18px 7px;color:#848e88;font-size:10px}.right footer button,.right footer a{border:0;background:transparent;color:var(--green);padding:0;font-size:inherit;text-decoration:none}.toast{position:fixed;z-index:50;left:50%;bottom:25px;transform:translateX(-50%);padding:10px 18px;border-radius:999px;background:var(--ink);color:white;font-size:13px;box-shadow:0 8px 25px rgba(0,0,0,.2)}.mobile-nav{display:none}
+    @media(max-width:1030px){.app{grid-template-columns:78px minmax(500px,650px) 320px}.sidebar{padding:22px 12px;align-items:center}.sidebar .brand span:last-child,.nav button span:not(.ico),.nav a span:not(.ico),.nav .badge,.create,.account-copy,.account>span:last-child{display:none}.nav button,.nav a{width:52px;justify-content:center;padding:0}}
+    @media(max-width:850px){.auth{grid-template-columns:1fr}.auth-story{display:none}.auth-side{min-height:100vh;padding:30px 22px}.mobile-brand{display:flex}.app{display:block;max-width:650px;padding-bottom:62px}.sidebar,.right{display:none}.feed{border-left:1px solid var(--line)}.mobile-nav{position:fixed;z-index:20;left:0;right:0;bottom:0;height:61px;display:flex;align-items:center;justify-content:space-around;border-top:1px solid var(--line);background:rgba(255,253,249,.96)}.mobile-nav button,.mobile-nav a{border:0;background:transparent;font-size:23px;text-decoration:none;color:inherit}.mobile-nav .plus{width:43px;height:43px;border-radius:50%;background:var(--green);color:white}.toast{bottom:75px}}
     @media(max-width:520px){.feed{border:0}.topbar,.composer,.post{padding-left:15px;padding-right:15px}.meta{font-size:13px}}
+    .event{color:inherit;text-decoration:none}
   </style>
-</head>
-<body>
+<style>.route-mode #auth,.route-mode #app{display:none!important}#routeHost:empty{display:none}</style>
+<script>
+  if (new URLSearchParams(location.search).get("page")) {
+    document.documentElement.classList.add("route-mode");
+    const routeStyle = document.createElement("style");
+    routeStyle.textContent = ":root {\n  --ink: #17221c;\n  --muted: #69756e;\n  --line: #dfe7e1;\n  --paper: #fffdf9;\n  --cream: #f4f1e9;\n  --green: #126c4c;\n  --green-dark: #0b5139;\n  --green-soft: #e8f2ec;\n  --lime: #ddeb86;\n  --coral: #f37d62;\n  --danger: #b74334;\n  --shadow: 0 16px 45px rgba(20, 45, 32, .08);\n}\n* { box-sizing: border-box; }\nhtml { background: var(--cream); scroll-behavior: smooth; }\nbody { margin: 0; min-height: 100vh; color: var(--ink); font-family: Inter, \"Segoe UI\", Arial, sans-serif; background: var(--paper); }\nbutton, input, textarea, select { font: inherit; }\nbutton { color: inherit; cursor: pointer; }\na { color: inherit; text-decoration: none; }\n.hidden { display: none !important; }\n.brand { display: flex; align-items: center; gap: 10px; color: var(--green); font-size: 22px; font-weight: 900; letter-spacing: -1px; }\n.brand-mark { width: 36px; height: 36px; display: grid; place-items: center; border-radius: 12px 12px 12px 4px; color: white; background: var(--green); box-shadow: 0 4px 0 var(--lime); transform: rotate(-3deg); }\n.primary, .secondary, .danger { min-height: 42px; padding: 0 18px; border: 0; border-radius: 999px; font-weight: 850; }\n.primary { color: white; background: var(--green); }\n.primary:hover { background: var(--green-dark); }\n.secondary { color: var(--green); background: var(--green-soft); }\n.danger { color: var(--danger); background: #fff0ed; }\n.primary:disabled, .secondary:disabled { opacity: .48; cursor: default; }\n.avatar { width: 44px; height: 44px; flex: 0 0 44px; display: grid; place-items: center; border: 1px solid rgba(18, 108, 76, .12); border-radius: 14px 14px 14px 5px; color: #315f4b; background: #d7eee1; font-size: 13px; font-weight: 900; }\n.muted { color: var(--muted); }\n.eyebrow { color: var(--green); font-size: 10px; font-weight: 900; letter-spacing: 1.8px; text-transform: uppercase; }\n.toast { position: fixed; z-index: 100; left: 50%; bottom: 25px; max-width: min(90vw, 500px); padding: 11px 18px; transform: translateX(-50%); border-radius: 999px; color: white; background: var(--ink); box-shadow: 0 10px 30px rgba(0,0,0,.22); text-align: center; font-size: 13px; }\n\n/* Login */\n.auth { min-height: 100vh; display: grid; grid-template-columns: 1.08fr .92fr; }\n.auth-story { position: relative; overflow: hidden; padding: 38px 6vw; display: flex; flex-direction: column; color: white; background: var(--green); }\n.auth-story .brand { color: white; }\n.auth-story .brand-mark { color: var(--green); background: white; }\n.story-copy { position: relative; z-index: 2; max-width: 630px; margin: auto 0; }\n.story-copy .eyebrow { color: var(--lime); }\n.story-copy h1 { margin: 18px 0; font-size: clamp(52px,6vw,88px); line-height: .91; letter-spacing: -5px; }\n.story-copy p { max-width: 510px; color: #d7e9e1; font-size: 17px; line-height: 1.6; }\n.shape { position: absolute; border-radius: 50%; }\n.shape.one { width: 340px; height: 340px; top: -110px; right: -130px; background: var(--lime); }\n.shape.two { width: 180px; height: 180px; right: 4%; bottom: -70px; background: var(--coral); }\n.auth-side { display: grid; place-items: center; padding: 40px; }\n.auth-card { width: min(420px,100%); }\n.auth-card h2 { margin: 10px 0 8px; font-size: 33px; letter-spacing: -1.3px; }\n.auth-card > p { margin: 0 0 26px; color: var(--muted); }\n.auth-card label, .form-grid label { display: grid; gap: 7px; color: var(--ink); font-size: 13px; font-weight: 800; }\n.auth-card label { margin: 16px 0; }\ninput, textarea, select { width: 100%; border: 1px solid #ccd8d0; border-radius: 12px; outline: 0; color: var(--ink); background: white; }\ninput, select { height: 49px; padding: 0 14px; }\ntextarea { min-height: 104px; padding: 12px 14px; resize: vertical; }\ninput:focus, textarea:focus, select:focus { border-color: var(--green); box-shadow: 0 0 0 3px rgba(18,108,76,.1); }\n.auth-submit { width: 100%; height: 50px; margin-top: 5px; }\n.auth-error, .notice { padding: 11px 13px; border-radius: 11px; font-size: 12px; line-height: 1.45; }\n.auth-error { display: none; color: #9c3c2d; background: #fff0ed; }\n.notice { color: #725708; background: #fff5c9; }\n.switch { margin-top: 22px; padding-top: 18px; border-top: 1px solid var(--line); color: var(--muted); text-align: center; font-size: 13px; }\n.switch button { border: 0; color: var(--green); background: transparent; font-weight: 900; }\n.terms { display: block; margin-top: 18px; color: #88928d; text-align: center; }\n\n/* Shell and navigation */\n.app { width: min(1240px,100%); min-height: 100vh; margin: auto; display: grid; grid-template-columns: 238px minmax(0,1fr); background: var(--paper); }\n.sidebar { position: sticky; top: 0; height: 100vh; padding: 27px 20px 20px 12px; display: flex; flex-direction: column; border-right: 1px solid var(--line); }\n.sidebar .brand { margin: 0 10px 28px; }\n.nav { display: grid; gap: 5px; }\n.nav-link { min-height: 49px; padding: 0 15px; display: flex; align-items: center; gap: 14px; border-radius: 14px; font-weight: 750; }\n.nav-link:hover, .nav-link.active { color: var(--green); background: var(--green-soft); }\n.nav-icon { width: 25px; text-align: center; font-size: 20px; font-weight: 900; }\n.account { margin-top: auto; padding: 10px; display: flex; align-items: center; gap: 10px; border: 0; border-radius: 15px; background: transparent; text-align: left; }\n.account:hover { background: #f0f3ef; }\n.account-copy { min-width: 0; display: grid; flex: 1; }\n.account-copy strong, .account-copy small { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }\n.account-copy strong { font-size: 13px; }\n.account-copy small { color: var(--muted); font-size: 11px; }\n.app-main { min-width: 0; min-height: 100vh; background: var(--paper); }\n.topbar { position: sticky; z-index: 10; top: 0; min-height: 68px; padding: 0 24px; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid var(--line); background: rgba(255,253,249,.94); backdrop-filter: blur(14px); }\n.topbar h1 { margin: 0; font-size: 21px; letter-spacing: -.6px; }\n.topbar-actions { margin-left: auto; display: flex; align-items: center; gap: 8px; }\n.admin-pill { padding: 6px 10px; border-radius: 999px; color: #725708; background: #fff1bb; font-size: 10px; font-weight: 900; }\n.page-content { padding: 24px; }\n.page-grid { display: grid; grid-template-columns: minmax(0,1fr) 320px; align-items: start; gap: 22px; }\n.card { overflow: hidden; border: 1px solid var(--line); border-radius: 18px; background: white; box-shadow: var(--shadow); }\n.card + .card { margin-top: 18px; }\n.card-pad { padding: 20px; }\n.card-head { padding: 16px 18px; display: flex; align-items: center; justify-content: space-between; gap: 12px; border-bottom: 1px solid var(--line); }\n.card-head h2 { margin: 0; font-size: 18px; letter-spacing: -.4px; }\n.hero-card { position: relative; overflow: hidden; padding: 28px; color: white; background: var(--green); }\n.hero-card:after { content: \"\"; position: absolute; width: 150px; height: 150px; right: -45px; top: -50px; border-radius: 50%; background: var(--lime); }\n.hero-card h2 { position: relative; z-index: 1; margin: 8px 0; font-size: 30px; letter-spacing: -1px; }\n.hero-card p { position: relative; z-index: 1; max-width: 620px; margin: 0; color: #d8e9e1; line-height: 1.55; }\n.hero-card .eyebrow { position: relative; z-index: 1; color: var(--lime); }\n.empty { min-height: 250px; padding: 35px 20px; display: grid; place-content: center; text-align: center; color: var(--muted); }\n.empty-icon { margin-bottom: 10px; color: var(--green); font-size: 38px; }\n.empty strong { color: var(--ink); font-size: 20px; }\n.empty p { max-width: 460px; margin: 7px auto 0; line-height: 1.5; }\n.loading { min-height: 40vh; display: grid; place-items: center; color: var(--muted); }\n.mobile-nav { display: none; }\n\n/* Feed */\n.home-layout { display: grid; grid-template-columns: minmax(480px,650px) 1fr; }\n.feed-column { min-height: 100vh; border-right: 1px solid var(--line); }\n.years { padding: 12px 16px; display: flex; gap: 8px; overflow-x: auto; border-bottom: 1px solid var(--line); background: #faf8f2; scrollbar-width: none; }\n.years::-webkit-scrollbar { display: none; }\n.chip { flex: 0 0 auto; min-height: 34px; padding: 0 13px; border: 1px solid #d8e1da; border-radius: 999px; color: var(--muted); background: var(--paper); font-size: 12px; font-weight: 800; }\n.chip.active { color: white; border-color: var(--green); background: var(--green); }\n.composer { padding: 20px 22px 14px; display: flex; gap: 13px; border-bottom: 1px solid var(--line); }\n.composer-main { min-width: 0; flex: 1; }\n.composer textarea { min-height: 74px; padding: 8px 0; border: 0; box-shadow: none; background: transparent; font-size: 18px; }\n.composer-row { padding-top: 10px; display: flex; align-items: center; justify-content: space-between; gap: 12px; border-top: 1px solid #edf0ed; }\n.composer-actions { display: flex; align-items: center; gap: 9px; }\n.announce-toggle { min-height: 32px; padding: 0 11px; border: 1px solid #d6dfd8; border-radius: 999px; color: var(--muted); background: transparent; font-size: 11px; font-weight: 800; }\n.announce-toggle.active { color: #725708; border-color: #dfbd4b; background: #fff5c9; }\n.post { padding: 20px 22px 14px; display: flex; gap: 13px; border-bottom: 1px solid var(--line); }\n.post-body { min-width: 0; flex: 1; }\n.post-meta { display: flex; justify-content: space-between; gap: 10px; font-size: 14px; }\n.post-meta span { color: var(--muted); }\n.post p { margin: 7px 0 10px; line-height: 1.5; white-space: pre-wrap; overflow-wrap: anywhere; }\n.announcement { margin-top: 8px; padding: 5px 9px; display: inline-flex; border-radius: 8px; color: #725708; background: #fff4c7; font-size: 10px; font-weight: 900; letter-spacing: .5px; text-transform: uppercase; }\n.post-actions { margin-top: 10px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; max-width: 470px; }\n.post-actions button, .text-button { border: 0; color: var(--muted); background: transparent; font-size: 12px; }\n.post-actions button.active { color: var(--green); font-weight: 900; }\n.post-actions button.liked { color: #d6535f; }\n.message-user { color: var(--green) !important; font-weight: 850; }\n.moderation { display: flex; gap: 5px; }\n.moderation button { min-height: 28px; padding: 0 9px; border: 0; border-radius: 8px; font-size: 10px; font-weight: 900; }\n.home-side { padding: 17px 16px 30px; background: var(--cream); }\n.search-box { height: 44px; display: flex; align-items: center; gap: 9px; padding: 0 14px; border: 1px solid var(--line); border-radius: 999px; background: white; }\n.search-box input { height: auto; min-width: 0; padding: 0; border: 0; box-shadow: none; background: transparent; }\n.side-panel { margin-top: 15px; border: 1px solid var(--line); border-radius: 18px; background: white; overflow: hidden; }\n.side-panel h2 { margin: 0; font-size: 17px; }\n.side-panel-head { padding: 15px 16px 8px; display: flex; align-items: center; justify-content: space-between; }\n.side-panel-head a { color: var(--green); font-size: 11px; font-weight: 900; }\n.side-link { width: 100%; padding: 13px 16px; display: flex; justify-content: space-between; border: 0; border-top: 1px solid var(--line); background: transparent; text-align: left; }\n.side-link:hover { background: var(--green-soft); }\n.footer-links { margin-top: 16px; display: flex; flex-wrap: wrap; gap: 9px; color: var(--muted); font-size: 11px; }\n.footer-links a:hover { color: var(--green); }\n\n/* Schedules */\n.schedule-list { display: grid; }\n.schedule { padding: 16px 18px; display: grid; grid-template-columns: 58px minmax(0,1fr) auto; gap: 14px; align-items: center; border-bottom: 1px solid var(--line); }\n.schedule:last-child { border-bottom: 0; }\n.date-tile { width: 58px; min-height: 61px; padding: 7px 4px; display: grid; place-items: center; align-content: center; border-radius: 13px; color: var(--green); background: #edf2e0; font-size: 10px; font-weight: 900; text-transform: uppercase; }\n.date-tile b { font-size: 21px; line-height: 1.1; }\n.schedule-copy { min-width: 0; }\n.schedule-copy strong { display: block; overflow-wrap: anywhere; }\n.schedule-copy p { margin: 4px 0 0; color: var(--muted); font-size: 12px; line-height: 1.45; }\n.schedule-section { display: inline-block; margin-top: 7px; padding: 4px 8px; border-radius: 999px; color: var(--green); background: var(--green-soft); font-size: 10px; font-weight: 900; }\n.schedule-manage { display: flex; gap: 6px; }\n.schedule-manage button { min-height: 31px; padding: 0 10px; border: 0; border-radius: 9px; font-size: 11px; font-weight: 900; }\n.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }\n.form-grid .wide { grid-column: 1 / -1; }\n.form-actions { margin-top: 17px; display: flex; justify-content: flex-end; gap: 9px; }\n\n/* Explore */\n.filter-row { padding: 16px; display: flex; gap: 10px; border-bottom: 1px solid var(--line); }\n.filter-row .search-box { flex: 1; }\n\n/* Messages */\n.messages-layout { min-height: calc(100vh - 117px); display: grid; grid-template-columns: 290px minmax(0,1fr); }\n.people-list { border-right: 1px solid var(--line); }\n.person { width: 100%; padding: 13px 15px; display: flex; align-items: center; gap: 10px; border: 0; border-bottom: 1px solid var(--line); background: white; text-align: left; }\n.person:hover, .person.active { background: var(--green-soft); }\n.person-copy { min-width: 0; display: grid; }\n.person-copy strong, .person-copy small { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }\n.person-copy small { color: var(--muted); }\n.conversation { min-width: 0; display: flex; flex-direction: column; }\n.conversation-head { min-height: 61px; padding: 0 17px; display: flex; align-items: center; border-bottom: 1px solid var(--line); font-weight: 900; }\n.message-stream { min-height: 420px; padding: 18px; display: flex; flex-direction: column; gap: 10px; flex: 1; overflow: auto; }\n.bubble { max-width: min(75%,520px); padding: 10px 13px; border-radius: 16px 16px 16px 5px; background: #eef2ef; line-height: 1.4; overflow-wrap: anywhere; }\n.bubble.mine { align-self: flex-end; color: white; border-radius: 16px 16px 5px 16px; background: var(--green); }\n.bubble small { display: block; margin-top: 4px; opacity: .7; font-size: 9px; }\n.message-form { padding: 13px; display: flex; gap: 8px; border-top: 1px solid var(--line); }\n.message-form input { flex: 1; }\n\n/* Clubs, profile, generic */\n.club-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 16px; }\n.club { padding: 20px; }\n.club h3 { margin: 8px 0 6px; font-size: 19px; }\n.club p { min-height: 42px; margin: 0 0 15px; color: var(--muted); line-height: 1.5; }\n.club-footer { display: flex; align-items: center; justify-content: space-between; gap: 8px; }\n.profile-card { padding: 28px; }\n.profile-header { display: flex; align-items: center; gap: 16px; }\n.profile-header .avatar { width: 76px; height: 76px; flex-basis: 76px; font-size: 21px; }\n.profile-header h2 { margin: 0 0 5px; font-size: 27px; letter-spacing: -1px; }\n.profile-stats { margin-top: 25px; display: grid; grid-template-columns: repeat(3,1fr); border: 1px solid var(--line); border-radius: 14px; }\n.stat { padding: 16px; display: grid; gap: 3px; text-align: center; border-right: 1px solid var(--line); }\n.stat:last-child { border: 0; }\n.stat strong { font-size: 21px; }\n.stat small { color: var(--muted); }\n.plain-copy { max-width: 760px; line-height: 1.7; }\n.plain-copy h2 { margin-top: 28px; }\n\n@media (max-width: 1050px) {\n  .home-layout { grid-template-columns: minmax(500px,1fr) 310px; }\n  .page-grid { grid-template-columns: 1fr; }\n}\n@media (max-width: 860px) {\n  .auth { grid-template-columns: 1fr; }\n  .auth-story { display: none; }\n  .auth-side { min-height: 100vh; padding: 28px 20px; }\n  .app { display: block; max-width: 700px; padding-bottom: 64px; }\n  .sidebar { display: none; }\n  .home-layout { display: block; }\n  .feed-column { border: 0; }\n  .home-side { display: none; }\n  .page-content { padding: 16px; }\n  .mobile-nav { position: fixed; z-index: 50; left: 0; right: 0; bottom: 0; height: 62px; padding: 0 8px; display: flex; align-items: center; justify-content: space-around; border-top: 1px solid var(--line); background: rgba(255,253,249,.97); }\n  .mobile-nav a { width: 46px; height: 46px; display: grid; place-items: center; border-radius: 50%; font-size: 20px; }\n  .mobile-nav a.active { color: white; background: var(--green); }\n  .toast { bottom: 76px; }\n}\n@media (max-width: 620px) {\n  .topbar { padding: 0 15px; }\n  .composer, .post { padding-left: 15px; padding-right: 15px; }\n  .form-grid { grid-template-columns: 1fr; }\n  .form-grid .wide { grid-column: auto; }\n  .schedule { grid-template-columns: 50px minmax(0,1fr); }\n  .schedule-manage { grid-column: 1 / -1; justify-content: flex-end; }\n  .messages-layout { grid-template-columns: 1fr; }\n  .people-list { border-right: 0; }\n  .club-grid { grid-template-columns: 1fr; }\n  .profile-stats { grid-template-columns: 1fr; }\n  .stat { border-right: 0; border-bottom: 1px solid var(--line); }\n}\n";
+    document.head.appendChild(routeStyle);
+  }
+</script></head>
+<body><div id="routeHost"></div>
   <section class="auth" id="auth">
     <div class="auth-story">
       <div class="brand"><span class="mark">S</span><span>schoolhub</span></div>
@@ -62,18 +71,21 @@
 
   <div class="app hidden" id="app">
     <aside class="sidebar">
-      <div class="brand"><span class="mark">S</span><span>schoolhub</span></div>
+      <a class="brand" href="index.html"><span class="mark">S</span><span>schoolhub</span></a>
       <nav class="nav">
-        <button class="active"><span class="ico">⌂</span><span>Home</span></button>
-        <button data-msg="Explore opened"><span class="ico">⌕</span><span>Explore</span></button>
-        <button data-msg="No new notifications"><span class="ico">♢</span><span>Notifications</span></button>
-        <button data-msg="Messages opened"><span class="ico">✉</span><span>Messages</span></button>
-        <button data-msg="Bookmarks opened"><span class="ico">▱</span><span>Bookmarks</span></button>
-        <button data-msg="Clubs opened"><span class="ico">♧</span><span>Clubs</span></button>
-        <button data-msg="Profile opened"><span class="ico">○</span><span>Profile</span></button>
+        <a class="active" href="index.html"><span class="ico">⌂</span><span>Home</span></a>
+        <a href="index.html?page=explore"><span class="ico">⌕</span><span>Explore</span></a>
+        <a href="index.html?page=notifications"><span class="ico">♢</span><span>Notifications</span></a>
+        <a href="index.html?page=messages"><span class="ico">✉</span><span>Messages</span></a>
+        <a href="index.html?page=bookmarks"><span class="ico">▱</span><span>Bookmarks</span></a>
+        <a href="index.html?page=calendar"><span class="ico">□</span><span>Calendar</span></a>
+        <a href="index.html?page=clubs"><span class="ico">♧</span><span>Clubs</span></a>
+        <a href="index.html?page=profile"><span class="ico">○</span><span>Profile</span></a>
+        <a class="hidden" id="adminPermissionsLink" href="index.html?page=permissions"><span class="ico">A</span><span>Admin permissions</span></a>
       </nav>
       <button class="primary create" id="createPost">Create post</button>
-      <a class="account" href="profile.html"><span class="avatar user-initials">ME</span><span class="account-copy"><strong class="user-name">Your account</strong><small id="accountRole">@schoolhub</small></span><span>•••</span></a>
+      <a class="primary create admin-add hidden" id="adminAddButton" href="index.html?page=add">＋ Add</a>
+      <a class="account" href="index.html?page=profile"><span class="avatar user-initials">ME</span><span class="account-copy"><strong class="user-name">Your account</strong><small id="accountRole">@schoolhub</small></span><span>•••</span></a>
     </aside>
 
     <main class="feed">
@@ -97,16 +109,16 @@
     <aside class="right">
       <label class="search">⌕ <input id="search" placeholder="Search SchoolHub"></label>
       <section class="panel welcome"><span class="eyebrow" id="greeting">GOOD AFTERNOON</span><h2>Make school feel smaller.</h2><p>Find your people, share what matters, and never miss what’s happening.</p></section>
-      <section class="panel"><div class="panel-title"><h2>Happening now</h2></div>
+      <section class="panel"><div class="panel-title"><h2>Happening now</h2><a href="index.html?page=explore">See all</a></div>
         <div class="empty"><strong>No trends yet</strong><p>Real activity will appear here.</p></div>
       </section>
-      <section class="panel"><div class="panel-title"><h2>Upcoming</h2></div>
-        <div class="empty"><strong>No schedules yet</strong><p>Only real admin-created schedules will appear here.</p></div>
+      <section class="panel"><div class="panel-title"><h2>Upcoming</h2><a href="index.html?page=calendar">Calendar</a></div>
+        <div id="upcomingSchedules" class="empty"><strong>No schedules yet</strong><p>Only real admin-created schedules will appear here.</p></div>
       </section>
-      <footer>About · Safety · Help · Privacy · <button id="signOut">Sign out</button> · © 2026 SchoolHub</footer>
+      <footer><a href="index.html?page=about">About</a> · <a href="index.html?page=safety">Safety</a> · <a href="index.html?page=help">Help</a> · <a href="index.html?page=privacy">Privacy</a> · <button id="signOut">Sign out</button> · © 2026 SchoolHub</footer>
     </aside>
 
-    <nav class="mobile-nav"><button>⌂</button><button id="mobileSearch">⌕</button><button class="plus" id="mobilePost">＋</button><button data-msg="Notifications opened">♢</button><button data-msg="Profile opened">○</button></nav>
+    <nav class="mobile-nav"><a href="index.html">⌂</a><a href="index.html?page=explore">⌕</a><button class="plus" id="mobilePost">＋</button><a href="index.html?page=notifications">♢</a><a href="index.html?page=profile">○</a></nav>
   </div>
   <div class="toast hidden" id="toast"></div>
 
@@ -211,12 +223,14 @@
     let authUser = null;
     let authAction = "signin";
     let profile = null;
+    let userPermissions = [];
     let posts = [];
     let activeSection = "year1";
     let announcement = false;
     let authMode = "Log in";
     let query = "";
     let feedChannel = null;
+    const canPermission = permission => profile?.is_admin || userPermissions.includes(permission);
 
     function flash(message) {
       const toast = $("#toast");
@@ -274,18 +288,28 @@
       }
 
       profile = data;
+      const permissionResult = await db
+        .from("user_permissions")
+        .select("permission")
+        .eq("user_id", user.id);
+      userPermissions = permissionResult.error
+        ? []
+        : (permissionResult.data || []).map(item => item.permission);
       $("#auth").classList.add("hidden");
       $("#app").classList.remove("hidden");
       $$(".user-name").forEach(node => node.textContent = profile.full_name);
       $$(".user-initials").forEach(node => node.textContent = makeInitials(profile.full_name));
       $("#accountRole").textContent = profile.is_admin ? "Full administrator" : `@${makeHandle(profile.full_name)}`;
       $("#adminPill").classList.toggle("hidden", !profile.is_admin);
+      $("#adminPermissionsLink").classList.toggle("hidden", !profile.is_admin);
+      $("#adminAddButton").classList.toggle("hidden", !profile.is_admin);
       $("#greeting").textContent = profile.is_admin
         ? "FULL ADMINISTRATOR ACCESS"
         : `GOOD AFTERNOON, ${profile.full_name.split(" ")[0].toUpperCase()}`;
 
       renderYears();
       await loadPosts();
+      await loadUpcomingSchedules();
       subscribeToPosts();
     }
 
@@ -294,7 +318,40 @@
       feedChannel = db
         .channel("schoolhub-feed")
         .on("postgres_changes", { event:"*", schema:"public", table:"posts" }, () => loadPosts())
+        .on("postgres_changes", { event:"*", schema:"public", table:"schedules" }, () => loadUpcomingSchedules())
         .subscribe();
+    }
+
+    async function loadUpcomingSchedules() {
+      const container = $("#upcomingSchedules");
+      const today = new Date().toISOString().slice(0, 10);
+      const { data, error } = await db
+        .from("schedules")
+        .select("id,title,event_date,start_time,location,section")
+        .gte("event_date", today)
+        .order("event_date")
+        .order("start_time")
+        .limit(3);
+      if (error) {
+        container.innerHTML = `<strong>Calendar setup needed</strong><p>Run the newest supabase-setup.sql.</p>`;
+        return;
+      }
+      if (!data?.length) {
+        container.className = "empty";
+        container.innerHTML = `<strong>No schedules yet</strong><p>Only real admin-created schedules will appear here.</p>`;
+        return;
+      }
+      container.className = "";
+      container.innerHTML = data.map(item => {
+        const date = new Date(`${item.event_date}T12:00:00`);
+        const day = String(date.getDate()).padStart(2, "0");
+        const month = date.toLocaleDateString(undefined, { month:"short" }).toUpperCase();
+        const details = [item.start_time?.slice(0, 5), item.location].filter(Boolean).join(" · ");
+        return `<a class="event" href="index.html?page=calendar">
+          <time><b>${day}</b>${month}</time>
+          <div><strong>${esc(item.title)}</strong><small>${esc(details || item.section)}</small></div>
+        </a>`;
+      }).join("");
     }
 
     async function loadPosts() {
@@ -303,7 +360,7 @@
         .select(`
           id,user_id,section,content,is_announcement,created_at,
           author:profiles!posts_user_id_fkey(full_name,is_admin),
-          likes(user_id),reposts(user_id),bookmarks(user_id)
+          likes(user_id),reposts(user_id),bookmarks(user_id),comments(id)
         `)
         .order("created_at", { ascending:false });
 
@@ -325,7 +382,7 @@
         announcement: row.is_announcement,
         likes: row.likes?.length || 0,
         reposts: row.reposts?.length || 0,
-        comments: 0,
+        comments: row.comments?.length || 0,
         liked: row.likes?.some(item => item.user_id === authUser.id) || false,
         reposted: row.reposts?.some(item => item.user_id === authUser.id) || false,
         saved: row.bookmarks?.some(item => item.user_id === authUser.id) || false
@@ -358,10 +415,10 @@
           <div class="post-body">
             <div class="meta">
               <div><strong>${esc(post.name)}</strong> <span>@${esc(post.handle)} · ${esc(post.time)}</span></div>
-              ${profile.is_admin ? `
+              ${canPermission("moderate_posts") || canPermission("ban_users") ? `
                 <div class="moderate">
-                  <button data-delete>Delete</button>
-                  ${post.userId !== authUser.id ? `<button class="ban" data-ban>Ban user</button>` : ""}
+                  ${canPermission("moderate_posts") ? `<button data-delete>Delete</button>` : ""}
+                  ${canPermission("ban_users") && post.userId !== authUser.id ? `<button class="ban" data-ban>Ban user</button>` : ""}
                 </div>` : `<button data-msg="Post options opened">•••</button>`}
             </div>
             ${post.announcement ? `<div class="announcement">📣 Announcement · ${esc(post.section)}</div>` : ""}
@@ -372,6 +429,7 @@
               <button data-repost class="${post.reposted ? "saved" : ""}"><b>⇄</b>${post.reposts}</button>
               <button data-like class="${post.liked ? "liked" : ""}"><b>${post.liked ? "♥" : "♡"}</b>${post.likes}</button>
               <button data-save class="${post.saved ? "saved" : ""}"><b>${post.saved ? "▰" : "▱"}</b></button>
+              ${post.userId !== authUser.id ? `<button class="message" data-private-message>Message</button>` : ""}
               <button data-share><b>↗</b></button>
             </div>
           </div>
@@ -428,7 +486,12 @@
           else { flash(`@${target.handle} has been banned`); await loadPosts(); }
         });
 
-        element.querySelector("[data-reply]")?.addEventListener("click", () => flash("Replies opened"));
+        element.querySelector("[data-reply]")?.addEventListener("click", () => {
+          location.href = `index.html?page=comments&post=${encodeURIComponent(id)}`;
+        });
+        element.querySelector("[data-private-message]")?.addEventListener("click", () => {
+          location.href = `index.html?page=messages&user=${encodeURIComponent(post().userId)}`;
+        });
         element.querySelector("[data-share]")?.addEventListener("click", () => {
           navigator.clipboard?.writeText(location.href);
           flash("Link copied");
@@ -540,7 +603,7 @@
       $("#draft").focus();
       scrollTo({ top:0, behavior:"smooth" });
     };
-    $("#mobileSearch").onclick = () => $("#search").focus();
+    if ($("#mobileSearch")) $("#mobileSearch").onclick = () => $("#search").focus();
     $$(".tabs button").forEach(button => button.onclick = () => {
       $$(".tabs button").forEach(item => item.classList.remove("active"));
       button.classList.add("active");
@@ -548,7 +611,581 @@
     });
 
     bindMessages();
-    start();
+    if (!new URLSearchParams(location.search).get("page")) start();
   </script>
-</body>
+
+<script>
+  (() => {
+    const route = new URLSearchParams(location.search).get("page");
+    if (!route) return;
+    const templates = {"explore":"<div class=\"app\"><aside class=\"sidebar\" id=\"sidebar\"></aside><main class=\"app-main\" id=\"pageContent\">\n<header class=\"topbar\"><h1>Explore</h1><span class=\"admin-pill hidden\">Administrator</span></header>\n<section class=\"page-content\"><section class=\"card\"><div class=\"filter-row\"><label class=\"search-box\">Search <input id=\"search\" placeholder=\"Search real posts\"></label><select id=\"section\" aria-label=\"Section\"></select></div><div id=\"results\" class=\"explore-results loading\">Loading…</div></section></section>\n</main><nav class=\"mobile-nav\" id=\"mobileNav\"></nav></div>","notifications":"<div class=\"app\"><aside class=\"sidebar\" id=\"sidebar\"></aside><main class=\"app-main\" id=\"pageContent\">\n<header class=\"topbar\"><h1>Notifications</h1><span class=\"admin-pill hidden\">Administrator</span></header>\n<section class=\"page-content\"><section class=\"card\" id=\"notificationList\"><div class=\"loading\">Loading…</div></section></section>\n</main><nav class=\"mobile-nav\" id=\"mobileNav\"></nav></div>","messages":"<div class=\"app\"><aside class=\"sidebar\" id=\"sidebar\"></aside><main class=\"app-main\" id=\"pageContent\">\n<header class=\"topbar\"><h1>Private Messages</h1><span class=\"admin-pill hidden\">Administrator</span></header>\n<section class=\"messages-layout\"><aside class=\"people-list\" id=\"people\"><div class=\"loading\">Loading…</div></aside><section class=\"conversation\"><header class=\"conversation-head\" id=\"conversationName\">Choose a person</header><div class=\"message-stream\" id=\"messageStream\"></div><form class=\"message-form hidden\" id=\"messageForm\"><input id=\"messageInput\" maxlength=\"2000\" placeholder=\"Write a private message\" required><button class=\"primary\">Send</button></form></section></section>\n</main><nav class=\"mobile-nav\" id=\"mobileNav\"></nav></div>","bookmarks":"<div class=\"app\"><aside class=\"sidebar\" id=\"sidebar\"></aside><main class=\"app-main\" id=\"pageContent\">\n<header class=\"topbar\"><h1>Bookmarks</h1><span class=\"admin-pill hidden\">Administrator</span></header>\n<section class=\"page-content\"><section class=\"card\" id=\"results\"><div class=\"loading\">Loading…</div></section></section>\n</main><nav class=\"mobile-nav\" id=\"mobileNav\"></nav></div>","calendar":"<div class=\"app\"><aside class=\"sidebar\" id=\"sidebar\"></aside><main class=\"app-main\" id=\"pageContent\">\n<header class=\"topbar\"><h1>Calendar</h1><span class=\"admin-pill hidden\">Administrator</span><div class=\"topbar-actions\"><select id=\"calendarSection\" aria-label=\"Filter section\"></select></div></header>\n<section class=\"page-content page-grid\"><div><section class=\"card\"><div class=\"card-head\"><h2>Real schedules</h2></div><div class=\"schedule-list\" id=\"scheduleList\"><div class=\"loading\">Loading…</div></div></section></div>\n<aside><div class=\"notice\" id=\"noSchedulePermission\">Only admins or users given schedule permission can add events.</div><section class=\"card card-pad\" id=\"scheduleFormCard\"><h2>Add schedule</h2><form id=\"scheduleForm\" class=\"form-grid\">\n<label class=\"wide\">Title<input id=\"scheduleTitle\" maxlength=\"120\" required></label><label>Date<input id=\"scheduleDate\" type=\"date\" required></label><label>Section<select id=\"scheduleSection\"></select></label><label>Start time<input id=\"scheduleStart\" type=\"time\"></label><label>End time<input id=\"scheduleEnd\" type=\"time\"></label><label class=\"wide\">Location<input id=\"scheduleLocation\"></label><label class=\"wide\">Details<textarea id=\"scheduleDetails\"></textarea></label>\n<div class=\"form-actions wide\"><button type=\"button\" class=\"secondary hidden\" id=\"cancelScheduleEdit\">Cancel</button><button class=\"primary\" id=\"scheduleSubmit\">Add schedule</button></div></form></section></aside></section>\n</main><nav class=\"mobile-nav\" id=\"mobileNav\"></nav></div>","clubs":"<div class=\"app\"><aside class=\"sidebar\" id=\"sidebar\"></aside><main class=\"app-main\" id=\"pageContent\">\n<header class=\"topbar\"><h1>Clubs</h1><span class=\"admin-pill hidden\">Administrator</span></header>\n<section class=\"page-content page-grid\"><div class=\"club-grid\" id=\"clubGrid\"><div class=\"loading\">Loading…</div></div><aside><section class=\"card card-pad\" id=\"clubFormCard\"><h2>Create club</h2><form id=\"clubForm\" class=\"form-grid\"><label class=\"wide\">Club name<input id=\"clubName\" maxlength=\"100\" required></label><label class=\"wide\">Section<select id=\"clubSection\"></select></label><label class=\"wide\">Description<textarea id=\"clubDescription\"></textarea></label><div class=\"form-actions wide\"><button class=\"primary\">Create club</button></div></form></section></aside></section>\n</main><nav class=\"mobile-nav\" id=\"mobileNav\"></nav></div>","profile":"<div class=\"app\"><aside class=\"sidebar\" id=\"sidebar\"></aside><main class=\"app-main\" id=\"pageContent\">\n<header class=\"topbar\"><h1>Profile</h1><span class=\"admin-pill hidden\">Administrator</span></header><section class=\"page-content\" id=\"profileContent\"><div class=\"loading\">Loading…</div></section>\n</main><nav class=\"mobile-nav\" id=\"mobileNav\"></nav></div>","permissions":"<div class=\"app\"><aside class=\"sidebar\" id=\"sidebar\"></aside><main class=\"app-main\" id=\"pageContent\">\n<header class=\"topbar\"><h1>Admin Permissions</h1><span class=\"admin-pill hidden\">Administrator</span></header>\n<section class=\"page-content\"><section class=\"hero-card card\"><span class=\"eyebrow\">Full admins only</span><h2>Grant specific powers</h2><p>Give a regular user permission to manage schedules, clubs, posts, or bans. Full admin status remains protected.</p></section><div id=\"permissionList\" style=\"margin-top:18px\"><div class=\"loading\">Loading…</div></div></section>\n</main><nav class=\"mobile-nav\" id=\"mobileNav\"></nav></div>","comments":"<div class=\"app\"><aside class=\"sidebar\" id=\"sidebar\"></aside><main class=\"app-main\" id=\"pageContent\">\n<header class=\"topbar\"><h1>Comments</h1><span class=\"admin-pill hidden\">Administrator</span></header><section class=\"page-content\"><section class=\"card\" id=\"post\"></section><section class=\"card\"><form class=\"message-form\" id=\"commentForm\"><input id=\"commentInput\" maxlength=\"500\" placeholder=\"Write a public comment\" required><button class=\"primary\">Comment</button></form><div id=\"comments\"></div></section></section>\n</main><nav class=\"mobile-nav\" id=\"mobileNav\"></nav></div>","add":"<div class=\"app\"><aside class=\"sidebar\" id=\"sidebar\"></aside><main class=\"app-main\" id=\"pageContent\">\n<header class=\"topbar\"><h1>Add</h1><span class=\"admin-pill hidden\">Administrator</span></header>\n<section class=\"page-content\"><section class=\"hero-card card\"><span class=\"eyebrow\">Admin tools</span><h2>Add real school content</h2><p>Choose what you want to create. Nothing is pre-filled with fictional information.</p></section>\n<div class=\"club-grid\" id=\"addOptions\" style=\"margin-top:18px\">\n<a class=\"card club\" id=\"addScheduleCard\" href=\"index.html?page=calendar\"><span class=\"eyebrow\">Calendar</span><h3>＋ Add schedule</h3><p>Create a real dated school event for a year section.</p><span class=\"primary\" style=\"display:inline-grid;place-items:center\">Open Calendar</span></a>\n<a class=\"card club\" id=\"addClubCard\" href=\"index.html?page=clubs\"><span class=\"eyebrow\">Clubs</span><h3>＋ Add club</h3><p>Create a real club that students can join.</p><span class=\"primary\" style=\"display:inline-grid;place-items:center\">Open Clubs</span></a>\n<a class=\"card club\" id=\"addPermissionsCard\" href=\"index.html?page=permissions\"><span class=\"eyebrow\">People</span><h3>Manage permissions</h3><p>Give selected regular users admin powers.</p><span class=\"secondary\" style=\"display:inline-grid;place-items:center\">Open Permissions</span></a>\n</div></section>\n</main><nav class=\"mobile-nav\" id=\"mobileNav\"></nav></div>","about":"<div class=\"app\"><aside class=\"sidebar\" id=\"sidebar\"></aside><main class=\"app-main\" id=\"pageContent\"><header class=\"topbar\"><h1>About</h1></header><section class=\"page-content\"><section class=\"card card-pad plain-copy\"><h2>About SchoolHub</h2><p>SchoolHub is a private school community for real announcements, messages, clubs, schedules, comments, and posts. It contains no fictional school activity.</p></section></section></main><nav class=\"mobile-nav\" id=\"mobileNav\"></nav></div>","safety":"<div class=\"app\"><aside class=\"sidebar\" id=\"sidebar\"></aside><main class=\"app-main\" id=\"pageContent\"><header class=\"topbar\"><h1>Safety</h1></header><section class=\"page-content\"><section class=\"card card-pad plain-copy\"><h2>Community safety</h2><p>Do not share private addresses, phone numbers, passwords, or other sensitive information. Report unsafe content to a school administrator. Administrators can remove posts and ban accounts.</p></section></section></main><nav class=\"mobile-nav\" id=\"mobileNav\"></nav></div>","help":"<div class=\"app\"><aside class=\"sidebar\" id=\"sidebar\"></aside><main class=\"app-main\" id=\"pageContent\"><header class=\"topbar\"><h1>Help</h1></header><section class=\"page-content\"><section class=\"card card-pad plain-copy\"><h2>Using SchoolHub</h2><p>Choose a year section to post an announcement. Use Explore to find posts, Messages for private conversations, Calendar for real schedules, and Clubs to join real groups.</p><p>Full administrators can grant specific management powers from Admin Permissions.</p></section></section></main><nav class=\"mobile-nav\" id=\"mobileNav\"></nav></div>","privacy":"<div class=\"app\"><aside class=\"sidebar\" id=\"sidebar\"></aside><main class=\"app-main\" id=\"pageContent\"><header class=\"topbar\"><h1>Privacy</h1></header><section class=\"page-content\"><section class=\"card card-pad plain-copy\"><h2>Privacy</h2><p>Private messages are readable only by their sender and recipient. Public posts, comments, clubs, and schedules are visible to signed-in SchoolHub users.</p><p>Name-only accounts are stored on the current browser. Signing out or clearing browser data removes access to an anonymous account.</p></section></section></main><nav class=\"mobile-nav\" id=\"mobileNav\"></nav></div>"};
+    document.querySelector("#routeHost").innerHTML = templates[route] || templates.explore;
+  })();
+</script>
+<script>window.SCHOOLHUB_CONFIG = Object.freeze({
+  supabaseUrl: "https://dfjofjhlodgmevynodwg.supabase.co",
+  supabasePublishableKey: "sb_publishable_HCAsiUopabALW4SPF73poA_tiFNlnwl",
+  sections: ["year1", "year2", "year3", "year4", "year5", "year6", "secondary"]
+});
+</script>
+<script>
+  if (new URLSearchParams(location.search).get("page")) {
+    (() => {
+  "use strict";
+  const config = window.SCHOOLHUB_CONFIG;
+  const db = window.supabase.createClient(config.supabaseUrl, config.supabasePublishableKey);
+  const page = new URLSearchParams(location.search).get("page") || "explore";
+  const $ = selector => document.querySelector(selector);
+  const esc = value => String(value ?? "").replace(/[&<>"']/g, character => ({
+    "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+  })[character]);
+  const initials = name => String(name || "User").trim().split(/\s+/).map(part => part[0]).slice(0, 2).join("").toUpperCase();
+  const handle = name => String(name || "user").toLowerCase().replace(/[^a-z0-9]/g, "").slice(0, 16) || "schoolhub";
+  const relativeTime = dateString => {
+    const seconds = Math.max(0, Math.floor((Date.now() - new Date(dateString).getTime()) / 1000));
+    if (seconds < 60) return "now";
+    if (seconds < 3600) return `${Math.floor(seconds / 60)}m`;
+    if (seconds < 86400) return `${Math.floor(seconds / 3600)}h`;
+    return `${Math.floor(seconds / 86400)}d`;
+  };
+  let authUser;
+  let profile;
+  let permissions = [];
+  let toastTimer;
+  function flash(message) {
+    const toast = $("#toast");
+    toast.textContent = message;
+    toast.classList.remove("hidden");
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => toast.classList.add("hidden"), 2300);
+  }
+  function empty(icon, title, copy) {
+    return `<div class="empty"><div class="empty-icon">${icon}</div><strong>${esc(title)}</strong><p>${esc(copy)}</p></div>`;
+  }
+  function can(permission) {
+    return profile?.is_admin || permissions.includes(permission);
+  }
+  const navItems = [
+    ["home", "index.html", "H", "Home"],
+    ["explore", "index.html?page=explore", "E", "Explore"],
+    ["notifications", "index.html?page=notifications", "N", "Notifications"],
+    ["messages", "index.html?page=messages", "M", "Messages"],
+    ["bookmarks", "index.html?page=bookmarks", "B", "Bookmarks"],
+    ["calendar", "index.html?page=calendar", "C", "Calendar"],
+    ["clubs", "index.html?page=clubs", "G", "Clubs"],
+    ["profile", "index.html?page=profile", "P", "Profile"]
+  ];
+  function renderShell() {
+    $("#sidebar").innerHTML = `
+      <a class="brand" href="index.html"><span class="brand-mark">S</span><span>schoolhub</span></a>
+      <nav class="nav">
+        ${navItems.map(([key, href, icon, label]) => `
+          <a class="nav-link ${page === key ? "active" : ""}" href="${href}">
+            <span class="nav-icon">${icon}</span><span>${label}</span>
+          </a>`).join("")}
+        ${can("manage_schedules") || can("manage_clubs") ? `<a class="nav-link ${page === "add" ? "active" : ""}" href="index.html?page=add"><span class="nav-icon">＋</span><span>Add</span></a>` : ""}
+        ${profile.is_admin ? `<a class="nav-link ${page === "permissions" ? "active" : ""}" href="index.html?page=permissions"><span class="nav-icon">A</span><span>Admin permissions</span></a>` : ""}
+      </nav>
+      <a class="account" href="index.html?page=profile">
+        <span class="avatar">${esc(initials(profile.full_name))}</span>
+        <span class="account-copy"><strong>${esc(profile.full_name)}</strong><small>${profile.is_admin ? "Full administrator" : `@${esc(handle(profile.full_name))}`}</small></span>
+      </a>`;
+    $("#mobileNav").innerHTML = navItems
+      .filter(item => ["home", "explore", "messages", "calendar", "profile"].includes(item[0]))
+      .map(([key, href, icon, label]) => `<a class="${page === key ? "active" : ""}" href="${href}" title="${label}">${icon}</a>`)
+      .join("");
+    $(".admin-pill")?.classList.toggle("hidden", !profile.is_admin);
+  }
+  async function requireSession() {
+    const sessionResult = await db.auth.getSession();
+    if (!sessionResult.data.session?.user) {
+      location.href = "index.html";
+      return false;
+    }
+    authUser = sessionResult.data.session.user;
+    const profileResult = await db.from("profiles").select("id,full_name,is_admin,banned,created_at").eq("id", authUser.id).single();
+    if (profileResult.error) throw new Error("Run the newest supabase-setup.sql first.");
+    profile = profileResult.data;
+    if (profile.banned) {
+      await db.auth.signOut();
+      location.href = "index.html";
+      return false;
+    }
+    const permissionResult = await db.from("user_permissions").select("permission").eq("user_id", authUser.id);
+    permissions = permissionResult.error ? [] : (permissionResult.data || []).map(item => item.permission);
+    renderShell();
+    return true;
+  }
+  async function signOut() {
+    await db.auth.signOut();
+    location.href = "index.html";
+  }
+  function postHtml(post) {
+    const author = post.author || {};
+    const name = author.full_name || "SchoolHub user";
+    const likes = post.likes || [];
+    const bookmarks = post.bookmarks || [];
+    const liked = likes.some(item => item.user_id === authUser.id);
+    const saved = bookmarks.some(item => item.user_id === authUser.id);
+    return `<article class="post" data-post="${post.id}" data-user="${post.user_id}">
+      <a class="avatar" href="index.html?page=profile&user=${encodeURIComponent(post.user_id)}">${esc(initials(name))}</a>
+      <div class="post-body">
+        <div class="post-meta">
+          <div><a href="index.html?page=profile&user=${encodeURIComponent(post.user_id)}"><strong>${esc(name)}</strong></a> <span>@${esc(handle(name))} · ${esc(relativeTime(post.created_at))}</span></div>
+          ${can("moderate_posts") ? `<div class="moderation"><button class="danger" data-delete-post>Delete</button></div>` : ""}
+        </div>
+        ${post.is_announcement ? `<div class="announcement">Announcement · ${esc(post.section)}</div>` : ""}
+        <p>${esc(post.content)}</p>
+        <span class="schedule-section">${esc(post.section)}</span>
+        <div class="post-actions">
+          <button class="${liked ? "liked" : ""}" data-like>${liked ? "Liked" : "Like"} ${likes.length}</button>
+          <button data-comments>Comments ${post.comments?.length || 0}</button>
+          <button class="${saved ? "active" : ""}" data-save>${saved ? "Saved" : "Save"}</button>
+          ${post.user_id !== authUser.id ? `<button class="message-user" data-message>Private message</button>` : ""}
+        </div>
+      </div>
+    </article>`;
+  }
+  async function postQuery() {
+    return db.from("posts").select(`
+      id,user_id,section,content,is_announcement,created_at,
+      author:profiles!posts_user_id_fkey(full_name),
+      likes(user_id),bookmarks(user_id),comments(id)
+    `).order("created_at", { ascending: false });
+  }
+  function bindPostActions(container, reload) {
+    container.querySelectorAll("[data-post]").forEach(article => {
+      const postId = article.dataset.post;
+      article.querySelector("[data-message]")?.addEventListener("click", () => {
+        location.href = `index.html?page=messages&user=${encodeURIComponent(article.dataset.user)}`;
+      });
+      article.querySelector("[data-comments]")?.addEventListener("click", () => {
+        location.href = `index.html?page=comments&post=${encodeURIComponent(postId)}`;
+      });
+      article.querySelector("[data-like]")?.addEventListener("click", async event => {
+        const active = event.currentTarget.classList.contains("liked");
+        const result = active
+          ? await db.from("likes").delete().eq("post_id", postId).eq("user_id", authUser.id)
+          : await db.from("likes").insert({ post_id: postId, user_id: authUser.id });
+        if (result.error) flash(result.error.message); else await reload();
+      });
+      article.querySelector("[data-save]")?.addEventListener("click", async event => {
+        const active = event.currentTarget.classList.contains("active");
+        const result = active
+          ? await db.from("bookmarks").delete().eq("post_id", postId).eq("user_id", authUser.id)
+          : await db.from("bookmarks").insert({ post_id: postId, user_id: authUser.id });
+        if (result.error) flash(result.error.message); else await reload();
+      });
+      article.querySelector("[data-delete-post]")?.addEventListener("click", async () => {
+        if (!confirm("Delete this post?")) return;
+        const result = await db.from("posts").delete().eq("id", postId);
+        if (result.error) flash(result.error.message); else await reload();
+      });
+    });
+  }
+  async function initExplore() {
+    const container = $("#results");
+    const search = $("#search");
+    const section = $("#section");
+    section.innerHTML = `<option value="">All sections</option>${config.sections.map(value => `<option value="${value}">${value}</option>`).join("")}`;
+    search.value = new URLSearchParams(location.search).get("q") || "";
+    let posts = [];
+    function render() {
+      const query = search.value.toLowerCase().trim();
+      const shown = posts.filter(post =>
+        (!section.value || post.section === section.value)
+        && `${post.content} ${post.author?.full_name || ""}`.toLowerCase().includes(query)
+      );
+      container.innerHTML = shown.length ? shown.map(postHtml).join("") : empty("E", "No matching posts", "Only real posts will appear here.");
+      bindPostActions(container, load);
+    }
+    async function load() {
+      const result = await postQuery();
+      if (result.error) container.innerHTML = empty("!", "Could not load posts", result.error.message);
+      else { posts = result.data || []; render(); }
+    }
+    search.addEventListener("input", render);
+    section.addEventListener("change", render);
+    await load();
+  }
+  async function initBookmarks() {
+    const container = $("#results");
+    async function load() {
+      const result = await db.from("bookmarks").select(`
+        post:posts!bookmarks_post_id_fkey(
+          id,user_id,section,content,is_announcement,created_at,
+          author:profiles!posts_user_id_fkey(full_name),
+          likes(user_id),bookmarks(user_id),comments(id)
+        )
+      `).eq("user_id", authUser.id);
+      if (result.error) {
+        container.innerHTML = empty("!", "Could not load bookmarks", result.error.message);
+        return;
+      }
+      const posts = (result.data || []).map(item => item.post).filter(Boolean);
+      container.innerHTML = posts.length ? posts.map(postHtml).join("") : empty("B", "No saved posts", "Press Save on a real post to keep it here.");
+      bindPostActions(container, load);
+    }
+    await load();
+  }
+  async function initMessages() {
+    const peopleContainer = $("#people");
+    const stream = $("#messageStream");
+    const heading = $("#conversationName");
+    const form = $("#messageForm");
+    const input = $("#messageInput");
+    let people = [];
+    let selected;
+    async function loadPeople() {
+      const result = await db.from("profiles").select("id,full_name,is_admin").eq("banned", false).neq("id", authUser.id).order("full_name");
+      if (result.error) {
+        peopleContainer.innerHTML = empty("!", "Could not load people", result.error.message);
+        return;
+      }
+      people = result.data || [];
+      peopleContainer.innerHTML = people.length ? people.map(person => `
+        <button class="person ${selected?.id === person.id ? "active" : ""}" data-person="${person.id}">
+          <span class="avatar">${esc(initials(person.full_name))}</span>
+          <span class="person-copy"><strong>${esc(person.full_name)}</strong><small>${person.is_admin ? "Administrator" : `@${esc(handle(person.full_name))}`}</small></span>
+        </button>`).join("") : empty("M", "Nobody else is here yet", "Real users appear after they create accounts.");
+      peopleContainer.querySelectorAll("[data-person]").forEach(button => button.addEventListener("click", async () => {
+        selected = people.find(person => person.id === button.dataset.person);
+        history.replaceState(null, "", `index.html?page=messages&user=${encodeURIComponent(selected.id)}`);
+        await loadPeople();
+        await loadConversation();
+      }));
+    }
+    async function loadConversation() {
+      if (!selected) {
+        heading.textContent = "Choose a person";
+        stream.innerHTML = empty("M", "Private messages", "Select a real user to begin a private conversation.");
+        form.classList.add("hidden");
+        return;
+      }
+      heading.textContent = selected.full_name;
+      form.classList.remove("hidden");
+      const result = await db.from("private_messages").select("*")
+        .or(`and(sender_id.eq.${authUser.id},recipient_id.eq.${selected.id}),and(sender_id.eq.${selected.id},recipient_id.eq.${authUser.id})`)
+        .order("created_at");
+      if (result.error) {
+        stream.innerHTML = empty("!", "Could not load messages", result.error.message);
+        return;
+      }
+      stream.innerHTML = result.data?.length ? result.data.map(message => `
+        <div class="bubble ${message.sender_id === authUser.id ? "mine" : ""}">
+          ${esc(message.content)}<small>${new Date(message.created_at).toLocaleString()}</small>
+        </div>`).join("") : empty("M", "No messages yet", `Send the first private message to ${selected.full_name}.`);
+      stream.scrollTop = stream.scrollHeight;
+    }
+    form.addEventListener("submit", async event => {
+      event.preventDefault();
+      const content = input.value.trim();
+      if (!content || !selected) return;
+      const result = await db.from("private_messages").insert({
+        sender_id: authUser.id,
+        recipient_id: selected.id,
+        content
+      });
+      if (result.error) flash(result.error.message);
+      else { input.value = ""; await loadConversation(); }
+    });
+    await loadPeople();
+    selected = people.find(person => person.id === new URLSearchParams(location.search).get("user"));
+    await loadPeople();
+    await loadConversation();
+    db.channel(`messages-${authUser.id}`).on("postgres_changes", { event: "INSERT", schema: "public", table: "private_messages" }, loadConversation).subscribe();
+  }
+  function scheduleHtml(item) {
+    const date = new Date(`${item.event_date}T12:00:00`);
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = date.toLocaleDateString(undefined, { month: "short" }).toUpperCase();
+    const time = [item.start_time?.slice(0, 5), item.end_time?.slice(0, 5)].filter(Boolean).join("–");
+    return `<article class="schedule" data-id="${item.id}">
+      <time class="date-tile"><b>${day}</b>${month}</time>
+      <div class="schedule-copy">
+        <strong>${esc(item.title)}</strong>
+        <p>${esc([time, item.location].filter(Boolean).join(" · "))}</p>
+        ${item.details ? `<p>${esc(item.details)}</p>` : ""}
+        <span class="schedule-section">${esc(item.section)}</span>
+      </div>
+      ${can("manage_schedules") ? `<div class="schedule-manage"><button class="secondary" data-edit>Edit</button><button class="danger" data-delete>Delete</button></div>` : ""}
+    </article>`;
+  }
+  async function initCalendar() {
+    const list = $("#scheduleList");
+    const formCard = $("#scheduleFormCard");
+    const form = $("#scheduleForm");
+    const sectionOptions = config.sections.map(value => `<option value="${value}">${value}</option>`).join("");
+    $("#scheduleSection").innerHTML = sectionOptions;
+    $("#calendarSection").innerHTML = `<option value="">All sections</option>${sectionOptions}`;
+    formCard.classList.toggle("hidden", !can("manage_schedules"));
+    $("#noSchedulePermission").classList.toggle("hidden", can("manage_schedules"));
+    let schedules = [];
+    let editingId;
+    function render() {
+      const filter = $("#calendarSection").value;
+      const shown = schedules.filter(item => !filter || item.section === filter);
+      list.innerHTML = shown.length ? shown.map(scheduleHtml).join("") : empty("C", "No schedules yet", can("manage_schedules") ? "Use the form to add the first real schedule." : "An authorized user has not added a schedule.");
+      list.querySelectorAll("[data-edit]").forEach(button => button.addEventListener("click", () => {
+        const item = schedules.find(schedule => schedule.id === button.closest("[data-id]").dataset.id);
+        editingId = item.id;
+        $("#scheduleTitle").value = item.title;
+        $("#scheduleDetails").value = item.details || "";
+        $("#scheduleDate").value = item.event_date;
+        $("#scheduleStart").value = item.start_time?.slice(0, 5) || "";
+        $("#scheduleEnd").value = item.end_time?.slice(0, 5) || "";
+        $("#scheduleLocation").value = item.location || "";
+        $("#scheduleSection").value = item.section;
+        $("#scheduleSubmit").textContent = "Save changes";
+        $("#cancelScheduleEdit").classList.remove("hidden");
+        form.scrollIntoView({ behavior: "smooth" });
+      }));
+      list.querySelectorAll("[data-delete]").forEach(button => button.addEventListener("click", async () => {
+        if (!confirm("Delete this schedule?")) return;
+        const result = await db.from("schedules").delete().eq("id", button.closest("[data-id]").dataset.id);
+        if (result.error) flash(result.error.message); else await load();
+      }));
+    }
+    async function load() {
+      const result = await db.from("schedules").select("*").order("event_date").order("start_time");
+      if (result.error) list.innerHTML = empty("!", "Could not load schedules", result.error.message);
+      else { schedules = result.data || []; render(); }
+    }
+    function clearForm() {
+      editingId = undefined;
+      form.reset();
+      $("#scheduleSubmit").textContent = "Add schedule";
+      $("#cancelScheduleEdit").classList.add("hidden");
+    }
+    $("#calendarSection").addEventListener("change", render);
+    $("#cancelScheduleEdit").addEventListener("click", clearForm);
+    form.addEventListener("submit", async event => {
+      event.preventDefault();
+      const record = {
+        title: $("#scheduleTitle").value.trim(),
+        details: $("#scheduleDetails").value.trim() || null,
+        event_date: $("#scheduleDate").value,
+        start_time: $("#scheduleStart").value || null,
+        end_time: $("#scheduleEnd").value || null,
+        location: $("#scheduleLocation").value.trim() || null,
+        section: $("#scheduleSection").value,
+        created_by: authUser.id
+      };
+      const result = editingId
+        ? await db.from("schedules").update(record).eq("id", editingId)
+        : await db.from("schedules").insert(record);
+      if (result.error) flash(result.error.message);
+      else { flash(editingId ? "Schedule updated" : "Schedule added"); clearForm(); await load(); }
+    });
+    await load();
+  }
+  async function initClubs() {
+    const grid = $("#clubGrid");
+    const formCard = $("#clubFormCard");
+    const form = $("#clubForm");
+    $("#clubSection").innerHTML = config.sections.map(value => `<option value="${value}">${value}</option>`).join("");
+    formCard.classList.toggle("hidden", !can("manage_clubs"));
+    let clubs = [];
+    async function load() {
+      const result = await db.from("clubs").select("*,club_members(user_id)").order("name");
+      if (result.error) {
+        grid.innerHTML = empty("!", "Could not load clubs", result.error.message);
+        return;
+      }
+      clubs = result.data || [];
+      grid.innerHTML = clubs.length ? clubs.map(club => {
+        const joined = club.club_members?.some(member => member.user_id === authUser.id);
+        return `<article class="card club" data-id="${club.id}">
+          <span class="eyebrow">${esc(club.section)}</span>
+          <h3>${esc(club.name)}</h3>
+          <p>${esc(club.description || "No description.")}</p>
+          <div class="club-footer">
+            <span class="muted">${club.club_members?.length || 0} members</span>
+            <span><button class="secondary" data-join>${joined ? "Leave" : "Join"}</button>${can("manage_clubs") ? `<button class="danger" data-delete>Delete</button>` : ""}</span>
+          </div>
+        </article>`;
+      }).join("") : `<div class="card">${empty("G", "No clubs yet", can("manage_clubs") ? "Create the first real club." : "An authorized user has not created a club.")}</div>`;
+      grid.querySelectorAll("[data-join]").forEach(button => button.addEventListener("click", async () => {
+        const club = clubs.find(item => item.id === button.closest("[data-id]").dataset.id);
+        const joined = club.club_members?.some(member => member.user_id === authUser.id);
+        const request = joined
+          ? db.from("club_members").delete().eq("club_id", club.id).eq("user_id", authUser.id)
+          : db.from("club_members").insert({ club_id: club.id, user_id: authUser.id });
+        const result = await request;
+        if (result.error) flash(result.error.message); else await load();
+      }));
+      grid.querySelectorAll("[data-delete]").forEach(button => button.addEventListener("click", async () => {
+        if (!confirm("Delete this club?")) return;
+        const result = await db.from("clubs").delete().eq("id", button.closest("[data-id]").dataset.id);
+        if (result.error) flash(result.error.message); else await load();
+      }));
+    }
+    form.addEventListener("submit", async event => {
+      event.preventDefault();
+      const result = await db.from("clubs").insert({
+        name: $("#clubName").value.trim(),
+        description: $("#clubDescription").value.trim() || null,
+        section: $("#clubSection").value,
+        created_by: authUser.id
+      });
+      if (result.error) flash(result.error.message);
+      else { form.reset(); flash("Club created"); await load(); }
+    });
+    await load();
+  }
+  async function initProfile() {
+    const targetId = new URLSearchParams(location.search).get("user") || authUser.id;
+    const result = await db.from("profiles").select("id,full_name,is_admin,banned,created_at").eq("id", targetId).single();
+    const container = $("#profileContent");
+    if (result.error || result.data.banned) {
+      container.innerHTML = empty("!", "Profile unavailable", "This user cannot be displayed.");
+      return;
+    }
+    const target = result.data;
+    const postsCount = await db.from("posts").select("*", { count: "exact", head: true }).eq("user_id", targetId);
+    const own = targetId === authUser.id;
+    container.innerHTML = `<section class="card profile-card">
+      <div class="profile-header">
+        <span class="avatar">${esc(initials(target.full_name))}</span>
+        <div><h2>${esc(target.full_name)}</h2><span class="muted">${target.is_admin ? "Full administrator" : `@${esc(handle(target.full_name))}`}</span></div>
+        ${!own ? `<a class="primary" style="margin-left:auto;display:grid;place-items:center" href="index.html?page=messages&user=${encodeURIComponent(target.id)}">Private message</a>` : ""}
+      </div>
+      <div class="profile-stats">
+        <div class="stat"><strong>${postsCount.count || 0}</strong><small>Posts</small></div>
+        <div class="stat"><strong>${target.is_admin ? "Admin" : "Member"}</strong><small>Role</small></div>
+        <div class="stat"><strong>${new Date(target.created_at).toLocaleDateString()}</strong><small>Joined</small></div>
+      </div>
+    </section>
+    ${own ? `<section class="card card-pad"><h2>Your account</h2><p class="muted">This anonymous account stays on this browser. Signing out or clearing browser data removes access to it.</p><button class="danger" id="signOut">Sign out</button>${profile.is_admin ? ` <a class="secondary" style="display:inline-grid;place-items:center" href="index.html?page=permissions">Manage permissions</a>` : ""}</section>` : ""}`;
+    $("#signOut")?.addEventListener("click", signOut);
+  }
+  async function initPermissions() {
+    if (!profile.is_admin) {
+      $("#permissionList").innerHTML = empty("!", "Admins only", "Only full administrators can grant powers.");
+      return;
+    }
+    const peopleResult = await db.from("profiles").select("id,full_name,is_admin,banned").eq("is_admin", false).eq("banned", false).order("full_name");
+    const permissionResult = await db.from("user_permissions").select("user_id,permission");
+    if (peopleResult.error || permissionResult.error) {
+      $("#permissionList").innerHTML = empty("!", "Could not load permissions", peopleResult.error?.message || permissionResult.error?.message);
+      return;
+    }
+    const permissionNames = [
+      ["manage_schedules", "Manage schedules"],
+      ["manage_clubs", "Manage clubs"],
+      ["moderate_posts", "Moderate posts"],
+      ["ban_users", "Ban users"]
+    ];
+    const grants = permissionResult.data || [];
+    $("#permissionList").innerHTML = peopleResult.data?.length ? peopleResult.data.map(person => `
+      <section class="card card-pad permission-user" data-user="${person.id}">
+        <h3>${esc(person.full_name)}</h3>
+        <div class="form-grid">
+          ${permissionNames.map(([value, label]) => {
+            const checked = grants.some(grant => grant.user_id === person.id && grant.permission === value);
+            return `<label style="display:flex;align-items:center;grid-template-columns:auto 1fr"><input style="width:auto" type="checkbox" data-permission="${value}" ${checked ? "checked" : ""}> ${label}</label>`;
+          }).join("")}
+        </div>
+      </section>`).join("") : empty("A", "No regular users yet", "Users appear here after they create accounts.");
+    document.querySelectorAll("[data-permission]").forEach(box => box.addEventListener("change", async () => {
+      const userId = box.closest("[data-user]").dataset.user;
+      const permission = box.dataset.permission;
+      const result = box.checked
+        ? await db.from("user_permissions").insert({ user_id: userId, permission, granted_by: authUser.id })
+        : await db.from("user_permissions").delete().eq("user_id", userId).eq("permission", permission);
+      if (result.error) {
+        box.checked = !box.checked;
+        flash(result.error.message);
+      } else flash(box.checked ? "Permission granted" : "Permission removed");
+    }));
+  }
+  async function initComments() {
+    const postId = new URLSearchParams(location.search).get("post");
+    const postContainer = $("#post");
+    const commentsContainer = $("#comments");
+    const form = $("#commentForm");
+    if (!postId) {
+      postContainer.innerHTML = empty("!", "No post selected", "Open comments from a post.");
+      form.classList.add("hidden");
+      return;
+    }
+    async function load() {
+      const postResult = await db.from("posts").select(`
+        id,user_id,section,content,is_announcement,created_at,
+        author:profiles!posts_user_id_fkey(full_name),
+        likes(user_id),bookmarks(user_id),comments(id)
+      `).eq("id", postId).single();
+      if (postResult.error) {
+        postContainer.innerHTML = empty("!", "Post unavailable", postResult.error.message);
+        return;
+      }
+      postContainer.innerHTML = postHtml(postResult.data);
+      bindPostActions(postContainer, load);
+      const result = await db.from("comments").select("id,user_id,content,created_at,author:profiles!comments_user_id_fkey(full_name)").eq("post_id", postId).order("created_at");
+      if (result.error) commentsContainer.innerHTML = empty("!", "Could not load comments", result.error.message);
+      else {
+        commentsContainer.innerHTML = result.data?.length ? result.data.map(comment => `
+          <article class="post" data-comment="${comment.id}">
+            <span class="avatar">${esc(initials(comment.author?.full_name))}</span>
+            <div class="post-body"><div class="post-meta"><strong>${esc(comment.author?.full_name || "User")}</strong><span>${esc(relativeTime(comment.created_at))}</span></div><p>${esc(comment.content)}</p>${comment.user_id === authUser.id || can("moderate_posts") ? `<button class="danger" data-delete-comment>Delete</button>` : ""}</div>
+          </article>`).join("") : empty("C", "No comments yet", "Be the first real person to comment.");
+        commentsContainer.querySelectorAll("[data-delete-comment]").forEach(button => button.addEventListener("click", async () => {
+          const result = await db.from("comments").delete().eq("id", button.closest("[data-comment]").dataset.comment);
+          if (result.error) flash(result.error.message); else await load();
+        }));
+      }
+    }
+    form.addEventListener("submit", async event => {
+      event.preventDefault();
+      const input = $("#commentInput");
+      const content = input.value.trim();
+      if (!content) return;
+      const result = await db.from("comments").insert({ post_id: postId, user_id: authUser.id, content });
+      if (result.error) flash(result.error.message); else { input.value = ""; await load(); }
+    });
+    await load();
+  }
+  async function initNotifications() {
+    $("#notificationList").innerHTML = empty("N", "No notifications yet", "Only real activity will appear here.");
+  }
+  async function initAdd() {
+    $("#addScheduleCard").classList.toggle("hidden", !can("manage_schedules"));
+    $("#addClubCard").classList.toggle("hidden", !can("manage_clubs"));
+    $("#addPermissionsCard").classList.toggle("hidden", !profile.is_admin);
+    if (!can("manage_schedules") && !can("manage_clubs") && !profile.is_admin) {
+      $("#addOptions").innerHTML = empty("!", "No add permission", "Ask a full administrator to grant a management permission.");
+    }
+  }
+  async function initInfo() {
+    $("#signOut")?.addEventListener("click", signOut);
+  }
+  const starters = {
+    explore: initExplore,
+    bookmarks: initBookmarks,
+    messages: initMessages,
+    calendar: initCalendar,
+    clubs: initClubs,
+    profile: initProfile,
+    permissions: initPermissions,
+    comments: initComments,
+    notifications: initNotifications,
+    add: initAdd,
+    about: initInfo,
+    safety: initInfo,
+    help: initInfo,
+    privacy: initInfo
+  };
+  async function start() {
+    try {
+      if (!await requireSession()) return;
+      await (starters[page] || initInfo)();
+    } catch (error) {
+      $("#pageContent").innerHTML = empty("!", "Page could not open", error.message);
+    }
+  }
+  start();
+})();
+
+  }
+</script></body>
 </html>
