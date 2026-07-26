@@ -123,9 +123,9 @@
   <div class="toast hidden" id="toast"></div>
 
   <script type="text/plain" id="legacy-local-storage-version">
-    const sections=["year1","year2","year3","year4","year5","year6","secondary"];
+    const sections=["all","lower primary","upper primary","year1","year2","year3","year4","year5","year6","secondary"];
     const starterPosts=[];
-    let user=null,posts=[],activeSection="year1",announcement=false,authMode="Log in",query="";
+    let user=null,posts=[],activeSection="all",announcement=false,authMode="Log in",query="";
     const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
     const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
     const initials=n=>n.split(/\s+/).map(x=>x[0]).slice(0,2).join("").toUpperCase();
@@ -211,7 +211,7 @@
     const SUPABASE_URL = "https://dfjofjhlodgmevynodwg.supabase.co";
     const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_HCAsiUopabALW4SPF73poA_tiFNlnwl";
     const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
-    const sections = ["year1","year2","year3","year4","year5","year6","secondary"];
+    const sections = ["all","lower primary","upper primary","year1","year2","year3","year4","year5","year6","secondary"];
     const $ = selector => document.querySelector(selector);
     const $$ = selector => [...document.querySelectorAll(selector)];
     const esc = value => String(value ?? "").replace(/[&<>"']/g, char => ({
@@ -225,7 +225,7 @@
     let profile = null;
     let userPermissions = [];
     let posts = [];
-    let activeSection = "year1";
+    let activeSection = "all";
     let announcement = false;
     let authMode = "Log in";
     let query = "";
@@ -403,9 +403,26 @@
       });
     }
 
+    function sectionMatches(postSection, selectedSection) {
+      if (selectedSection === "all") return true;
+      if (selectedSection === "lower primary") {
+        return ["all","lower primary","year1","year2","year3"].includes(postSection);
+      }
+      if (selectedSection === "upper primary") {
+        return ["all","upper primary","year4","year5","year6"].includes(postSection);
+      }
+      if (["year1","year2","year3"].includes(selectedSection)) {
+        return [selectedSection,"lower primary","all"].includes(postSection);
+      }
+      if (["year4","year5","year6"].includes(selectedSection)) {
+        return [selectedSection,"upper primary","all"].includes(postSection);
+      }
+      return [selectedSection,"all"].includes(postSection);
+    }
+
     function renderPosts() {
       const shown = posts.filter(post =>
-        post.section === activeSection &&
+        sectionMatches(post.section, activeSection) &&
         `${post.name} ${post.handle} ${post.text} ${post.tag}`.toLowerCase().includes(query.toLowerCase())
       );
 
@@ -618,14 +635,14 @@
   (() => {
     const route = new URLSearchParams(location.search).get("page");
     if (!route) return;
-    const templates = {"explore":"<div class=\"app\"><aside class=\"sidebar\" id=\"sidebar\"></aside><main class=\"app-main\" id=\"pageContent\">\n<header class=\"topbar\"><h1>Explore</h1><span class=\"admin-pill hidden\">Administrator</span></header>\n<section class=\"page-content\"><section class=\"card\"><div class=\"filter-row\"><label class=\"search-box\">Search <input id=\"search\" placeholder=\"Search real posts\"></label><select id=\"section\" aria-label=\"Section\"></select></div><div id=\"results\" class=\"explore-results loading\">Loading…</div></section></section>\n</main><nav class=\"mobile-nav\" id=\"mobileNav\"></nav></div>","notifications":"<div class=\"app\"><aside class=\"sidebar\" id=\"sidebar\"></aside><main class=\"app-main\" id=\"pageContent\">\n<header class=\"topbar\"><h1>Notifications</h1><span class=\"admin-pill hidden\">Administrator</span></header>\n<section class=\"page-content\"><section class=\"card\" id=\"notificationList\"><div class=\"loading\">Loading…</div></section></section>\n</main><nav class=\"mobile-nav\" id=\"mobileNav\"></nav></div>","messages":"<div class=\"app\"><aside class=\"sidebar\" id=\"sidebar\"></aside><main class=\"app-main\" id=\"pageContent\">\n<header class=\"topbar\"><h1>Private Messages</h1><span class=\"admin-pill hidden\">Administrator</span></header>\n<section class=\"messages-layout\"><aside class=\"people-list\" id=\"people\"><div class=\"loading\">Loading…</div></aside><section class=\"conversation\"><header class=\"conversation-head\" id=\"conversationName\">Choose a person</header><div class=\"message-stream\" id=\"messageStream\"></div><form class=\"message-form hidden\" id=\"messageForm\"><input id=\"messageInput\" maxlength=\"2000\" placeholder=\"Write a private message\" required><button class=\"primary\">Send</button></form></section></section>\n</main><nav class=\"mobile-nav\" id=\"mobileNav\"></nav></div>","bookmarks":"<div class=\"app\"><aside class=\"sidebar\" id=\"sidebar\"></aside><main class=\"app-main\" id=\"pageContent\">\n<header class=\"topbar\"><h1>Bookmarks</h1><span class=\"admin-pill hidden\">Administrator</span></header>\n<section class=\"page-content\"><section class=\"card\" id=\"results\"><div class=\"loading\">Loading…</div></section></section>\n</main><nav class=\"mobile-nav\" id=\"mobileNav\"></nav></div>","calendar":"<div class=\"app\"><aside class=\"sidebar\" id=\"sidebar\"></aside><main class=\"app-main\" id=\"pageContent\">\n<header class=\"topbar\"><h1>Calendar</h1><span class=\"admin-pill hidden\">Administrator</span><div class=\"topbar-actions\"><select id=\"calendarSection\" aria-label=\"Filter section\"></select></div></header>\n<section class=\"page-content page-grid\"><div><section class=\"card\"><div class=\"card-head\"><h2>Real schedules</h2></div><div class=\"schedule-list\" id=\"scheduleList\"><div class=\"loading\">Loading…</div></div></section></div>\n<aside><div class=\"notice\" id=\"noSchedulePermission\">Only admins or users given schedule permission can add events.</div><section class=\"card card-pad\" id=\"scheduleFormCard\"><h2>Add schedule</h2><form id=\"scheduleForm\" class=\"form-grid\">\n<label class=\"wide\">Title<input id=\"scheduleTitle\" maxlength=\"120\" required></label><label>Date<input id=\"scheduleDate\" type=\"date\" required></label><label>Section<select id=\"scheduleSection\"></select></label><label>Start time<input id=\"scheduleStart\" type=\"time\"></label><label>End time<input id=\"scheduleEnd\" type=\"time\"></label><label class=\"wide\">Location<input id=\"scheduleLocation\"></label><label class=\"wide\">Details<textarea id=\"scheduleDetails\"></textarea></label>\n<div class=\"form-actions wide\"><button type=\"button\" class=\"secondary hidden\" id=\"cancelScheduleEdit\">Cancel</button><button class=\"primary\" id=\"scheduleSubmit\">Add schedule</button></div></form></section></aside></section>\n</main><nav class=\"mobile-nav\" id=\"mobileNav\"></nav></div>","clubs":"<div class=\"app\"><aside class=\"sidebar\" id=\"sidebar\"></aside><main class=\"app-main\" id=\"pageContent\">\n<header class=\"topbar\"><h1>Clubs</h1><span class=\"admin-pill hidden\">Administrator</span></header>\n<section class=\"page-content page-grid\"><div class=\"club-grid\" id=\"clubGrid\"><div class=\"loading\">Loading…</div></div><aside><section class=\"card card-pad\" id=\"clubFormCard\"><h2>Create club</h2><form id=\"clubForm\" class=\"form-grid\"><label class=\"wide\">Club name<input id=\"clubName\" maxlength=\"100\" required></label><label class=\"wide\">Section<select id=\"clubSection\"></select></label><label class=\"wide\">Description<textarea id=\"clubDescription\"></textarea></label><div class=\"form-actions wide\"><button class=\"primary\">Create club</button></div></form></section></aside></section>\n</main><nav class=\"mobile-nav\" id=\"mobileNav\"></nav></div>","profile":"<div class=\"app\"><aside class=\"sidebar\" id=\"sidebar\"></aside><main class=\"app-main\" id=\"pageContent\">\n<header class=\"topbar\"><h1>Profile</h1><span class=\"admin-pill hidden\">Administrator</span></header><section class=\"page-content\" id=\"profileContent\"><div class=\"loading\">Loading…</div></section>\n</main><nav class=\"mobile-nav\" id=\"mobileNav\"></nav></div>","permissions":"<div class=\"app\"><aside class=\"sidebar\" id=\"sidebar\"></aside><main class=\"app-main\" id=\"pageContent\">\n<header class=\"topbar\"><h1>Admin Permissions</h1><span class=\"admin-pill hidden\">Administrator</span></header>\n<section class=\"page-content\"><section class=\"hero-card card\"><span class=\"eyebrow\">Full admins only</span><h2>Grant specific powers</h2><p>Give a regular user permission to manage schedules, clubs, posts, or bans. Full admin status remains protected.</p></section><div id=\"permissionList\" style=\"margin-top:18px\"><div class=\"loading\">Loading…</div></div></section>\n</main><nav class=\"mobile-nav\" id=\"mobileNav\"></nav></div>","comments":"<div class=\"app\"><aside class=\"sidebar\" id=\"sidebar\"></aside><main class=\"app-main\" id=\"pageContent\">\n<header class=\"topbar\"><h1>Comments</h1><span class=\"admin-pill hidden\">Administrator</span></header><section class=\"page-content\"><section class=\"card\" id=\"post\"></section><section class=\"card\"><form class=\"message-form\" id=\"commentForm\"><input id=\"commentInput\" maxlength=\"500\" placeholder=\"Write a public comment\" required><button class=\"primary\">Comment</button></form><div id=\"comments\"></div></section></section>\n</main><nav class=\"mobile-nav\" id=\"mobileNav\"></nav></div>","add":"<div class=\"app\"><aside class=\"sidebar\" id=\"sidebar\"></aside><main class=\"app-main\" id=\"pageContent\">\n<header class=\"topbar\"><h1>Add</h1><span class=\"admin-pill hidden\">Administrator</span></header>\n<section class=\"page-content\"><section class=\"hero-card card\"><span class=\"eyebrow\">Admin tools</span><h2>Add real school content</h2><p>Choose what you want to create. Nothing is pre-filled with fictional information.</p></section>\n<div class=\"club-grid\" id=\"addOptions\" style=\"margin-top:18px\">\n<a class=\"card club\" id=\"addScheduleCard\" href=\"index.html?page=calendar\"><span class=\"eyebrow\">Calendar</span><h3>＋ Add schedule</h3><p>Create a real dated school event for a year section.</p><span class=\"primary\" style=\"display:inline-grid;place-items:center\">Open Calendar</span></a>\n<a class=\"card club\" id=\"addClubCard\" href=\"index.html?page=clubs\"><span class=\"eyebrow\">Clubs</span><h3>＋ Add club</h3><p>Create a real club that students can join.</p><span class=\"primary\" style=\"display:inline-grid;place-items:center\">Open Clubs</span></a>\n<a class=\"card club\" id=\"addPermissionsCard\" href=\"index.html?page=permissions\"><span class=\"eyebrow\">People</span><h3>Manage permissions</h3><p>Give selected regular users admin powers.</p><span class=\"secondary\" style=\"display:inline-grid;place-items:center\">Open Permissions</span></a>\n</div></section>\n</main><nav class=\"mobile-nav\" id=\"mobileNav\"></nav></div>","about":"<div class=\"app\"><aside class=\"sidebar\" id=\"sidebar\"></aside><main class=\"app-main\" id=\"pageContent\"><header class=\"topbar\"><h1>About</h1></header><section class=\"page-content\"><section class=\"card card-pad plain-copy\"><h2>About SchoolHub</h2><p>SchoolHub is a private school community for real announcements, messages, clubs, schedules, comments, and posts. It contains no fictional school activity.</p></section></section></main><nav class=\"mobile-nav\" id=\"mobileNav\"></nav></div>","safety":"<div class=\"app\"><aside class=\"sidebar\" id=\"sidebar\"></aside><main class=\"app-main\" id=\"pageContent\"><header class=\"topbar\"><h1>Safety</h1></header><section class=\"page-content\"><section class=\"card card-pad plain-copy\"><h2>Community safety</h2><p>Do not share private addresses, phone numbers, passwords, or other sensitive information. Report unsafe content to a school administrator. Administrators can remove posts and ban accounts.</p></section></section></main><nav class=\"mobile-nav\" id=\"mobileNav\"></nav></div>","help":"<div class=\"app\"><aside class=\"sidebar\" id=\"sidebar\"></aside><main class=\"app-main\" id=\"pageContent\"><header class=\"topbar\"><h1>Help</h1></header><section class=\"page-content\"><section class=\"card card-pad plain-copy\"><h2>Using SchoolHub</h2><p>Choose a year section to post an announcement. Use Explore to find posts, Messages for private conversations, Calendar for real schedules, and Clubs to join real groups.</p><p>Full administrators can grant specific management powers from Admin Permissions.</p></section></section></main><nav class=\"mobile-nav\" id=\"mobileNav\"></nav></div>","privacy":"<div class=\"app\"><aside class=\"sidebar\" id=\"sidebar\"></aside><main class=\"app-main\" id=\"pageContent\"><header class=\"topbar\"><h1>Privacy</h1></header><section class=\"page-content\"><section class=\"card card-pad plain-copy\"><h2>Privacy</h2><p>Private messages are readable only by their sender and recipient. Public posts, comments, clubs, and schedules are visible to signed-in SchoolHub users.</p><p>Name-only accounts are stored on the current browser. Signing out or clearing browser data removes access to an anonymous account.</p></section></section></main><nav class=\"mobile-nav\" id=\"mobileNav\"></nav></div>"};
+    const templates = {"explore":"<div class=\"app\"><aside class=\"sidebar\" id=\"sidebar\"></aside><main class=\"app-main\" id=\"pageContent\">\n<header class=\"topbar\"><h1>Explore</h1><span class=\"admin-pill hidden\">Administrator</span></header>\n<section class=\"page-content\"><section class=\"card\"><div class=\"filter-row\"><label class=\"search-box\">Search <input id=\"search\" placeholder=\"Search real posts\"></label><select id=\"section\" aria-label=\"Section\"></select></div><div id=\"results\" class=\"explore-results loading\">Loading…</div></section></section>\n</main><nav class=\"mobile-nav\" id=\"mobileNav\"></nav></div>","notifications":"<div class=\"app\"><aside class=\"sidebar\" id=\"sidebar\"></aside><main class=\"app-main\" id=\"pageContent\">\n<header class=\"topbar\"><h1>Notifications</h1><span class=\"admin-pill hidden\">Administrator</span></header>\n<section class=\"page-content\"><section class=\"card\" id=\"notificationList\"><div class=\"loading\">Loading…</div></section></section>\n</main><nav class=\"mobile-nav\" id=\"mobileNav\"></nav></div>","messages":"<div class=\"app\"><aside class=\"sidebar\" id=\"sidebar\"></aside><main class=\"app-main\" id=\"pageContent\">\n<header class=\"topbar\"><h1>Private Messages</h1><span class=\"admin-pill hidden\">Administrator</span></header>\n<section class=\"messages-layout\"><aside class=\"people-list\" id=\"people\"><div class=\"loading\">Loading…</div></aside><section class=\"conversation\"><header class=\"conversation-head\" id=\"conversationName\">Choose a person</header><div class=\"message-stream\" id=\"messageStream\"></div><form class=\"message-form hidden\" id=\"messageForm\"><input id=\"messageInput\" maxlength=\"2000\" placeholder=\"Write a private message\" required><button class=\"primary\">Send</button></form></section></section>\n</main><nav class=\"mobile-nav\" id=\"mobileNav\"></nav></div>","bookmarks":"<div class=\"app\"><aside class=\"sidebar\" id=\"sidebar\"></aside><main class=\"app-main\" id=\"pageContent\">\n<header class=\"topbar\"><h1>Bookmarks</h1><span class=\"admin-pill hidden\">Administrator</span></header>\n<section class=\"page-content\"><section class=\"card\" id=\"results\"><div class=\"loading\">Loading…</div></section></section>\n</main><nav class=\"mobile-nav\" id=\"mobileNav\"></nav></div>","calendar":"<div class=\"app\"><aside class=\"sidebar\" id=\"sidebar\"></aside><main class=\"app-main\" id=\"pageContent\">\n<header class=\"topbar\"><h1>Calendar</h1><span class=\"admin-pill hidden\">Administrator</span><div class=\"topbar-actions\"><select id=\"calendarSection\" aria-label=\"Filter section\"></select></div></header>\n<section class=\"page-content page-grid\"><div><section class=\"card\"><div class=\"card-head\"><h2>Real schedules</h2></div><div class=\"schedule-list\" id=\"scheduleList\"><div class=\"loading\">Loading…</div></div></section></div>\n<aside><div class=\"notice\" id=\"noSchedulePermission\">Only admins or users given schedule permission can add events.</div><section class=\"card card-pad\" id=\"scheduleFormCard\"><h2>Add schedule</h2><form id=\"scheduleForm\" class=\"form-grid\">\n<label class=\"wide\">Title<input id=\"scheduleTitle\" maxlength=\"120\" required></label><label>Date<input id=\"scheduleDate\" type=\"date\" required></label><label>Section<select id=\"scheduleSection\"></select></label><label>Start time<input id=\"scheduleStart\" type=\"time\"></label><label>End time<input id=\"scheduleEnd\" type=\"time\"></label><label class=\"wide\">Location<input id=\"scheduleLocation\"></label><label class=\"wide\">Details<textarea id=\"scheduleDetails\"></textarea></label>\n<div class=\"form-actions wide\"><button type=\"button\" class=\"secondary hidden\" id=\"cancelScheduleEdit\">Cancel</button><button class=\"primary\" id=\"scheduleSubmit\">Add schedule</button></div></form></section></aside></section>\n</main><nav class=\"mobile-nav\" id=\"mobileNav\"></nav></div>","clubs":"<div class=\"app\"><aside class=\"sidebar\" id=\"sidebar\"></aside><main class=\"app-main\" id=\"pageContent\">\n<header class=\"topbar\"><h1>Clubs</h1><span class=\"admin-pill hidden\">Administrator</span><div class=\"topbar-actions\"><select id=\"clubSectionFilter\" aria-label=\"Filter clubs by section\"></select></div></header>\n<section class=\"page-content page-grid\"><div class=\"club-grid\" id=\"clubGrid\"><div class=\"loading\">Loading…</div></div><aside><section class=\"card card-pad\" id=\"clubFormCard\"><h2>Create club</h2><form id=\"clubForm\" class=\"form-grid\"><label class=\"wide\">Club name<input id=\"clubName\" maxlength=\"100\" required></label><label class=\"wide\">Section<select id=\"clubSection\"></select></label><label class=\"wide\">Description<textarea id=\"clubDescription\"></textarea></label><div class=\"form-actions wide\"><button class=\"primary\">Create club</button></div></form></section></aside></section>\n</main><nav class=\"mobile-nav\" id=\"mobileNav\"></nav></div>","profile":"<div class=\"app\"><aside class=\"sidebar\" id=\"sidebar\"></aside><main class=\"app-main\" id=\"pageContent\">\n<header class=\"topbar\"><h1>Profile</h1><span class=\"admin-pill hidden\">Administrator</span></header><section class=\"page-content\" id=\"profileContent\"><div class=\"loading\">Loading…</div></section>\n</main><nav class=\"mobile-nav\" id=\"mobileNav\"></nav></div>","permissions":"<div class=\"app\"><aside class=\"sidebar\" id=\"sidebar\"></aside><main class=\"app-main\" id=\"pageContent\">\n<header class=\"topbar\"><h1>Admin Permissions</h1><span class=\"admin-pill hidden\">Administrator</span></header>\n<section class=\"page-content\"><section class=\"hero-card card\"><span class=\"eyebrow\">Full admins only</span><h2>Grant specific powers</h2><p>Give a regular user permission to manage schedules, clubs, posts, or bans. Full admin status remains protected.</p></section><div id=\"permissionList\" style=\"margin-top:18px\"><div class=\"loading\">Loading…</div></div></section>\n</main><nav class=\"mobile-nav\" id=\"mobileNav\"></nav></div>","comments":"<div class=\"app\"><aside class=\"sidebar\" id=\"sidebar\"></aside><main class=\"app-main\" id=\"pageContent\">\n<header class=\"topbar\"><h1>Comments</h1><span class=\"admin-pill hidden\">Administrator</span></header><section class=\"page-content\"><section class=\"card\" id=\"post\"></section><section class=\"card\"><form class=\"message-form\" id=\"commentForm\"><input id=\"commentInput\" maxlength=\"500\" placeholder=\"Write a public comment\" required><button class=\"primary\">Comment</button></form><div id=\"comments\"></div></section></section>\n</main><nav class=\"mobile-nav\" id=\"mobileNav\"></nav></div>","add":"<div class=\"app\"><aside class=\"sidebar\" id=\"sidebar\"></aside><main class=\"app-main\" id=\"pageContent\">\n<header class=\"topbar\"><h1>Add</h1><span class=\"admin-pill hidden\">Administrator</span></header>\n<section class=\"page-content\"><section class=\"hero-card card\"><span class=\"eyebrow\">Admin tools</span><h2>Add real school content</h2><p>Choose what you want to create. Nothing is pre-filled with fictional information.</p></section>\n<div class=\"club-grid\" id=\"addOptions\" style=\"margin-top:18px\">\n<a class=\"card club\" id=\"addScheduleCard\" href=\"index.html?page=calendar\"><span class=\"eyebrow\">Calendar</span><h3>＋ Add schedule</h3><p>Create a real dated school event for a year section.</p><span class=\"primary\" style=\"display:inline-grid;place-items:center\">Open Calendar</span></a>\n<a class=\"card club\" id=\"addClubCard\" href=\"index.html?page=clubs\"><span class=\"eyebrow\">Clubs</span><h3>＋ Add club</h3><p>Create a real club that students can join.</p><span class=\"primary\" style=\"display:inline-grid;place-items:center\">Open Clubs</span></a>\n<a class=\"card club\" id=\"addPermissionsCard\" href=\"index.html?page=permissions\"><span class=\"eyebrow\">People</span><h3>Manage permissions</h3><p>Give selected regular users admin powers.</p><span class=\"secondary\" style=\"display:inline-grid;place-items:center\">Open Permissions</span></a>\n</div></section>\n</main><nav class=\"mobile-nav\" id=\"mobileNav\"></nav></div>","about":"<div class=\"app\"><aside class=\"sidebar\" id=\"sidebar\"></aside><main class=\"app-main\" id=\"pageContent\"><header class=\"topbar\"><h1>About</h1></header><section class=\"page-content\"><section class=\"card card-pad plain-copy\"><h2>About SchoolHub</h2><p>SchoolHub is a private school community for real announcements, messages, clubs, schedules, comments, and posts. It contains no fictional school activity.</p></section></section></main><nav class=\"mobile-nav\" id=\"mobileNav\"></nav></div>","safety":"<div class=\"app\"><aside class=\"sidebar\" id=\"sidebar\"></aside><main class=\"app-main\" id=\"pageContent\"><header class=\"topbar\"><h1>Safety</h1></header><section class=\"page-content\"><section class=\"card card-pad plain-copy\"><h2>Community safety</h2><p>Do not share private addresses, phone numbers, passwords, or other sensitive information. Report unsafe content to a school administrator. Administrators can remove posts and ban accounts.</p></section></section></main><nav class=\"mobile-nav\" id=\"mobileNav\"></nav></div>","help":"<div class=\"app\"><aside class=\"sidebar\" id=\"sidebar\"></aside><main class=\"app-main\" id=\"pageContent\"><header class=\"topbar\"><h1>Help</h1></header><section class=\"page-content\"><section class=\"card card-pad plain-copy\"><h2>Using SchoolHub</h2><p>Choose a year section to post an announcement. Use Explore to find posts, Messages for private conversations, Calendar for real schedules, and Clubs to join real groups.</p><p>Full administrators can grant specific management powers from Admin Permissions.</p></section></section></main><nav class=\"mobile-nav\" id=\"mobileNav\"></nav></div>","privacy":"<div class=\"app\"><aside class=\"sidebar\" id=\"sidebar\"></aside><main class=\"app-main\" id=\"pageContent\"><header class=\"topbar\"><h1>Privacy</h1></header><section class=\"page-content\"><section class=\"card card-pad plain-copy\"><h2>Privacy</h2><p>Private messages are readable only by their sender and recipient. Public posts, comments, clubs, and schedules are visible to signed-in SchoolHub users.</p><p>Name-only accounts are stored on the current browser. Signing out or clearing browser data removes access to an anonymous account.</p></section></section></main><nav class=\"mobile-nav\" id=\"mobileNav\"></nav></div>"};
     document.querySelector("#routeHost").innerHTML = templates[route] || templates.explore;
   })();
 </script>
 <script>window.SCHOOLHUB_CONFIG = Object.freeze({
   supabaseUrl: "https://dfjofjhlodgmevynodwg.supabase.co",
   supabasePublishableKey: "sb_publishable_HCAsiUopabALW4SPF73poA_tiFNlnwl",
-  sections: ["year1", "year2", "year3", "year4", "year5", "year6", "secondary"]
+  sections: ["all", "lower primary", "upper primary", "year1", "year2", "year3", "year4", "year5", "year6", "secondary"]
 });
 </script>
 <script>
@@ -664,6 +681,22 @@
   }
   function can(permission) {
     return profile?.is_admin || permissions.includes(permission);
+  }
+  function sectionMatches(itemSection, selectedSection) {
+    if (!selectedSection || selectedSection === "all") return true;
+    if (selectedSection === "lower primary") {
+      return ["all", "lower primary", "year1", "year2", "year3"].includes(itemSection);
+    }
+    if (selectedSection === "upper primary") {
+      return ["all", "upper primary", "year4", "year5", "year6"].includes(itemSection);
+    }
+    if (["year1", "year2", "year3"].includes(selectedSection)) {
+      return [selectedSection, "lower primary", "all"].includes(itemSection);
+    }
+    if (["year4", "year5", "year6"].includes(selectedSection)) {
+      return [selectedSection, "upper primary", "all"].includes(itemSection);
+    }
+    return [selectedSection, "all"].includes(itemSection);
   }
   const navItems = [
     ["home", "index.html", "H", "Home"],
@@ -787,13 +820,13 @@
     const container = $("#results");
     const search = $("#search");
     const section = $("#section");
-    section.innerHTML = `<option value="">All sections</option>${config.sections.map(value => `<option value="${value}">${value}</option>`).join("")}`;
+    section.innerHTML = config.sections.map(value => `<option value="${value}">${value}</option>`).join("");
     search.value = new URLSearchParams(location.search).get("q") || "";
     let posts = [];
     function render() {
       const query = search.value.toLowerCase().trim();
       const shown = posts.filter(post =>
-        (!section.value || post.section === section.value)
+        sectionMatches(post.section, section.value)
         && `${post.content} ${post.author?.full_name || ""}`.toLowerCase().includes(query)
       );
       container.innerHTML = shown.length ? shown.map(postHtml).join("") : empty("E", "No matching posts", "Only real posts will appear here.");
@@ -917,14 +950,14 @@
     const form = $("#scheduleForm");
     const sectionOptions = config.sections.map(value => `<option value="${value}">${value}</option>`).join("");
     $("#scheduleSection").innerHTML = sectionOptions;
-    $("#calendarSection").innerHTML = `<option value="">All sections</option>${sectionOptions}`;
+    $("#calendarSection").innerHTML = sectionOptions;
     formCard.classList.toggle("hidden", !can("manage_schedules"));
     $("#noSchedulePermission").classList.toggle("hidden", can("manage_schedules"));
     let schedules = [];
     let editingId;
     function render() {
       const filter = $("#calendarSection").value;
-      const shown = schedules.filter(item => !filter || item.section === filter);
+      const shown = schedules.filter(item => sectionMatches(item.section, filter));
       list.innerHTML = shown.length ? shown.map(scheduleHtml).join("") : empty("C", "No schedules yet", can("manage_schedules") ? "Use the form to add the first real schedule." : "An authorized user has not added a schedule.");
       list.querySelectorAll("[data-edit]").forEach(button => button.addEventListener("click", () => {
         const item = schedules.find(schedule => schedule.id === button.closest("[data-id]").dataset.id);
@@ -983,17 +1016,15 @@
     const grid = $("#clubGrid");
     const formCard = $("#clubFormCard");
     const form = $("#clubForm");
-    $("#clubSection").innerHTML = config.sections.map(value => `<option value="${value}">${value}</option>`).join("");
+    const sectionOptions = config.sections.map(value => `<option value="${value}">${value}</option>`).join("");
+    $("#clubSection").innerHTML = sectionOptions;
+    $("#clubSectionFilter").innerHTML = sectionOptions;
     formCard.classList.toggle("hidden", !can("manage_clubs"));
     let clubs = [];
-    async function load() {
-      const result = await db.from("clubs").select("*,club_members(user_id)").order("name");
-      if (result.error) {
-        grid.innerHTML = empty("!", "Could not load clubs", result.error.message);
-        return;
-      }
-      clubs = result.data || [];
-      grid.innerHTML = clubs.length ? clubs.map(club => {
+    function render() {
+      const selectedSection = $("#clubSectionFilter").value;
+      const shown = clubs.filter(club => sectionMatches(club.section, selectedSection));
+      grid.innerHTML = shown.length ? shown.map(club => {
         const joined = club.club_members?.some(member => member.user_id === authUser.id);
         return `<article class="card club" data-id="${club.id}">
           <span class="eyebrow">${esc(club.section)}</span>
@@ -1004,7 +1035,7 @@
             <span><button class="secondary" data-join>${joined ? "Leave" : "Join"}</button>${can("manage_clubs") ? `<button class="danger" data-delete>Delete</button>` : ""}</span>
           </div>
         </article>`;
-      }).join("") : `<div class="card">${empty("G", "No clubs yet", can("manage_clubs") ? "Create the first real club." : "An authorized user has not created a club.")}</div>`;
+      }).join("") : `<div class="card">${empty("G", `No clubs in ${selectedSection}`, can("manage_clubs") ? "Create the first real club for this section." : "An authorized user has not created a club for this section.")}</div>`;
       grid.querySelectorAll("[data-join]").forEach(button => button.addEventListener("click", async () => {
         const club = clubs.find(item => item.id === button.closest("[data-id]").dataset.id);
         const joined = club.club_members?.some(member => member.user_id === authUser.id);
@@ -1020,6 +1051,16 @@
         if (result.error) flash(result.error.message); else await load();
       }));
     }
+    async function load() {
+      const result = await db.from("clubs").select("*,club_members(user_id)").order("name");
+      if (result.error) {
+        grid.innerHTML = empty("!", "Could not load clubs", result.error.message);
+        return;
+      }
+      clubs = result.data || [];
+      render();
+    }
+    $("#clubSectionFilter").addEventListener("change", render);
     form.addEventListener("submit", async event => {
       event.preventDefault();
       const result = await db.from("clubs").insert({
