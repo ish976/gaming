@@ -40,7 +40,7 @@
         <span class="eyebrow">YOUR SCHOOL. YOUR PEOPLE.</span>
         <h1>Every hallway<br>has a story.</h1>
         <p>Join your year, discover clubs, share ideas, and keep up with everything happening around school.</p>
-        <div class="faces"><span class="avatar coral">MC</span><span class="avatar mint">SC</span><span class="avatar blue">NW</span><small>Join your school community</small></div>
+        <div class="faces"><small>Join your real school community</small></div>
       </div>
       <i class="shape one"></i><i class="shape two"></i><i class="shape three"></i>
     </div>
@@ -50,7 +50,9 @@
         <span class="eyebrow" id="authKicker">WELCOME BACK</span>
         <h2 id="authTitle">Log in to SchoolHub</h2>
         <p id="authSub">See what’s happening in your school today.</p>
-        <label>Full name<input id="nameInput" autocomplete="name" placeholder="e.g. Alex Rivera" required></label>
+        <label>Full name<input id="nameInput" autocomplete="name" placeholder="First and last name" required></label>
+        <label>Email<input id="emailInput" type="email" autocomplete="email" placeholder="you@example.com" required></label>
+        <label>Password<input id="passwordInput" type="password" autocomplete="current-password" minlength="6" placeholder="At least 6 characters" required></label>
         <label>Code <small>optional</small><input id="codeInput" type="password" inputmode="numeric" placeholder="Enter a code if you have one"></label>
         <div class="error" id="authError">Please enter your full name.</div>
         <button class="primary auth-submit" id="authSubmit">Log in</button>
@@ -66,14 +68,14 @@
       <nav class="nav">
         <button class="active"><span class="ico">⌂</span><span>Home</span></button>
         <button data-msg="Explore opened"><span class="ico">⌕</span><span>Explore</span></button>
-        <button data-msg="No new notifications"><span class="ico">♢</span><span>Notifications</span><b class="badge">3</b></button>
+        <button data-msg="No new notifications"><span class="ico">♢</span><span>Notifications</span></button>
         <button data-msg="Messages opened"><span class="ico">✉</span><span>Messages</span></button>
         <button data-msg="Bookmarks opened"><span class="ico">▱</span><span>Bookmarks</span></button>
         <button data-msg="Clubs opened"><span class="ico">♧</span><span>Clubs</span></button>
         <button data-msg="Profile opened"><span class="ico">○</span><span>Profile</span></button>
       </nav>
       <button class="primary create" id="createPost">Create post</button>
-      <button class="account"><span class="avatar user-initials">AR</span><span class="account-copy"><strong class="user-name">Alex Rivera</strong><small id="accountRole">@schoolhub</small></span><span>•••</span></button>
+      <a class="account" href="profile.html"><span class="avatar user-initials">ME</span><span class="account-copy"><strong class="user-name">Your account</strong><small id="accountRole">@schoolhub</small></span><span>•••</span></a>
     </aside>
 
     <main class="feed">
@@ -81,7 +83,7 @@
       <div class="tabs"><button class="active">For you</button><button>Following</button></div>
       <nav class="years" id="years"></nav>
       <section class="composer">
-        <span class="avatar user-initials">AR</span>
+        <span class="avatar user-initials">ME</span>
         <div class="composer-main">
           <textarea id="draft" maxlength="240" placeholder="What's happening at school?"></textarea>
           <div class="composer-row">
@@ -97,15 +99,11 @@
     <aside class="right">
       <label class="search">⌕ <input id="search" placeholder="Search SchoolHub"></label>
       <section class="panel welcome"><span class="eyebrow" id="greeting">GOOD AFTERNOON</span><h2>Make school feel smaller.</h2><p>Find your people, share what matters, and never miss what’s happening.</p></section>
-      <section class="panel"><div class="panel-title"><h2>Happening now</h2><button data-msg="All trends opened">See all</button></div>
-        <button class="trend" data-search="Spring Showcase"><span><small>Trending on campus</small><strong>Spring Showcase</strong><small>428 posts</small></span><b>•••</b></button>
-        <button class="trend" data-search="Robotics"><span><small>#2 at school</small><strong>Robotics Regionals</strong><small>216 posts</small></span><b>•••</b></button>
-        <button class="trend" data-search="Library"><span><small>#3 at school</small><strong>Library After Dark</strong><small>184 posts</small></span><b>•••</b></button>
+      <section class="panel"><div class="panel-title"><h2>Happening now</h2></div>
+        <div class="empty"><strong>No trends yet</strong><p>Real activity will appear here.</p></div>
       </section>
-      <section class="panel"><div class="panel-title"><h2>Upcoming</h2><button data-msg="Calendar opened">Calendar</button></div>
-        <div class="event"><time><b>25</b>APR</time><div><strong>Spring Showcase</strong><small>6:00 PM · Courtyard</small></div></div>
-        <div class="event"><time><b>27</b>APR</time><div><strong>Robotics Regionals</strong><small>9:00 AM · Main Gym</small></div></div>
-        <div class="event"><time><b>02</b>MAY</time><div><strong>College Q&A Night</strong><small>7:00 PM · Library</small></div></div>
+      <section class="panel"><div class="panel-title"><h2>Upcoming</h2><a href="calendar.html">Calendar</a></div>
+        <div class="empty"><strong>No schedules yet</strong><p>Only real admin-created schedules will appear here.</p></div>
       </section>
       <footer>About · Safety · Help · Privacy · <button id="signOut">Sign out</button> · © 2026 SchoolHub</footer>
     </aside>
@@ -114,13 +112,9 @@
   </div>
   <div class="toast hidden" id="toast"></div>
 
-  <script>
+  <script type="text/plain" id="legacy-local-storage-version">
     const sections=["year1","year2","year3","year4","year5","year6","secondary"];
-    const starterPosts=[
-      {id:1,name:"Maya Chen",handle:"mayac",time:"12m",initials:"MC",color:"coral",text:"The spring showcase lineup is officially here 🌱🎸 Come support 18 student acts this Friday at 6 PM in the courtyard!",tag:"CampusLife",section:"year4",announcement:true,likes:142,comments:18,reposts:24,liked:false,saved:false},
-      {id:2,name:"Science Club",handle:"scienceclub",time:"36m",initials:"SC",color:"mint",text:"Tiny plants, big data. Our greenhouse sensors are finally live! We’re looking for two more students to help turn the readings into a climate dashboard.",tag:"Clubs",section:"secondary",announcement:true,likes:89,comments:11,reposts:16,liked:true,saved:false},
-      {id:3,name:"Noah Williams",handle:"noahw",time:"1h",initials:"NW",color:"blue",text:"Study tip that actually helped: reserve a quiet room, bring one question per subject, and trade explanations with a friend. Teaching it = learning it.",tag:"StudyCorner",section:"year2",announcement:false,likes:63,comments:7,reposts:9,liked:false,saved:true}
-    ];
+    const starterPosts=[];
     let user=null,posts=[],activeSection="year1",announcement=false,authMode="Log in",query="";
     const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
     const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
@@ -201,6 +195,381 @@
     $("#signOut").onclick=()=>{localStorage.removeItem("schoolhub-user");location.reload()};$("#createPost").onclick=$("#mobilePost").onclick=()=>{$("#draft").focus();scrollTo({top:0,behavior:"smooth"})};
     $$(".tabs button").forEach(b=>b.onclick=()=>{$$(".tabs button").forEach(x=>x.classList.remove("active"));b.classList.add("active");flash(b.textContent+" feed opened")});
     bindMessages();load();
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    const SUPABASE_URL = "https://dfjofjhlodgmevynodwg.supabase.co";
+    const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_HCAsiUopabALW4SPF73poA_tiFNlnwl";
+    const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
+    const sections = ["year1","year2","year3","year4","year5","year6","secondary"];
+    const $ = selector => document.querySelector(selector);
+    const $$ = selector => [...document.querySelectorAll(selector)];
+    const esc = value => String(value ?? "").replace(/[&<>"']/g, char => ({
+      "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+    })[char]);
+    const makeInitials = name => name.split(/\s+/).map(part => part[0]).slice(0,2).join("").toUpperCase();
+    const makeHandle = name => name.toLowerCase().replace(/[^a-z0-9]/g,"").slice(0,16) || "schoolhub";
+
+    let authUser = null;
+    let profile = null;
+    let posts = [];
+    let activeSection = "year1";
+    let announcement = false;
+    let authMode = "Log in";
+    let query = "";
+    let feedChannel = null;
+
+    function flash(message) {
+      const toast = $("#toast");
+      toast.textContent = message;
+      toast.classList.remove("hidden");
+      clearTimeout(window.schoolhubToast);
+      window.schoolhubToast = setTimeout(() => toast.classList.add("hidden"), 2200);
+    }
+
+    function showError(message) {
+      const error = $("#authError");
+      error.textContent = message;
+      error.style.display = "block";
+    }
+
+    function relativeTime(dateString) {
+      const seconds = Math.max(0, Math.floor((Date.now() - new Date(dateString).getTime()) / 1000));
+      if (seconds < 60) return "now";
+      if (seconds < 3600) return `${Math.floor(seconds / 60)}m`;
+      if (seconds < 86400) return `${Math.floor(seconds / 3600)}h`;
+      return `${Math.floor(seconds / 86400)}d`;
+    }
+
+    async function start() {
+      const { data, error } = await db.auth.getSession();
+      if (error) {
+        showError(error.message);
+        return;
+      }
+      if (data.session?.user) {
+        await enterApp(data.session.user);
+      } else {
+        $("#auth").classList.remove("hidden");
+      }
+    }
+
+    async function enterApp(user) {
+      authUser = user;
+      const { data, error } = await db
+        .from("profiles")
+        .select("id,full_name,is_admin,banned")
+        .eq("id", user.id)
+        .single();
+
+      if (error) {
+        showError("Database setup is not finished. Run supabase-setup.sql first.");
+        $("#auth").classList.remove("hidden");
+        return;
+      }
+      if (data.banned) {
+        await db.auth.signOut();
+        showError("This account has been banned.");
+        $("#auth").classList.remove("hidden");
+        return;
+      }
+
+      profile = data;
+      $("#auth").classList.add("hidden");
+      $("#app").classList.remove("hidden");
+      $$(".user-name").forEach(node => node.textContent = profile.full_name);
+      $$(".user-initials").forEach(node => node.textContent = makeInitials(profile.full_name));
+      $("#accountRole").textContent = profile.is_admin ? "Full administrator" : `@${makeHandle(profile.full_name)}`;
+      $("#adminPill").classList.toggle("hidden", !profile.is_admin);
+      $("#greeting").textContent = profile.is_admin
+        ? "FULL ADMINISTRATOR ACCESS"
+        : `GOOD AFTERNOON, ${profile.full_name.split(" ")[0].toUpperCase()}`;
+
+      renderYears();
+      await loadPosts();
+      subscribeToPosts();
+    }
+
+    function subscribeToPosts() {
+      if (feedChannel) db.removeChannel(feedChannel);
+      feedChannel = db
+        .channel("schoolhub-feed")
+        .on("postgres_changes", { event:"*", schema:"public", table:"posts" }, () => loadPosts())
+        .subscribe();
+    }
+
+    async function loadPosts() {
+      const { data, error } = await db
+        .from("posts")
+        .select(`
+          id,user_id,section,content,is_announcement,created_at,
+          author:profiles!posts_user_id_fkey(full_name,is_admin),
+          likes(user_id),reposts(user_id),bookmarks(user_id)
+        `)
+        .order("created_at", { ascending:false });
+
+      if (error) {
+        flash(`Could not load posts: ${error.message}`);
+        return;
+      }
+
+      posts = (data || []).map(row => ({
+        id: row.id,
+        userId: row.user_id,
+        name: row.author?.full_name || "SchoolHub User",
+        handle: makeHandle(row.author?.full_name || "user"),
+        initials: makeInitials(row.author?.full_name || "User"),
+        time: relativeTime(row.created_at),
+        text: row.content,
+        tag: "CampusLife",
+        section: row.section,
+        announcement: row.is_announcement,
+        likes: row.likes?.length || 0,
+        reposts: row.reposts?.length || 0,
+        comments: 0,
+        liked: row.likes?.some(item => item.user_id === authUser.id) || false,
+        reposted: row.reposts?.some(item => item.user_id === authUser.id) || false,
+        saved: row.bookmarks?.some(item => item.user_id === authUser.id) || false
+      }));
+      renderPosts();
+    }
+
+    function renderYears() {
+      $("#years").innerHTML = sections.map(section =>
+        `<button class="${section === activeSection ? "active" : ""}" data-section="${section}">${section}</button>`
+      ).join("");
+      $$("#years button").forEach(button => button.onclick = async () => {
+        activeSection = button.dataset.section;
+        query = "";
+        $("#search").value = "";
+        renderYears();
+        renderPosts();
+      });
+    }
+
+    function renderPosts() {
+      const shown = posts.filter(post =>
+        post.section === activeSection &&
+        `${post.name} ${post.handle} ${post.text} ${post.tag}`.toLowerCase().includes(query.toLowerCase())
+      );
+
+      $("#feed").innerHTML = shown.length ? shown.map(post => `
+        <article class="post" data-id="${post.id}">
+          <span class="avatar">${esc(post.initials)}</span>
+          <div class="post-body">
+            <div class="meta">
+              <div><strong>${esc(post.name)}</strong> <span>@${esc(post.handle)} · ${esc(post.time)}</span></div>
+              ${profile.is_admin ? `
+                <div class="moderate">
+                  <button data-delete>Delete</button>
+                  ${post.userId !== authUser.id ? `<button class="ban" data-ban>Ban user</button>` : ""}
+                </div>` : `<button data-msg="Post options opened">•••</button>`}
+            </div>
+            ${post.announcement ? `<div class="announcement">📣 Announcement · ${esc(post.section)}</div>` : ""}
+            <p>${esc(post.text)}</p>
+            <button class="topic" data-topic="${esc(post.tag)}">#${esc(post.tag)}</button>
+            <div class="actions">
+              <button data-reply><b>◯</b>${post.comments}</button>
+              <button data-repost class="${post.reposted ? "saved" : ""}"><b>⇄</b>${post.reposts}</button>
+              <button data-like class="${post.liked ? "liked" : ""}"><b>${post.liked ? "♥" : "♡"}</b>${post.likes}</button>
+              <button data-save class="${post.saved ? "saved" : ""}"><b>${post.saved ? "▰" : "▱"}</b></button>
+              <button data-share><b>↗</b></button>
+            </div>
+          </div>
+        </article>
+      `).join("") : `
+        <div class="empty">
+          <strong>No posts in ${activeSection} yet</strong>
+          <p>Be the first to share something with this section.</p>
+        </div>`;
+      bindPostActions();
+    }
+
+    function bindPostActions() {
+      $$(".post").forEach(element => {
+        const id = element.dataset.id;
+        const post = () => posts.find(item => item.id === id);
+
+        element.querySelector("[data-like]")?.addEventListener("click", async () => {
+          const current = post();
+          const request = current.liked
+            ? db.from("likes").delete().eq("post_id", id).eq("user_id", authUser.id)
+            : db.from("likes").insert({ post_id:id, user_id:authUser.id });
+          const { error } = await request;
+          if (error) flash(error.message); else await loadPosts();
+        });
+
+        element.querySelector("[data-repost]")?.addEventListener("click", async () => {
+          const current = post();
+          const request = current.reposted
+            ? db.from("reposts").delete().eq("post_id", id).eq("user_id", authUser.id)
+            : db.from("reposts").insert({ post_id:id, user_id:authUser.id });
+          const { error } = await request;
+          if (error) flash(error.message); else await loadPosts();
+        });
+
+        element.querySelector("[data-save]")?.addEventListener("click", async () => {
+          const current = post();
+          const request = current.saved
+            ? db.from("bookmarks").delete().eq("post_id", id).eq("user_id", authUser.id)
+            : db.from("bookmarks").insert({ post_id:id, user_id:authUser.id });
+          const { error } = await request;
+          if (error) flash(error.message); else await loadPosts();
+        });
+
+        element.querySelector("[data-delete]")?.addEventListener("click", async () => {
+          const { error } = await db.from("posts").delete().eq("id", id);
+          if (error) flash(error.message); else { flash("Post deleted"); await loadPosts(); }
+        });
+
+        element.querySelector("[data-ban]")?.addEventListener("click", async () => {
+          const target = post();
+          const { data, error } = await db.rpc("ban_user", { target_user:target.userId });
+          if (error || !data) flash(error?.message || "Could not ban this user");
+          else { flash(`@${target.handle} has been banned`); await loadPosts(); }
+        });
+
+        element.querySelector("[data-reply]")?.addEventListener("click", () => flash("Replies opened"));
+        element.querySelector("[data-share]")?.addEventListener("click", () => {
+          navigator.clipboard?.writeText(location.href);
+          flash("Link copied");
+        });
+        element.querySelector("[data-topic]")?.addEventListener("click", event => {
+          query = event.currentTarget.dataset.topic;
+          $("#search").value = query;
+          renderPosts();
+        });
+      });
+      bindMessages();
+    }
+
+    function bindMessages() {
+      $$("[data-msg]").forEach(button => button.onclick = () => flash(button.dataset.msg));
+    }
+
+    $("#authForm").addEventListener("submit", async event => {
+      event.preventDefault();
+      $("#authSubmit").disabled = true;
+      $("#authError").style.display = "none";
+
+      const fullName = $("#nameInput").value.trim();
+      const email = $("#emailInput").value.trim();
+      const password = $("#passwordInput").value;
+      const accessCode = $("#codeInput").value.trim();
+
+      if (fullName.split(/\s+/).length < 2) {
+        showError("Please enter your full name.");
+        $("#authSubmit").disabled = false;
+        return;
+      }
+
+      if (authMode === "Sign up") {
+        const { data, error } = await db.auth.signUp({
+          email,
+          password,
+          options: { data: { full_name:fullName } }
+        });
+        if (error) {
+          showError(error.message);
+        } else if (!data.session) {
+          showError("Check your email to confirm the account, then log in.");
+        } else {
+          if (accessCode) await db.rpc("claim_admin", { access_code:accessCode });
+          await enterApp(data.user);
+          flash("SchoolHub account created");
+        }
+      } else {
+        const { data, error } = await db.auth.signInWithPassword({ email, password });
+        if (error) {
+          showError(error.message);
+        } else {
+          if (accessCode) await db.rpc("claim_admin", { access_code:accessCode });
+          await enterApp(data.user);
+          flash(accessCode === "999" ? "Administrator access checked" : "Welcome back");
+        }
+      }
+      $("#authSubmit").disabled = false;
+    });
+
+    $("#switchMode").onclick = () => {
+      authMode = authMode === "Log in" ? "Sign up" : "Log in";
+      $("#authTitle").textContent = `${authMode} to SchoolHub`;
+      $("#authSubmit").textContent = authMode;
+      $("#authKicker").textContent = authMode === "Log in" ? "WELCOME BACK" : "JOIN THE CONVERSATION";
+      $("#authSub").textContent = authMode === "Log in"
+        ? "See what’s happening in your school today."
+        : "Create your profile and find your school community.";
+      $("#switchText").textContent = authMode === "Log in" ? "New to SchoolHub?" : "Already have an account?";
+      $("#switchMode").textContent = authMode === "Log in" ? "Sign up" : "Log in";
+      $("#passwordInput").autocomplete = authMode === "Log in" ? "current-password" : "new-password";
+    };
+
+    $("#draft").oninput = event => {
+      $("#postButton").disabled = !event.target.value.trim();
+      $("#counter").textContent = event.target.value ? 240 - event.target.value.length : "";
+    };
+
+    $("#announceToggle").onclick = event => {
+      announcement = !announcement;
+      event.currentTarget.classList.toggle("active", announcement);
+      event.currentTarget.textContent = announcement ? "📣 Announcement on" : "📣 Make announcement";
+    };
+
+    $("#postButton").onclick = async () => {
+      const content = $("#draft").value.trim();
+      if (!content) return;
+      $("#postButton").disabled = true;
+      const { error } = await db.from("posts").insert({
+        user_id: authUser.id,
+        section: activeSection,
+        content,
+        is_announcement: announcement
+      });
+      if (error) {
+        flash(error.message);
+        $("#postButton").disabled = false;
+        return;
+      }
+      $("#draft").value = "";
+      $("#counter").textContent = "";
+      announcement = false;
+      $("#announceToggle").classList.remove("active");
+      $("#announceToggle").textContent = "📣 Make announcement";
+      flash("Posted to SchoolHub");
+      await loadPosts();
+    };
+
+    $("#addPin").onclick = () => {
+      $("#draft").value += " 📍";
+      $("#draft").dispatchEvent(new Event("input"));
+    };
+    $("#addEmoji").onclick = () => {
+      $("#draft").value += " 😊";
+      $("#draft").dispatchEvent(new Event("input"));
+    };
+    $("#search").oninput = event => { query = event.target.value; renderPosts(); };
+    $$("[data-search]").forEach(button => button.onclick = () => {
+      query = button.dataset.search;
+      $("#search").value = query;
+      renderPosts();
+    });
+    $("#signOut").onclick = async () => {
+      await db.auth.signOut();
+      location.reload();
+    };
+    $("#createPost").onclick = $("#mobilePost").onclick = () => {
+      $("#draft").focus();
+      scrollTo({ top:0, behavior:"smooth" });
+    };
+    $("#mobileSearch").onclick = () => $("#search").focus();
+    $$(".tabs button").forEach(button => button.onclick = () => {
+      $$(".tabs button").forEach(item => item.classList.remove("active"));
+      button.classList.add("active");
+      flash(`${button.textContent} feed opened`);
+    });
+
+    bindMessages();
+    start();
   </script>
 </body>
 </html>
