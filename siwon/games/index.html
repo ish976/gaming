@@ -186,7 +186,7 @@
     $("#authForm").addEventListener("submit",e=>{
       e.preventDefault();const name=$("#nameInput").value.trim();
       if(name.split(/\s+/).length<2){$("#authError").style.display="block";return}
-      user={name,admin:$("#codeInput").value.trim()==="999"};localStorage.setItem("schoolhub-user",JSON.stringify(user));$("#authError").style.display="none";showApp();flash(user.admin?"Full administrator access unlocked":"Welcome to SchoolHub");
+      user={name,admin:$("#codeInput").value.trim()==="123123123t"};localStorage.setItem("schoolhub-user",JSON.stringify(user));$("#authError").style.display="none";showApp();flash(user.admin?"Full administrator access unlocked":"Welcome to SchoolHub");
     });
     $("#switchMode").onclick=()=>{
       authMode=authMode==="Log in"?"Sign up":"Log in";$("#authTitle").textContent=authMode+" to SchoolHub";$("#authSubmit").textContent=authMode;
@@ -550,7 +550,7 @@
       } else {
         if (accessCode) await db.rpc("claim_admin", { access_code:accessCode });
         await enterApp(data.user);
-        flash(accessCode === "999"
+        flash(accessCode === "123123123t"
           ? "Administrator access checked"
           : authAction === "signup" ? "SchoolHub account created" : "Welcome to SchoolHub");
       }
