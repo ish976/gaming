@@ -48,12 +48,13 @@
       <form class="auth-card" id="authForm">
         <div class="brand mobile-brand"><span class="mark">S</span><span>schoolhub</span></div>
         <span class="eyebrow" id="authKicker">WELCOME</span>
-        <h2 id="authTitle">Enter SchoolHub</h2>
+        <h2 id="authTitle">Sign in to SchoolHub</h2>
         <p id="authSub">Use your full name to join your school community.</p>
         <label>Full name<input id="nameInput" autocomplete="name" placeholder="First and last name" required></label>
         <label>Code <small>optional</small><input id="codeInput" type="password" inputmode="numeric" placeholder="Enter a code if you have one"></label>
         <div class="error" id="authError">Please enter your full name.</div>
-        <button class="primary auth-submit" id="authSubmit">Enter SchoolHub</button>
+        <button class="primary auth-submit" id="authSubmit">Sign in</button>
+        <div class="switch">New to SchoolHub? <button type="button" id="signUpButton">Sign up</button></div>
         <small class="terms">By continuing, you agree to our community guidelines and safety rules.</small>
       </form>
     </div>
@@ -208,6 +209,7 @@
     const makeHandle = name => name.toLowerCase().replace(/[^a-z0-9]/g,"").slice(0,16) || "schoolhub";
 
     let authUser = null;
+    let authAction = "signin";
     let profile = null;
     let posts = [];
     let activeSection = "year1";
@@ -468,10 +470,18 @@
       } else {
         if (accessCode) await db.rpc("claim_admin", { access_code:accessCode });
         await enterApp(data.user);
-        flash(accessCode === "999" ? "Administrator access checked" : "Welcome to SchoolHub");
+        flash(accessCode === "999"
+          ? "Administrator access checked"
+          : authAction === "signup" ? "SchoolHub account created" : "Welcome to SchoolHub");
       }
+      authAction = "signin";
       $("#authSubmit").disabled = false;
     });
+
+    $("#signUpButton").onclick = () => {
+      authAction = "signup";
+      $("#authForm").requestSubmit();
+    };
 
     $("#draft").oninput = event => {
       $("#postButton").disabled = !event.target.value.trim();
