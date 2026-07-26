@@ -47,16 +47,13 @@
     <div class="auth-side">
       <form class="auth-card" id="authForm">
         <div class="brand mobile-brand"><span class="mark">S</span><span>schoolhub</span></div>
-        <span class="eyebrow" id="authKicker">WELCOME BACK</span>
-        <h2 id="authTitle">Log in to SchoolHub</h2>
-        <p id="authSub">See what’s happening in your school today.</p>
+        <span class="eyebrow" id="authKicker">WELCOME</span>
+        <h2 id="authTitle">Enter SchoolHub</h2>
+        <p id="authSub">Use your full name to join your school community.</p>
         <label>Full name<input id="nameInput" autocomplete="name" placeholder="First and last name" required></label>
-        <label>Email<input id="emailInput" type="email" autocomplete="email" placeholder="you@example.com" required></label>
-        <label>Password<input id="passwordInput" type="password" autocomplete="current-password" minlength="6" placeholder="At least 6 characters" required></label>
         <label>Code <small>optional</small><input id="codeInput" type="password" inputmode="numeric" placeholder="Enter a code if you have one"></label>
         <div class="error" id="authError">Please enter your full name.</div>
-        <button class="primary auth-submit" id="authSubmit">Log in</button>
-        <div class="switch"><span id="switchText">New to SchoolHub?</span> <button type="button" id="switchMode">Sign up</button></div>
+        <button class="primary auth-submit" id="authSubmit">Enter SchoolHub</button>
         <small class="terms">By continuing, you agree to our community guidelines and safety rules.</small>
       </form>
     </div>
@@ -102,7 +99,7 @@
       <section class="panel"><div class="panel-title"><h2>Happening now</h2></div>
         <div class="empty"><strong>No trends yet</strong><p>Real activity will appear here.</p></div>
       </section>
-      <section class="panel"><div class="panel-title"><h2>Upcoming</h2><a href="calendar.html">Calendar</a></div>
+      <section class="panel"><div class="panel-title"><h2>Upcoming</h2></div>
         <div class="empty"><strong>No schedules yet</strong><p>Only real admin-created schedules will appear here.</p></div>
       </section>
       <footer>About · Safety · Help · Privacy · <button id="signOut">Sign out</button> · © 2026 SchoolHub</footer>
@@ -453,8 +450,6 @@
       $("#authError").style.display = "none";
 
       const fullName = $("#nameInput").value.trim();
-      const email = $("#emailInput").value.trim();
-      const password = $("#passwordInput").value;
       const accessCode = $("#codeInput").value.trim();
 
       if (fullName.split(/\s+/).length < 2) {
@@ -463,46 +458,20 @@
         return;
       }
 
-      if (authMode === "Sign up") {
-        const { data, error } = await db.auth.signUp({
-          email,
-          password,
-          options: { data: { full_name:fullName } }
-        });
-        if (error) {
-          showError(error.message);
-        } else if (!data.session) {
-          showError("Check your email to confirm the account, then log in.");
-        } else {
-          if (accessCode) await db.rpc("claim_admin", { access_code:accessCode });
-          await enterApp(data.user);
-          flash("SchoolHub account created");
-        }
+      const { data, error } = await db.auth.signInAnonymously({
+        options: { data: { full_name:fullName } }
+      });
+      if (error) {
+        showError(error.message.includes("Anonymous sign-ins are disabled")
+          ? "Anonymous sign-ins must be enabled in Supabase first."
+          : error.message);
       } else {
-        const { data, error } = await db.auth.signInWithPassword({ email, password });
-        if (error) {
-          showError(error.message);
-        } else {
-          if (accessCode) await db.rpc("claim_admin", { access_code:accessCode });
-          await enterApp(data.user);
-          flash(accessCode === "999" ? "Administrator access checked" : "Welcome back");
-        }
+        if (accessCode) await db.rpc("claim_admin", { access_code:accessCode });
+        await enterApp(data.user);
+        flash(accessCode === "999" ? "Administrator access checked" : "Welcome to SchoolHub");
       }
       $("#authSubmit").disabled = false;
     });
-
-    $("#switchMode").onclick = () => {
-      authMode = authMode === "Log in" ? "Sign up" : "Log in";
-      $("#authTitle").textContent = `${authMode} to SchoolHub`;
-      $("#authSubmit").textContent = authMode;
-      $("#authKicker").textContent = authMode === "Log in" ? "WELCOME BACK" : "JOIN THE CONVERSATION";
-      $("#authSub").textContent = authMode === "Log in"
-        ? "See what’s happening in your school today."
-        : "Create your profile and find your school community.";
-      $("#switchText").textContent = authMode === "Log in" ? "New to SchoolHub?" : "Already have an account?";
-      $("#switchMode").textContent = authMode === "Log in" ? "Sign up" : "Log in";
-      $("#passwordInput").autocomplete = authMode === "Log in" ? "current-password" : "new-password";
-    };
 
     $("#draft").oninput = event => {
       $("#postButton").disabled = !event.target.value.trim();
